@@ -92,6 +92,7 @@ public class Player_Attack : MonoBehaviour
     {
         scoreMultiplier++;
         // tell enemy to take damage
+        enemy.GetComponent<EnemyTakeDamage>().TakeDamage(1);
 
         // set player target position
         targetPosition = transform.position - new Vector3(hitDistance, 0f, 0f);
@@ -101,6 +102,8 @@ public class Player_Attack : MonoBehaviour
     {
         scoreMultiplier++;
         // tell enemy to take damage
+
+        enemy.GetComponent<EnemyTakeDamage>().TakeDamage(1);
 
         // set player target position
         targetPosition = transform.position + new Vector3(hitDistance, 0f, 0f);

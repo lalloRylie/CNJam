@@ -13,7 +13,7 @@ public class EnemyTakeDamage : MonoBehaviour {
 	
 	}
 
-    void TakeDamge(int damage) {
+    public void TakeDamage(int damage) {
         GetComponent<EnemyHealth>().health -= damage;
     }
 }
