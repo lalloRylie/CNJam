@@ -5,7 +5,7 @@ public class Player_TakeDamage : MonoBehaviour
 {
 
     public int playerHealth = 3;
-    private bool playerDead = false;
+    public bool playerDead = false;
 
     // Use this for initialization
     void Start()
