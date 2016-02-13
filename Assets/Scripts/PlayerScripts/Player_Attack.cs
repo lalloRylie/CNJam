@@ -145,7 +145,7 @@ public class Player_Attack : MonoBehaviour
         }
     }
 
-    void BoardWipeEMP()
+    public void BoardWipeEMP()
     {
         scoreMultiplier = 0;
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
