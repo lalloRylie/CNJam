@@ -8,19 +8,9 @@ public class Gestures : MonoBehaviour
     public float minSwipeDist;
     private Vector2 startPos;
 
-    //Swivel
-    private Vector2 currentPos;
-    private Vector2 lastPos;
-    private Vector2 vectorDir;
-    float worldScreenHeight;
-    float worldScreenWidth;
-
-
     // Use this for initialization
     void Start()
     {
-        worldScreenHeight = Camera.main.orthographicSize * 2;
-        worldScreenWidth = worldScreenHeight / Screen.height * Screen.width;
         minSwipeDist = Screen.width / 8f;
     }
 
@@ -30,7 +20,6 @@ public class Gestures : MonoBehaviour
         if (Input.touchCount > 0)
         {
             Touch playerTouch = Input.GetTouch(0);
-            currentPos = playerTouch.position;
 
             switch (playerTouch.phase)
             {
