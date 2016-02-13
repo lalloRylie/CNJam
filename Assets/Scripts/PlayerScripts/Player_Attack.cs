@@ -114,7 +114,7 @@ public class Player_Attack : MonoBehaviour
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(1);
             //GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             lerpSpeed = attackStateZeroLerpSpeed;
-            targetPosition = transform.position - new Vector3(missMoveDistance*3f, 0f, 0f);
+            targetPosition = transform.position - new Vector3(missMoveDistance*2f, 0f, 0f);
         }
         else if(attackState == 1) {
             lerpSpeed = missLerpSpeed;
@@ -136,7 +136,7 @@ public class Player_Attack : MonoBehaviour
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(1);
             //GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             lerpSpeed = attackStateZeroLerpSpeed;
-            targetPosition = transform.position + new Vector3(missMoveDistance *3f, 0f, 0f);
+            targetPosition = transform.position + new Vector3(missMoveDistance *2f, 0f, 0f);
         }
         else if (attackState == 1)
         {
