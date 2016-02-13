@@ -77,7 +77,7 @@ public class Player_Attack : MonoBehaviour
         {
             scoreMultiplier = 0;
             return;
-        } 
+        }
 
     }
 
@@ -110,17 +110,19 @@ public class Player_Attack : MonoBehaviour
         enemy.GetComponent<EnemyTakeDamage>().TakeDamage(1);
 
         // set player target position
-        if(attackState == 0) {
+        if (attackState == 0)
+        {
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(1);
             //GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             lerpSpeed = attackStateZeroLerpSpeed;
-            targetPosition = transform.position - new Vector3(missMoveDistance*2f, 0f, 0f);
+            targetPosition = transform.position - new Vector3(missMoveDistance * 2f, 0f, 0f);
         }
-        else if(attackState == 1) {
+        else if (attackState == 1)
+        {
             lerpSpeed = missLerpSpeed;
             targetPosition = transform.position - new Vector3(hitDistance, 0f, 0f);
         }
-        
+
     }
 
     void PlayerRightHit(GameObject enemy, float hitDistance)
@@ -136,7 +138,7 @@ public class Player_Attack : MonoBehaviour
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(1);
             //GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             lerpSpeed = attackStateZeroLerpSpeed;
-            targetPosition = transform.position + new Vector3(missMoveDistance *2f, 0f, 0f);
+            targetPosition = transform.position + new Vector3(missMoveDistance * 2f, 0f, 0f);
         }
         else if (attackState == 1)
         {
@@ -149,11 +151,23 @@ public class Player_Attack : MonoBehaviour
     {
         scoreMultiplier = 0;
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach(GameObject enemy in enemies) {
+        foreach (GameObject enemy in enemies)
+        {
             // tell each enemy to go to death state
             enemy.GetComponent<EnemyTakeDamage>().TakeDamage(10);
         }
     }
+
+    //NEED TO CALIBRATE
+    public float minSwipeDist;
+    private Vector2 startPos;
+
+    //Swivel
+    private Vector2 currentPos;
+    private Vector2 lastPos;
+    private Vector2 vectorDir;
+    float worldScreenHeight;
+    float worldScreenWidth;
 
     void InitiatePlayerAttack()
     {
@@ -170,6 +184,66 @@ public class Player_Attack : MonoBehaviour
             return;
         }
 
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
+
+        if (Input.touchCount > 0)
+        {
+            Touch playerTouch = Input.GetTouch(0);
+            currentPos = playerTouch.position;
+
+            switch (playerTouch.phase)
+            {
+                case TouchPhase.Began:
+                    startPos = playerTouch.position;
+
+                    //TAP
+                    if (startPos.x < Screen.width / 2)
+                    {
+                        //The player tapped left
+                        playerSpriteGO.transform.localScale = new Vector3(playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
+                        attacks.Add(-1);
+                    }
+                    else if (startPos.x > Screen.width / 2)
+                    {
+                        //The player tapped right
+                         playerSpriteGO.transform.localScale = new Vector3(-playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
+                         attacks.Add(1);
+                    }
+                    //END TAP
+
+                    break;
+                case TouchPhase.Moved:
+                    //SWIPE
+                    Vector2 swipeVector = playerTouch.position - startPos;
+                    float swipeVectorMag = Mathf.Sqrt(swipeVector.x * swipeVector.x + swipeVector.y * swipeVector.y);
+
+                    //if (Mathf.Abs(swipeVector.x) > minSwipeDist || Mathf.Abs(swipeVector.y) > minSwipeDist)
+                    if (swipeVectorMag > minSwipeDist)
+                    {
+                        if (swipeVector.x < 0)
+                        {
+                            //The player swiped left
+                        }
+                        else
+                        {
+                            //The player swiped right
+                        }
+                    }
+                    //END SWIPE
+
+                    break;
+                case TouchPhase.Ended:
+
+                    break;
+            }
+        }
+
+
+
+#endif
+
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
+
         // right
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -177,15 +251,15 @@ public class Player_Attack : MonoBehaviour
             attacks.Add(1);
         }
 
-        Debug.DrawRay(transform.TransformPoint(new Vector3(offset, 0.0f, 0.0f)), Vector2.right * range, Color.red);
-
         // left
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             playerSpriteGO.transform.localScale = new Vector3(playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
             attacks.Add(-1);
         }
+#endif
 
+        Debug.DrawRay(transform.TransformPoint(new Vector3(offset, 0.0f, 0.0f)), Vector2.right * range, Color.red);
         Debug.DrawRay(transform.TransformPoint(new Vector3(-offset, 0.0f, 0.0f)), -Vector2.right * range, Color.red);
     }
 
@@ -286,7 +360,7 @@ public class Player_Attack : MonoBehaviour
             attackState = 0;
             Debug.Log("attack state = 0");
             return;
-        } 
+        }
     }
 
     // Update is called once per frame
