@@ -158,7 +158,30 @@ public class Player_Attack : MonoBehaviour
         }
     }
 
-    //NEED TO CALIBRATE
+    void HalfBoardWipe(bool left)
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in enemies)
+        {
+            //If the enemy is on the left half of the screen
+            //Clear them
+            if (left)
+            {
+                if(Camera.main.WorldToScreenPoint(enemy.transform.position).x <= Screen.width / 2)
+                    enemy.GetComponent<EnemyTakeDamage>().TakeDamage(10);
+            }
+            //If the enemy is on the right half of the screen
+            //Clear them
+            else 
+            {
+                if (Camera.main.WorldToScreenPoint(enemy.transform.position).x >= Screen.width / 2)
+                    enemy.GetComponent<EnemyTakeDamage>().TakeDamage(10);
+            }
+                    
+        }
+
+    }
+
     public float minSwipeDist;
     private Vector2 startPos;
 
@@ -223,10 +246,12 @@ public class Player_Attack : MonoBehaviour
                         if (swipeVector.x < 0)
                         {
                             //The player swiped left
+                            HalfBoardWipe(true);
                         }
                         else
                         {
                             //The player swiped right
+                            HalfBoardWipe(false);
                         }
                     }
                     //END SWIPE
@@ -244,6 +269,7 @@ public class Player_Attack : MonoBehaviour
 
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
 
+
         // right
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -252,11 +278,23 @@ public class Player_Attack : MonoBehaviour
         }
 
         // left
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             playerSpriteGO.transform.localScale = new Vector3(playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
             attacks.Add(-1);
         }
+
+        //FIX: Half Board wipe works. Need to get the if statement for the multi key press implemented
+        ////
+        //if (Input.GetKeyDown(KeyCode.RightArrow) && (Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift)))
+        //{
+        //    HalfBoardWipe(false);
+        //}
+        //else if (Input.GetKeyDown(KeyCode.LeftArrow) && (Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift)))
+        //{
+        //    HalfBoardWipe(true);
+        //}
+        ////
 #endif
 
         Debug.DrawRay(transform.TransformPoint(new Vector3(offset, 0.0f, 0.0f)), Vector2.right * range, Color.red);
