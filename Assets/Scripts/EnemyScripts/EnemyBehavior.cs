@@ -69,7 +69,7 @@ public class EnemyBehavior : MonoBehaviour
                     enemyState = 1;
                     //Run attack animation
                 }
-                else if (distToPlayer > attackRange * 1.5f)
+                else if(distToPlayer > attackRange * 1.5f) 
                 {
                     enemyState = 1;
                 }
@@ -78,7 +78,7 @@ public class EnemyBehavior : MonoBehaviour
             case 4:
                 //Run any destroy functions needed to delete current enemy
                 //Play death animation
-                //Fall over, flash red (some other color)
+                    //Fall over, flash red (some other color)
                 Destroy(gameObject);
                 break;
             default:
