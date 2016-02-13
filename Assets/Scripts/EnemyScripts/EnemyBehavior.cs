@@ -71,6 +71,10 @@ public class EnemyBehavior : MonoBehaviour
                 {
                     enemyState = 1;
                 }
+                else if(distToPlayer > attackRange * 1.5f) 
+                {
+                    enemyState = 1;
+                }
                 break;
             //Death state
             case 4:

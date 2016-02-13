@@ -14,6 +14,11 @@ public class Text_ScoreMultiplier : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        //if (playerAttackScript.scoreMultiplier <= 0)
+        //{
+        //    scoreMultiplierText.text = "";
+        //    return;
+        //}
         scoreMultiplierText.text = "x" + playerAttackScript.scoreMultiplier;
 	}
 }

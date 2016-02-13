@@ -5,8 +5,11 @@ using System.Collections.Generic;
 public class Player_Attack : MonoBehaviour
 {
 
+    public GameObject playerSpriteGO;
+    float playerXScale = 0f;
+
     float range = 1.5f;
-    float offset = 0.5f;
+    float offset = 0.6f;
 
     int attackState = 0;
 
@@ -14,7 +17,8 @@ public class Player_Attack : MonoBehaviour
 
     List<int> attacks = new List<int>();
 
-    float missMoveDistance = 2.0f;
+    float missMoveDistance = 1.5f;
+    //float missMoveDistance = 15f;
 
     [HideInInspector]
     public int attackHitCounter = 0;
@@ -30,10 +34,19 @@ public class Player_Attack : MonoBehaviour
     int attacksLandedBeforeAllowingHalfBoardWipe = 25;
     int attacksLandedBeforeAllowingFullBoardWipe = 30;
 
+    Rigidbody2D playerRB;
+
+    float lerpSpeed = 10f;
+
+    float attackStateZeroLerpSpeed = 20f;
+    float missLerpSpeed = 10f;
+
     // Use this for initialization
     void Start()
     {
+        playerRB = GetComponent<Rigidbody2D>();
         targetPosition = transform.position;
+        playerXScale = playerSpriteGO.transform.localScale.x;
     }
 
     void DeductScoreMultiplier()
@@ -70,6 +83,7 @@ public class Player_Attack : MonoBehaviour
 
     void PlayerMissedRight()
     {
+        lerpSpeed = missLerpSpeed;
         Debug.Log("Right Miss");
         attacks.Clear();
         targetPosition = transform.position + new Vector3(missMoveDistance, 0f, 0f);
@@ -80,6 +94,7 @@ public class Player_Attack : MonoBehaviour
 
     void PlayerMissedLeft()
     {
+        lerpSpeed = missLerpSpeed;
         Debug.Log("Left Miss");
         attacks.Clear();
         targetPosition = transform.position + new Vector3(-missMoveDistance, 0f, 0f);
@@ -95,7 +110,17 @@ public class Player_Attack : MonoBehaviour
         enemy.GetComponent<EnemyTakeDamage>().TakeDamage(1);
 
         // set player target position
-        targetPosition = transform.position - new Vector3(hitDistance, 0f, 0f);
+        if(attackState == 0) {
+            playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(1);
+            //GetComponent<Player_ControlAnimationState>().SetAnimState(0);
+            lerpSpeed = attackStateZeroLerpSpeed;
+            targetPosition = transform.position - new Vector3(missMoveDistance*3f, 0f, 0f);
+        }
+        else if(attackState == 1) {
+            lerpSpeed = missLerpSpeed;
+            targetPosition = transform.position - new Vector3(hitDistance, 0f, 0f);
+        }
+        
     }
 
     void PlayerRightHit(GameObject enemy, float hitDistance)
@@ -106,15 +131,27 @@ public class Player_Attack : MonoBehaviour
         enemy.GetComponent<EnemyTakeDamage>().TakeDamage(1);
 
         // set player target position
-        targetPosition = transform.position + new Vector3(hitDistance, 0f, 0f);
+        if (attackState == 0)
+        {
+            playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(1);
+            //GetComponent<Player_ControlAnimationState>().SetAnimState(0);
+            lerpSpeed = attackStateZeroLerpSpeed;
+            targetPosition = transform.position + new Vector3(missMoveDistance *3f, 0f, 0f);
+        }
+        else if (attackState == 1)
+        {
+            lerpSpeed = missLerpSpeed;
+            targetPosition = transform.position + new Vector3(hitDistance, 0f, 0f);
+        }
     }
 
-    void BoardWipe()
+    void BoardWipeEMP()
     {
         scoreMultiplier = 0;
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach(GameObject enemy in enemies) {
             // tell each enemy to go to death state
+            enemy.GetComponent<EnemyTakeDamage>().TakeDamage(10);
         }
     }
 
@@ -129,13 +166,14 @@ public class Player_Attack : MonoBehaviour
 
         if (scoreMultiplier >= attacksLandedBeforeAllowingFullBoardWipe)
         {
-            BoardWipe();
+            BoardWipeEMP();
             return;
         }
 
         // right
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
+            playerSpriteGO.transform.localScale = new Vector3(-playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
             attacks.Add(1);
         }
 
@@ -144,6 +182,7 @@ public class Player_Attack : MonoBehaviour
         // left
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
+            playerSpriteGO.transform.localScale = new Vector3(playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
             attacks.Add(-1);
         }
 
@@ -209,12 +248,52 @@ public class Player_Attack : MonoBehaviour
 
     void MovePlayer()
     {
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 10f);
+        Vector2 targetPos = targetPosition - transform.position;
+        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * lerpSpeed);
+        //Vector2 targetPos = new Vector2(targetPosition.x, targetPosition.y) - playerRB.position;
+        //playerRB.position = Vector3.Lerp(playerRB.position, targetPosition, Time.deltaTime * lerpSpeed);
+    }
+
+    void RunAttackStateChange()
+    {
+        if (scoreMultiplier > attacksLandedBeforeAllowingHalfBoardWipe &&
+            scoreMultiplier < attacksLandedBeforeAllowingFullBoardWipe)
+        {
+            attackState = 3;
+            Debug.Log("attack state = 3");
+            return;
+        }
+
+        else if (scoreMultiplier >= attacksLandedBeforeGoingToThirdAttackState &&
+                 scoreMultiplier < attacksLandedBeforeAllowingHalfBoardWipe)
+        {
+            attackState = 2;
+            Debug.Log("attack state = 2");
+            return;
+        }
+
+        else if (scoreMultiplier >= attacksLandedBeforeGoingToSecondAttackState &&
+                 scoreMultiplier < attacksLandedBeforeGoingToThirdAttackState)
+        {
+            attackState = 1;
+            Debug.Log("attack state = 1");
+            return;
+        }
+
+        else if (scoreMultiplier >= 0 &&
+                 scoreMultiplier < attacksLandedBeforeGoingToSecondAttackState)
+        {
+            attackState = 0;
+            Debug.Log("attack state = 0");
+            return;
+        } 
     }
 
     // Update is called once per frame
     void Update()
     {
+        RunAttackStateChange();
+
         MovePlayer();
 
         InitiatePlayerAttack();
