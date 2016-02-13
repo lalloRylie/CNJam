@@ -53,7 +53,7 @@ public class EnemyBehavior : MonoBehaviour
                     Debug.Log("Enemy is attacking!");
                     enemyState = 3;
                 }
-                else if (distToPlayer > attackRange)
+                else if (distToPlayer > attackRange * 1.5f)
                 {
                     Debug.Log("You managed to get away!");
                     enemyState = 1;
@@ -65,7 +65,11 @@ public class EnemyBehavior : MonoBehaviour
                 if (distToPlayer < (attackRange + attackRange / 10.0f))
                 {
                     Debug.Log("You took damage!");
+                    player.GetComponent<Player_TakeDamage>().TakeDamage(1);
                     //Run attack animation
+                } else if (distToPlayer > attackRange * 1.5f)
+                {
+                    enemyState = 1;
                 }
                 break;
             //Death state
