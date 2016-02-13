@@ -7,7 +7,7 @@ public class EnemyBehavior : MonoBehaviour
     public GameObject player;
     public int enemyState = 1;
     private float attackTimer = 0.0f;
-    public float timeToWait = 2.0f;
+    public float timeToWait = 1.0f;
     public float enemySpeed = 1.0f;
     public float attackRange = 2.0f;
     private float distToPlayer;
@@ -66,6 +66,7 @@ public class EnemyBehavior : MonoBehaviour
                 {
                     Debug.Log("You took damage!");
                     player.GetComponent<Player_TakeDamage>().TakeDamage(1);
+                    enemyState = 1;
                     //Run attack animation
                 }
                 else if (distToPlayer > attackRange * 1.5f)

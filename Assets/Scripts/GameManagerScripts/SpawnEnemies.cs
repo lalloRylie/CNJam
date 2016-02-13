@@ -43,6 +43,7 @@ public class SpawnEnemies : MonoBehaviour {
         else
         {
             //Open lose screen
+            Debug.Log("You lose.");
         }
         
 	}
