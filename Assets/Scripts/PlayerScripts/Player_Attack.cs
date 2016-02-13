@@ -114,7 +114,7 @@ public class Player_Attack : MonoBehaviour
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(1);
             //GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             lerpSpeed = attackStateZeroLerpSpeed;
-            targetPosition = transform.position - new Vector3((hitDistance * 4f), 0f, 0f);
+            targetPosition = transform.position - new Vector3(missMoveDistance*3f, 0f, 0f);
         }
         else if(attackState == 1) {
             lerpSpeed = missLerpSpeed;
@@ -136,7 +136,7 @@ public class Player_Attack : MonoBehaviour
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(1);
             //GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             lerpSpeed = attackStateZeroLerpSpeed;
-            targetPosition = transform.position + new Vector3((hitDistance * 4f), 0f, 0f);
+            targetPosition = transform.position + new Vector3(missMoveDistance *3f, 0f, 0f);
         }
         else if (attackState == 1)
         {
@@ -254,9 +254,46 @@ public class Player_Attack : MonoBehaviour
         //playerRB.position = Vector3.Lerp(playerRB.position, targetPosition, Time.deltaTime * lerpSpeed);
     }
 
+    void RunAttackStateChange()
+    {
+        if (scoreMultiplier > attacksLandedBeforeAllowingHalfBoardWipe &&
+            scoreMultiplier < attacksLandedBeforeAllowingFullBoardWipe)
+        {
+            attackState = 3;
+            Debug.Log("attack state = 3");
+            return;
+        }
+
+        else if (scoreMultiplier >= attacksLandedBeforeGoingToThirdAttackState &&
+                 scoreMultiplier < attacksLandedBeforeAllowingHalfBoardWipe)
+        {
+            attackState = 2;
+            Debug.Log("attack state = 2");
+            return;
+        }
+
+        else if (scoreMultiplier >= attacksLandedBeforeGoingToSecondAttackState &&
+                 scoreMultiplier < attacksLandedBeforeGoingToThirdAttackState)
+        {
+            attackState = 1;
+            Debug.Log("attack state = 1");
+            return;
+        }
+
+        else if (scoreMultiplier >= 0 &&
+                 scoreMultiplier < attacksLandedBeforeGoingToSecondAttackState)
+        {
+            attackState = 0;
+            Debug.Log("attack state = 0");
+            return;
+        } 
+    }
+
     // Update is called once per frame
     void Update()
     {
+        RunAttackStateChange();
+
         MovePlayer();
 
         InitiatePlayerAttack();

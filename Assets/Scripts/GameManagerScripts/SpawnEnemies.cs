@@ -25,12 +25,12 @@ public class SpawnEnemies : MonoBehaviour {
             int randomInt = Random.Range(1, 21);
             if(randomInt < 10) {
                 // spawn on left side
-                GameObject.Instantiate<GameObject>(enemy1Prefab).transform.position = playerTransform.position + new Vector3((-horzExtent * 1.25f) - 1f, -1f, 0f);
+                GameObject.Instantiate<GameObject>(enemy1Prefab).transform.position = playerTransform.position + new Vector3((-horzExtent * 1.25f) - 1f, 0f, 0f);
             }
             else
             {
                 // spawn on right side
-                GameObject.Instantiate<GameObject>(enemy1Prefab).transform.position = playerTransform.position + new Vector3((horzExtent * 1.25f) + 1f, -1f, 0f);
+                GameObject.Instantiate<GameObject>(enemy1Prefab).transform.position = playerTransform.position + new Vector3((horzExtent * 1.25f) + 1f, 0f, 0f);
             }
         }
 	}
