@@ -7,6 +7,13 @@ public class Player_TakeDamage : MonoBehaviour
     public int playerHealth = 3;
     GameObject gameManager;
 
+    public Sprite deadSprite = null;
+    public SpriteRenderer spriteRenderer;
+    public Animator playerAnim;
+
+    [HideInInspector]
+    public bool canTakeDamage = true;
+
     // Use this for initialization
     void Start()
     {
@@ -19,12 +26,15 @@ public class Player_TakeDamage : MonoBehaviour
         if (playerHealth <= 0) {
             gameManager.GetComponent<GameStateControl>().SetGameState(3);
             GetComponent<Player_Attack>().SetPlayerState(3);
+            spriteRenderer.sprite = deadSprite;
+            playerAnim.enabled = false;
         }
     }
 
     public void TakeDamage(int damage)
     {
-        playerHealth -= damage;
+        if (canTakeDamage) playerHealth -= damage;
+
         if(playerHealth > 0) {
             GetComponentInChildren<Player_ControlAnimationState>().SetAnimState(5);
         }        

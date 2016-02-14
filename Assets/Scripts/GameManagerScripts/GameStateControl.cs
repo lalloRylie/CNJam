@@ -11,6 +11,13 @@ public class GameStateControl : MonoBehaviour {
 	void Start () {
 	
 	}
+
+    IEnumerator InitiateLoseScreen()
+    {
+        yield return new WaitForSeconds(2f);
+
+        Application.LoadLevel("LoseScreen");
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -31,6 +38,7 @@ public class GameStateControl : MonoBehaviour {
             case 3:
                 ForceEnemiesToIdle();
                 //GetComponent<LoseScreen>().OpenLoseScreenUI();
+                StartCoroutine(InitiateLoseScreen());
                 break;
         }
 	}
