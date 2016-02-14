@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class Player_Attack : MonoBehaviour
 {
+    float timerForDodgeAttackBackRayDoubleLength = 0f;
+    bool lastAttackDirectionWasLeft = false;
+    float rangeDisplayLength = 0f;
 
     public GameObject playerSpriteGO;
     float playerXScale = 0f;
@@ -52,6 +55,7 @@ public class Player_Attack : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        rangeDisplayLength = attackStateZeroRange;
         playerRB = GetComponent<Rigidbody2D>();
         targetPosition = transform.position;
         playerXScale = playerSpriteGO.transform.localScale.x;
@@ -188,7 +192,7 @@ public class Player_Attack : MonoBehaviour
 
     public void HalfBoardWipe(bool left)
     {
-       // playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(2);
+        // playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(2);
 
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in enemies)
@@ -208,7 +212,7 @@ public class Player_Attack : MonoBehaviour
                     enemy.GetComponent<EnemyTakeDamage>().TakeDamage(10);
             }
         }
-        
+
         halfBoardWipeUsed = true;
     }
 
@@ -254,14 +258,16 @@ public class Player_Attack : MonoBehaviour
                     if (startPos.x < Screen.width / 2)
                     {
                         //The player tapped left
+                        lastAttackDirectionWasLeft = true;
                         playerSpriteGO.transform.localScale = new Vector3(playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
                         attacks.Add(-1);
                     }
                     else if (startPos.x > Screen.width / 2)
                     {
                         //The player tapped right
-                         playerSpriteGO.transform.localScale = new Vector3(-playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
-                         attacks.Add(1);
+                        lastAttackDirectionWasLeft = false;
+                        playerSpriteGO.transform.localScale = new Vector3(-playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
+                        attacks.Add(1);
                     }
                     //END TAP
 
@@ -328,6 +334,7 @@ public class Player_Attack : MonoBehaviour
         // right
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
+            lastAttackDirectionWasLeft = false;
             playerSpriteGO.transform.localScale = new Vector3(-playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
             attacks.Add(1);
         }
@@ -335,6 +342,7 @@ public class Player_Attack : MonoBehaviour
         // left
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
+            lastAttackDirectionWasLeft = true;
             playerSpriteGO.transform.localScale = new Vector3(playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
             attacks.Add(-1);
         }
@@ -347,13 +355,18 @@ public class Player_Attack : MonoBehaviour
 
     void PlayerRightAttack()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.TransformPoint(new Vector3(offset, 0.0f, 0.0f)), Vector2.right, range);
+        float newRange = range;
+        if(attackState == 0 && timerForDodgeAttackBackRayDoubleLength > 0f) {
+            newRange *= 2f;
+        }
+        rangeDisplayLength = newRange;
+        RaycastHit2D hit = Physics2D.Raycast(transform.TransformPoint(new Vector3(offset, 0.0f, 0.0f)), Vector2.right, newRange);
 
         if (hit)
         {
+            timerForDodgeAttackBackRayDoubleLength = 0.2f;
             if (hit.collider.tag == "EnemyCollider")
             {
-               
                 PlayerRightHit(hit.collider.transform.parent.gameObject, hit.distance, hit.collider.bounds.size.x);
             }
         }
@@ -365,10 +378,17 @@ public class Player_Attack : MonoBehaviour
 
     void PlayerLeftAttack()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.TransformPoint(new Vector3(-offset, 0.0f, 0.0f)), -Vector2.right, range);
+        float newRange = range;
+        if (attackState == 0 && timerForDodgeAttackBackRayDoubleLength > 0f)
+        {
+            newRange *= 2f;
+        }
+        rangeDisplayLength = newRange;
+        RaycastHit2D hit = Physics2D.Raycast(transform.TransformPoint(new Vector3(-offset, 0.0f, 0.0f)), -Vector2.right, newRange);
 
         if (hit)
         {
+            timerForDodgeAttackBackRayDoubleLength = 0.2f;
             if (hit.collider.tag == "EnemyCollider")
             {
                 PlayerLeftHit(hit.collider.transform.parent.gameObject, hit.distance, hit.collider.bounds.size.x);
@@ -452,6 +472,8 @@ public class Player_Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timerForDodgeAttackBackRayDoubleLength -= 1f * Time.deltaTime;
+
         RunAttackStateChange();
 
         MovePlayer();
