@@ -47,6 +47,8 @@ public class Player_Attack : MonoBehaviour
 
     bool halfBoardWipeUsed = false;
 
+    public bool halfBoardWipeSideOnLeft = false;
+
     // Use this for initialization
     void Start()
     {
@@ -184,9 +186,9 @@ public class Player_Attack : MonoBehaviour
         halfBoardWipeUsed = false;
     }
 
-    void HalfBoardWipe(bool left)
+    public void HalfBoardWipe(bool left)
     {
-        playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(2);
+       // playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(2);
 
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in enemies)
@@ -208,7 +210,6 @@ public class Player_Attack : MonoBehaviour
         }
         
         halfBoardWipeUsed = true;
-
     }
 
     public float minSwipeDist;
@@ -232,7 +233,8 @@ public class Player_Attack : MonoBehaviour
 
         if (scoreMultiplier >= attacksLandedBeforeAllowingFullBoardWipe)
         {
-            BoardWipeEMP();
+            playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(5);
+            //BoardWipeEMP();
             return;
         }
 
@@ -275,12 +277,16 @@ public class Player_Attack : MonoBehaviour
                         if (swipeVector.x < 0)
                         {
                             //The player swiped left
-                            HalfBoardWipe(true);
+                            //HalfBoardWipe(true);
+                            halfBoardWipeSideOnLeft = true;
+                            playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(2);
                         }
                         else
                         {
                             //The player swiped right
-                            HalfBoardWipe(false);
+                            //HalfBoardWipe(false);
+                            halfBoardWipeSideOnLeft = false;
+                            playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(2);
                         }
                     }
                     //END SWIPE
@@ -304,13 +310,15 @@ public class Player_Attack : MonoBehaviour
             {
                 if (Input.GetKey(KeyCode.RightArrow) && (Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftShift)))
                 {
-                    HalfBoardWipe(false);
+                    halfBoardWipeSideOnLeft = false;
+                    playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(2);
                     playerSpriteGO.transform.localScale = new Vector3(-playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
                     return;
                 }
                 else if (Input.GetKey(KeyCode.LeftArrow) && (Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftShift)))
                 {
-                    HalfBoardWipe(true);
+                    halfBoardWipeSideOnLeft = true;
+                    playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(2);
                     playerSpriteGO.transform.localScale = new Vector3(playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
                     return;
                 }

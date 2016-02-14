@@ -24,6 +24,6 @@ public class Player_TakeDamage : MonoBehaviour
     public void TakeDamage(int damage)
     {
         playerHealth -= damage;
-        GetComponent<Player_Attack>().BoardWipeEMP();
+        //GetComponent<Player_Attack>().BoardWipeEMP();
     }
 }
