@@ -30,7 +30,7 @@ public class GameStateControl : MonoBehaviour {
             //Lose state
             case 3:
                 ForceEnemiesToIdle();
-                GetComponent<LoseScreen>().OpenLoseScreenUI();
+                //GetComponent<LoseScreen>().OpenLoseScreenUI();
                 break;
         }
 	}
