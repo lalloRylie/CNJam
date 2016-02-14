@@ -18,6 +18,7 @@ public class Player_TakeDamage : MonoBehaviour
     {
         if (playerHealth <= 0) {
             gameManager.GetComponent<GameStateControl>().SetGameState(3);
+            GetComponent<Player_Attack>().SetPlayerState(3);
         }
     }
 

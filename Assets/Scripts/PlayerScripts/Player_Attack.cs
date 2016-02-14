@@ -22,7 +22,8 @@ public class Player_Attack : MonoBehaviour
 
     float offset = 0.6f;
 
-    int attackState = 0;
+    int attackState = 1;
+    public int playerState = 0;
 
     Vector3 targetPosition = new Vector3(0f, 0f, 0f);
 
@@ -63,6 +64,11 @@ public class Player_Attack : MonoBehaviour
         playerRB = GetComponent<Rigidbody2D>();
         targetPosition = transform.position;
         playerXScale = playerSpriteGO.transform.localScale.x;
+    }
+
+    public void SetPlayerState(int state)
+    {
+        playerState = state;
     }
 
     void DeductScoreMultiplier()
@@ -478,14 +484,31 @@ public class Player_Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timerForDodgeAttackBackRayDoubleLength -= 1f * Time.deltaTime;
 
-        RunAttackStateChange();
+        switch (playerState) {
+            //Idle state - do nothing
+            case 0:
+                break;
+            //Normal battle state
+            case 1:
+                timerForDodgeAttackBackRayDoubleLength -= 1f * Time.deltaTime;
 
-        MovePlayer();
+                RunAttackStateChange();
 
-        InitiatePlayerAttack();
+                MovePlayer();
 
-        HandlePlayerAttacks();
+                InitiatePlayerAttack();
+
+                HandlePlayerAttacks();
+                break;
+            //Boss battle state
+            case 2:
+                break;
+            //Lose state
+            case 3:
+                break;
+        }
+
+        
     }
 }

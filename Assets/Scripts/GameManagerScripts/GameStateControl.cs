@@ -5,10 +5,7 @@ public class GameStateControl : MonoBehaviour {
 
     public int gameState = 0;
     float gameTimer = 0f;
-    float bossTimer = 0f;
     float engageBossAfterTime = 60f;
-    float bossGroundPhaseAfterTime = 10f;
-    float bossAirPhaseAfterTime = 10f;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +17,9 @@ public class GameStateControl : MonoBehaviour {
         switch (gameState) {
             //Enemy battle state
             case 0:
+                gameTimer += 1f * Time.deltaTime;
+                if (gameTimer > engageBossAfterTime)
+                    SetGameState(1);
                 break;
             //Boss battle state
             case 1:
