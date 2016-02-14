@@ -3,7 +3,8 @@ using System.Collections;
 
 public class SpawnEnemies : MonoBehaviour {
 
-    public GameObject enemy1Prefab;
+    public GameObject robertPrefab;
+    public GameObject archibaldPrefab;
 
     float spawnTimer = 0f;
     float amountOfTimeToWaitToSpawnEnemy = 1.5f;
@@ -28,15 +29,27 @@ public class SpawnEnemies : MonoBehaviour {
             {
                 spawnTimer = 0f;
                 int randomInt = Random.Range(1, 21);
+                int randomIntForEnemyType = Random.Range(1, 21);
+
+                GameObject enemyToSpawn = null;
+
+                if(randomIntForEnemyType < 10) {
+                    enemyToSpawn = robertPrefab;
+                }
+                else
+                {
+                    enemyToSpawn = archibaldPrefab;
+                }
+
                 if (randomInt < 10)
                 {
                     // spawn on left side
-                    GameObject.Instantiate<GameObject>(enemy1Prefab).transform.position = playerTransform.position + new Vector3((-horzExtent * 1.25f) - 1f, 0f, 0f);
+                    GameObject.Instantiate<GameObject>(enemyToSpawn).transform.position = playerTransform.position + new Vector3((-horzExtent * 1.25f) - 1f, 0f, 0f);
                 }
                 else
                 {
                     // spawn on right side
-                    GameObject.Instantiate<GameObject>(enemy1Prefab).transform.position = playerTransform.position + new Vector3((horzExtent * 1.25f) + 1f, 0f, 0f);
+                    GameObject.Instantiate<GameObject>(enemyToSpawn).transform.position = playerTransform.position + new Vector3((horzExtent * 1.25f) + 1f, 0f, 0f);
                 }
             }
         }
