@@ -7,6 +7,9 @@ public class Player_TakeDamage : MonoBehaviour
     public int playerHealth = 3;
     GameObject gameManager;
 
+    [HideInInspector]
+    public bool canTakeDamage = true;
+
     // Use this for initialization
     void Start()
     {
@@ -24,7 +27,8 @@ public class Player_TakeDamage : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        playerHealth -= damage;
+        if (canTakeDamage) playerHealth -= damage;
+
         if(playerHealth > 0) {
             GetComponentInChildren<Player_ControlAnimationState>().SetAnimState(5);
         }        

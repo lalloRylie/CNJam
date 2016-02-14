@@ -23,7 +23,7 @@ public class Player_Attack : MonoBehaviour
     float offset = 0.6f;
 
     int attackState = 1;
-    public int playerState = 0;
+    public int playerState = 1;
 
     Vector3 targetPosition = new Vector3(0f, 0f, 0f);
 
