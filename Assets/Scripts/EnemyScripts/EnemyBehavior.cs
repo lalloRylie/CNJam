@@ -10,11 +10,12 @@ public class EnemyBehavior : MonoBehaviour
     public float timeToWait = 1.0f;
     public float enemySpeed = 1.0f;
     public float attackRange = 2.0f;
+    float minDistanceFromPlayer; //Set from inspector 2.5 for Archi, 1.4 for Robert
     private float distToPlayer;
 
+    //Check position relative to player, make sure enemy is always facing the player
     void CheckDirection()
     {
-        //Check position relative to player, make sure enemy is always facing the player
         if (transform.position.x < player.transform.position.x)
         {
             //enemy is to the left of the player and needs to be flipped (localScale.x should be negative)
@@ -45,6 +46,21 @@ public class EnemyBehavior : MonoBehaviour
         }
     }
 
+    ////If the enemy is too close to player, move them back slightly to eliminate collision bugs
+    //void CheckPosition() {
+    //    float currentDistFromPlayer = Mathf.Abs(transform.position.x - player.transform.position.x);
+
+    //    if (currentDistFromPlayer < minDistanceFromPlayer) {
+    //        //enemy is too close, move them back to just within their attack range.
+
+    //        //check which direction to move enemy
+    //        if (transform.position.x < player.transform.position.x)
+    //            transform.position = new Vector3(player.transform.position.x - minDistanceFromPlayer, transform.position.y, transform.position.z);
+    //        else
+    //            transform.position = new Vector3(player.transform.position.x + minDistanceFromPlayer, transform.position.y, transform.position.z);
+    //    }
+    //}
+
     // Use this for initialization
     void Start()
     {
@@ -56,7 +72,9 @@ public class EnemyBehavior : MonoBehaviour
     {
 
         distToPlayer = Mathf.Abs(transform.position.x - player.transform.position.x);
+        //CheckPosition();
         CheckDirection();
+        
         switch (enemyState)
         {
             //Idle state ?? maybe ??
