@@ -19,8 +19,10 @@ public class BossBehavior : MonoBehaviour
     STAGE 4:
     	Same as STAGE 2, will go back up into the air if he hasn’t been hit 7 times.
         
-    ** Enter cutscene, that shows Cry Baby getting frustrated and calling in an army of evil robots to ** swarm Sparko.
-    ** Sparko gets angry?! and is shown rising further into the air and a quicktime event (swipe up)   ** pops up. Sparko releases his EMP blasts which takes out the robot army
+    ** Enter cutscene, that shows Cry Baby getting frustrated and calling in an army of evil robots to 
+    ** swarm Sparko.
+    ** Sparko gets angry?! and is shown rising further into the air and a quicktime event (swipe up)   
+    ** pops up. Sparko releases his EMP blasts which takes out the robot army
     ** and Cry Baby in one shot. 
     **
     ** Show something about Sparko saving Mega Football Baby. Player Wins.
