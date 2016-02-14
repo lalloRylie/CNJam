@@ -42,15 +42,19 @@ public class BossBehavior : MonoBehaviour
 
     public GameObject tearPrefab;
     float cryTimer = 0f;
-    float bossShootTimer = 0f;
 
-    public float bossWidth;
+    public float tearSpawnZoneWidth;
+
+    //Use to change boss states
+    float bossTimer = 0f;
+    float bossGroundPhaseAfterTime = 10f;
+    float bossAirPhaseAfterTime = 10f;
 
     void Cry()
     {      
         float amountOfTimeToWaitToSpawnEnemy = 1f;
 
-        float randXPos = Random.Range(transform.position.x - (bossWidth / 2f), transform.position.x + (bossWidth / 2f));
+        float randXPos = Random.Range(transform.position.x - (tearSpawnZoneWidth / 2f), transform.position.x + (tearSpawnZoneWidth / 2f));
         Vector3 spawnPos = new Vector3(randXPos, transform.position.y - 1f, 0f);
 
         cryTimer += 1f * Time.deltaTime;
@@ -67,10 +71,10 @@ public class BossBehavior : MonoBehaviour
     {
         float amountOfTimeToWaitToSpawnEnemy = 1f; //Should be random/varying
 
-        float randXPos1 = Random.Range(transform.position.x - (bossWidth / 2f), transform.position.x + (bossWidth / 2f));
+        float randXPos1 = Random.Range(transform.position.x - (tearSpawnZoneWidth / 2f), transform.position.x + (tearSpawnZoneWidth / 2f));
         Vector3 spawnPos1 = new Vector3(randXPos1, transform.position.y - 1f, 0f);
 
-        float randXPos2 = Random.Range(transform.position.x - (bossWidth / 2f), transform.position.x + (bossWidth / 2f));
+        float randXPos2 = Random.Range(transform.position.x - (tearSpawnZoneWidth / 2f), transform.position.x + (tearSpawnZoneWidth / 2f));
         Vector3 spawnPos2 = new Vector3(randXPos2, transform.position.y - 1f, 0f);
 
         //Compare spawn locations of both objects, if they're too close, move them away from eachother.
@@ -135,19 +139,8 @@ public class BossBehavior : MonoBehaviour
 
     }
 
-    //Use same sprite from bomb for water gun projectile?
     void BossGroundBehavior() {
-        transform.position = new Vector3(10f, player.transform.position.y, 0f);
-       
-        float bossShootRate = 1f; //Want this to be a variable rate, so projectiles come at the player at an inconsistant rate
-
-        bossShootTimer += 1f * Time.deltaTime;
-        if (bossShootTimer > bossShootRate)
-        {
-            bossShootTimer = 0f;
-            //Fire projectile
-            //Play shoot animation and fire the projectile from that?
-        }
+        
     }
 
     // Use this for initialization
