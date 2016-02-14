@@ -16,11 +16,12 @@ public class BossBehavior : MonoBehaviour
     
     STAGE 1: (You can see Mega Football Baby tied up within the vehicle?) (Or glowy eyes indicating mind control?)
     Cry Baby is hovering over the battlefield in (a to-be-decided vehicle), raining tears down on Sparko.
-    When Sparko dodges x amount, enemies will start spawning from the sides, in addition to the tears raining down from above.
+    The rate at which the tears fall will increase over time.
     
-    STAGE 2:
-    When Sparko dodges x amount of tears, he will have to begin dealing with enemies who will start spawning from the sides, in addition to still having to dodge the tears raining down from above.
-    When Sparko eliminates all enemies (x amount), he will be able to use his Special Attack/Ultimate to knock Cry Baby from the sky.
+    //STAGE 2 nixed
+        STAGE 2:
+        When Sparko dodges x amount of tears, he will have to begin dealing with enemies who will start spawning from the sides, in addition to still having to dodge the tears raining down from above.
+        When Sparko eliminates all enemies (x amount), he will be able to use his Special Attack/Ultimate to knock Cry Baby from the sky.
 
     STAGE 3:
     Cry Baby's vehicle comes down on the right side of the screen and he is ejected	from it. Sparko is set to the left of the screen (locked camera).
@@ -45,24 +46,70 @@ public class BossBehavior : MonoBehaviour
 
     public GameObject player;
 
-    public GameObject bombPrefab;
+    public GameObject tearPrefab;
+    float cryTimer = 0f;
+    float bossShootTimer = 0f;
+
     public float bossWidth;
 
     //TODO: Need to lock the camera for the boss fight
     //TODO: Get rid of multiplier for boss fight? Replace it with something else? Cause boss to give a set amount of points (not affected by anything)?
 
-    void DropBombs()
-    {
-        float spawnTimer = 0f;
+    void Cry()
+    {      
         float amountOfTimeToWaitToSpawnEnemy = 1f;
 
         float randXPos = Random.Range(transform.position.x - (bossWidth / 2f), transform.position.x + (bossWidth / 2f));
         Vector3 spawnPos = new Vector3(randXPos, transform.position.y - 1f, 0f);
 
-        spawnTimer += 1f * Time.deltaTime;
-        if (spawnTimer >= amountOfTimeToWaitToSpawnEnemy)
+        cryTimer += 1f * Time.deltaTime;
+        if (cryTimer >= amountOfTimeToWaitToSpawnEnemy)
         {
-            GameObject.Instantiate<GameObject>(bombPrefab).transform.position = spawnPos;
+            GameObject tear = GameObject.Instantiate<GameObject>(tearPrefab);
+            tear.transform.position = spawnPos;
+            tear.GetComponent<tearTest>().fallSpeed = Random.Range(2f, 4f);
+            cryTimer = 0;
+        }
+    }
+
+    void CryMore()
+    {
+        float amountOfTimeToWaitToSpawnEnemy = 1f; //Should be random/varying
+
+        float randXPos1 = Random.Range(transform.position.x - (bossWidth / 2f), transform.position.x + (bossWidth / 2f));
+        Vector3 spawnPos1 = new Vector3(randXPos1, transform.position.y - 1f, 0f);
+
+        float randXPos2 = Random.Range(transform.position.x - (bossWidth / 2f), transform.position.x + (bossWidth / 2f));
+        Vector3 spawnPos2 = new Vector3(randXPos2, transform.position.y - 1f, 0f);
+
+        if((Mathf.Abs(spawnPos1.x) - Mathf.Abs(spawnPos2.x)) < 1.0f)
+        {
+            float offset = 1.0f;
+            if (spawnPos1.x < spawnPos2.x)
+            {
+                spawnPos1.x -= offset;
+                spawnPos2.x += offset;
+            }
+            else
+            {
+                spawnPos1.x += offset;
+                spawnPos2.x -= offset;
+            }
+            
+        }
+
+        cryTimer += 1f * Time.deltaTime;
+        if (cryTimer >= amountOfTimeToWaitToSpawnEnemy)
+        {
+            GameObject tear1 = GameObject.Instantiate<GameObject>(tearPrefab);
+            tear1.transform.position = spawnPos1;
+            tear1.GetComponent<tearTest>().fallSpeed = Random.Range(2f, 4f);
+
+            GameObject tear2 = GameObject.Instantiate<GameObject>(tearPrefab);
+            tear2.transform.position = spawnPos2;
+            tear2.GetComponent<tearTest>().fallSpeed = Random.Range(2f, 5f);
+
+            cryTimer = 0;
         }
     }
 
@@ -99,8 +146,7 @@ public class BossBehavior : MonoBehaviour
     //Use same sprite from bomb for water gun projectile?
     void BossGroundBehavior() {
         transform.position = new Vector3(10f, player.transform.position.y, 0f);
-
-        float bossShootTimer = 0f;
+       
         float bossShootRate = 1f; //Want this to be a variable rate, so projectiles come at the player at an inconsistant rate
 
         bossShootTimer += 1f * Time.deltaTime;
@@ -110,11 +156,6 @@ public class BossBehavior : MonoBehaviour
             //Fire projectile
             //Play shoot animation and fire the projectile from that?
         }
-    }
-
-    //"Crash" move from current position to a set position on the right of the screen
-    void BossTransition() {
-        
     }
 
     // Use this for initialization
@@ -132,24 +173,18 @@ public class BossBehavior : MonoBehaviour
             //Air stage
             case 0:
                 BossAirMovement();
-                //DropBombs();
+                Cry();
                 break;
-            //Air + enemy stage
             case 1:
                 BossAirMovement();
-                //DropBombs();
-                SpawnEnemies();
-                break;
-            //Transition stage (vehicle falling from sky to right side of the screen)
-            case 2:
-                BossTransition();
+                CryMore();
                 break;
             //Ground stage
-            case 3:
+            case 2:
                 BossGroundBehavior();
                 break;
-            //Comic book cut scene
-            case 4:
+            //Death - Enter comic book cut scene
+            case 3:
                 break;
         }
     }
