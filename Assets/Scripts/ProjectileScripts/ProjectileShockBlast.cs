@@ -23,8 +23,11 @@ public class ProjectileShockBlast : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        counter += 5f * Time.deltaTime;
+        counter += 10f * Time.deltaTime;
+        Vector3 newScaleVector = new Vector3(transform.localScale.x, transform.localScale.y / counter, 1f);
+        transform.localScale = newScaleVector;
 
-       
+        if (counter > 10f)
+            Destroy(gameObject);
 	}
 }
