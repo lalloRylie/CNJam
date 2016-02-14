@@ -19,28 +19,17 @@ public class Player_TakeDamage : MonoBehaviour
     {
         if (playerHealth <= 0) {
             playerDead = true;
-            gameManager.GetComponent<LoseScreen>().OpenLoseScreenUI();
-
-            ForceEnemiesToIdle();
+            gameManager.GetComponent<GameStateControl>().SetGameState(3);
         }
     }
 
     public void TakeDamage(int damage)
     {
         playerHealth -= damage;
-        //GetComponent<Player_Attack>().BoardWipeEMP();
         if(playerHealth > 0) {
             GetComponentInChildren<Player_ControlAnimationState>().SetAnimState(5);
-        }
-        
+        }        
     }
 
-    void ForceEnemiesToIdle() {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject enemy in enemies)
-        {
-            // tell each enemy to go to idle state
-            enemy.GetComponent<EnemyBehavior>().enemyState = 0;
-        }
-    }
+    
 }
