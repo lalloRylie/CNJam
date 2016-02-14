@@ -6,8 +6,8 @@ public class EnemyRunAnimations : MonoBehaviour {
     public Animator enemyAnim = null;
     public GameObject collider = null;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
