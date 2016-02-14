@@ -8,7 +8,11 @@ public class Player_Attack : MonoBehaviour
     public GameObject playerSpriteGO;
     float playerXScale = 0f;
 
-    float range = 1.5f;
+    float range = 1.6f;
+    float attackStateZeroRange = 1.6f;
+    float attackStateOneRange = 3f;
+    float attackStateTwoRange = 5f;
+
     float offset = 0.6f;
 
     int attackState = 0;
@@ -41,6 +45,8 @@ public class Player_Attack : MonoBehaviour
     float attackStateZeroLerpSpeed = 20f;
     float missLerpSpeed = 10f;
 
+    bool halfBoardWipeUsed = false;
+
     // Use this for initialization
     void Start()
     {
@@ -51,6 +57,8 @@ public class Player_Attack : MonoBehaviour
 
     void DeductScoreMultiplier()
     {
+        halfBoardWipeUsed = false;
+
         if (scoreMultiplier > attacksLandedBeforeAllowingHalfBoardWipe &&
             scoreMultiplier < attacksLandedBeforeAllowingFullBoardWipe)
         {
@@ -109,18 +117,26 @@ public class Player_Attack : MonoBehaviour
         // tell enemy to take damage
         enemy.GetComponent<EnemyTakeDamage>().TakeDamage(1);
 
-        // set player target position
+        // dodge attacks
         if (attackState == 0)
         {
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(1);
-            //GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             lerpSpeed = attackStateZeroLerpSpeed;
-            targetPosition = transform.position - new Vector3(missMoveDistance * 2f, 0f, 0f);
+            targetPosition = enemy.transform.position - new Vector3(1f, 0f, 0f);
         }
+        // punch attacks
         else if (attackState == 1)
         {
+            playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(3);
             lerpSpeed = missLerpSpeed;
             targetPosition = transform.position - new Vector3(hitDistance, 0f, 0f);
+        }
+        // shock attacks
+        else if (attackState == 2 || attackState == 3)
+        {
+            playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(4);
+            lerpSpeed = missLerpSpeed;
+            targetPosition = transform.position - new Vector3(1f, 0f, 0f);
         }
 
     }
@@ -132,18 +148,26 @@ public class Player_Attack : MonoBehaviour
 
         enemy.GetComponent<EnemyTakeDamage>().TakeDamage(1);
 
-        // set player target position
+        // dodge attacks
         if (attackState == 0)
         {
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(1);
-            //GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             lerpSpeed = attackStateZeroLerpSpeed;
-            targetPosition = transform.position + new Vector3(missMoveDistance * 2f, 0f, 0f);
+            targetPosition = enemy.transform.position + new Vector3(1f, 0f, 0f);
         }
+        // punch attacks
         else if (attackState == 1)
         {
+            playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(3);
             lerpSpeed = missLerpSpeed;
             targetPosition = transform.position + new Vector3(hitDistance, 0f, 0f);
+        }
+        // shock attacks
+        else if (attackState == 2 || attackState == 3)
+        {
+            playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(4);
+            lerpSpeed = missLerpSpeed;
+            targetPosition = transform.position + new Vector3(1f, 0f, 0f);
         }
     }
 
@@ -156,10 +180,14 @@ public class Player_Attack : MonoBehaviour
             // tell each enemy to go to death state
             enemy.GetComponent<EnemyTakeDamage>().TakeDamage(10);
         }
+
+        halfBoardWipeUsed = false;
     }
 
     void HalfBoardWipe(bool left)
     {
+        playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(2);
+
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in enemies)
         {
@@ -167,18 +195,19 @@ public class Player_Attack : MonoBehaviour
             //Clear them
             if (left)
             {
-                if(Camera.main.WorldToScreenPoint(enemy.transform.position).x <= Screen.width / 2)
+                if (Camera.main.WorldToScreenPoint(enemy.transform.position).x <= Screen.width / 2)
                     enemy.GetComponent<EnemyTakeDamage>().TakeDamage(10);
             }
             //If the enemy is on the right half of the screen
             //Clear them
-            else 
+            else
             {
                 if (Camera.main.WorldToScreenPoint(enemy.transform.position).x >= Screen.width / 2)
                     enemy.GetComponent<EnemyTakeDamage>().TakeDamage(10);
             }
-                    
         }
+        
+        halfBoardWipeUsed = true;
 
     }
 
@@ -269,6 +298,24 @@ public class Player_Attack : MonoBehaviour
 
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
 
+        if (scoreMultiplier >= attacksLandedBeforeAllowingHalfBoardWipe)
+        {
+            if (!halfBoardWipeUsed)
+            {
+                if (Input.GetKey(KeyCode.RightArrow) && (Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftShift)))
+                {
+                    HalfBoardWipe(false);
+                    playerSpriteGO.transform.localScale = new Vector3(-playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
+                    return;
+                }
+                else if (Input.GetKey(KeyCode.LeftArrow) && (Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftShift)))
+                {
+                    HalfBoardWipe(true);
+                    playerSpriteGO.transform.localScale = new Vector3(playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
+                    return;
+                }
+            }
+        }
 
         // right
         if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -284,17 +331,6 @@ public class Player_Attack : MonoBehaviour
             attacks.Add(-1);
         }
 
-        //FIX: Half Board wipe works. Need to get the if statement for the multi key press implemented
-        ////
-        //if (Input.GetKeyDown(KeyCode.RightArrow) && (Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift)))
-        //{
-        //    HalfBoardWipe(false);
-        //}
-        //else if (Input.GetKeyDown(KeyCode.LeftArrow) && (Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift)))
-        //{
-        //    HalfBoardWipe(true);
-        //}
-        ////
 #endif
 
         Debug.DrawRay(transform.TransformPoint(new Vector3(offset, 0.0f, 0.0f)), Vector2.right * range, Color.red);
@@ -339,7 +375,6 @@ public class Player_Attack : MonoBehaviour
     {
         if (attacks.Count > 0)
         {
-
             int attack = attacks[0];
             if (attack == 1)
             {
@@ -372,6 +407,7 @@ public class Player_Attack : MonoBehaviour
             scoreMultiplier < attacksLandedBeforeAllowingFullBoardWipe)
         {
             attackState = 3;
+            range = attackStateTwoRange;
             Debug.Log("attack state = 3");
             return;
         }
@@ -380,6 +416,7 @@ public class Player_Attack : MonoBehaviour
                  scoreMultiplier < attacksLandedBeforeAllowingHalfBoardWipe)
         {
             attackState = 2;
+            range = attackStateTwoRange;
             Debug.Log("attack state = 2");
             return;
         }
@@ -388,6 +425,7 @@ public class Player_Attack : MonoBehaviour
                  scoreMultiplier < attacksLandedBeforeGoingToThirdAttackState)
         {
             attackState = 1;
+            range = attackStateOneRange;
             Debug.Log("attack state = 1");
             return;
         }
@@ -396,6 +434,7 @@ public class Player_Attack : MonoBehaviour
                  scoreMultiplier < attacksLandedBeforeGoingToSecondAttackState)
         {
             attackState = 0;
+            range = attackStateZeroRange;
             Debug.Log("attack state = 0");
             return;
         }
