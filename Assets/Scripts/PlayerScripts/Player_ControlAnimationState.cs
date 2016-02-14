@@ -8,7 +8,7 @@ public class Player_ControlAnimationState : MonoBehaviour
     GameObject playerGO;
     Player_Attack playerAttackScript;
 
-    public GameObject shockProjectile;
+    public GameObject zapProjectile;
     public GameObject shockBlastProjectile;
 
     // Use this for initialization
@@ -43,9 +43,9 @@ public class Player_ControlAnimationState : MonoBehaviour
         playerAttackScript.HalfBoardWipe(playerAttackScript.halfBoardWipeSideOnLeft);
     }
 
-    public void Shock()
+    public void Zap()
     {
-        GameObject projectile = GameObject.Instantiate<GameObject>(shockProjectile);
+        GameObject projectile = GameObject.Instantiate<GameObject>(zapProjectile);
 
         if (playerAttackScript.halfBoardWipeSideOnLeft)
         {
@@ -66,12 +66,12 @@ public class Player_ControlAnimationState : MonoBehaviour
         if (playerAttackScript.halfBoardWipeSideOnLeft)
         {
             //shoot blast left
-            projectile.transform.position = new Vector3(transform.position.x - 2f, -1.1f, 0f);
+            projectile.transform.position = new Vector3(transform.position.x - 8f, -1f, 0f);
         }
         else
         {
             //shoot blast right
-            projectile.transform.position = new Vector3(transform.position.x + 2f, -1.1f, 0f);
+            projectile.transform.position = new Vector3(transform.position.x + 8f, -1f, 0f);
         }
     }
 }
