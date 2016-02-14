@@ -13,9 +13,15 @@ public class EnemyBehavior : MonoBehaviour
     float minDistanceFromPlayer; //Set from inspector 2.5 for Archi, 1.4 for Robert
     private float distToPlayer;
 
+    public EnemyRunAnimations enemyAnimScript = null;
+
     //Check position relative to player, make sure enemy is always facing the player
     void CheckDirection()
     {
+        if (enemyState == 4)
+        {
+            return;
+        }
         if (transform.position.x < player.transform.position.x)
         {
             //enemy is to the left of the player and needs to be flipped (localScale.x should be negative)
@@ -116,6 +122,7 @@ public class EnemyBehavior : MonoBehaviour
                 if (distToPlayer < (attackRange + attackRange / 10.0f))
                 {
                     Debug.Log("You took damage!");
+                    enemyAnimScript.SetAnimState(1);
                     player.GetComponent<Player_TakeDamage>().TakeDamage(1);
                     enemyState = 1;
                     //Run attack animation
@@ -130,7 +137,9 @@ public class EnemyBehavior : MonoBehaviour
                 //Run any destroy functions needed to delete current enemy
                 //Play death animation
                     //Fall over, flash red (some other color)
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                enemyAnimScript.SetAnimState(2);
+                
                 break;
             default:
                 enemyState = 1;
