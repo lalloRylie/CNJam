@@ -5,7 +5,6 @@ public class Player_TakeDamage : MonoBehaviour
 {
 
     public int playerHealth = 3;
-    public bool playerDead = false;
     GameObject gameManager;
 
     // Use this for initialization
@@ -18,7 +17,6 @@ public class Player_TakeDamage : MonoBehaviour
     void Update()
     {
         if (playerHealth <= 0) {
-            playerDead = true;
             gameManager.GetComponent<GameStateControl>().SetGameState(3);
         }
     }

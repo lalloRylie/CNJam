@@ -5,6 +5,7 @@ public class SpawnEnemies : MonoBehaviour {
 
     public GameObject robertPrefab;
     public GameObject archibaldPrefab;
+    public GameObject gameManager;
 
     float spawnTimer = 0f;
     float amountOfTimeToWaitToSpawnEnemy = 1.5f;
@@ -16,13 +17,14 @@ public class SpawnEnemies : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         player = GameObject.FindGameObjectWithTag("Player");
+        gameManager = GameObject.FindGameObjectWithTag("GameManager");
 	}
 	
 	// Update is called once per frame
 	void Update () {
         float horzExtent = Camera.main.orthographicSize * Screen.width / Screen.height;
 
-        if (!player.GetComponent<Player_TakeDamage>().playerDead)
+        if (gameManager.GetComponent<GameStateControl>().gameState == 0)
         {
             spawnTimer += 1f * Time.deltaTime;
             if (spawnTimer >= amountOfTimeToWaitToSpawnEnemy)
