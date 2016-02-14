@@ -6,11 +6,12 @@ public class Player_TakeDamage : MonoBehaviour
 
     public int playerHealth = 3;
     public bool playerDead = false;
+    GameObject gameManager;
 
     // Use this for initialization
     void Start()
     {
-
+        gameManager = GameObject.FindGameObjectWithTag("GameManager");
     }
 
     // Update is called once per frame
@@ -18,6 +19,7 @@ public class Player_TakeDamage : MonoBehaviour
     {
         if (playerHealth <= 0) {
             playerDead = true;
+            gameManager.GetComponent<LoseScreen>().OpenLoseScreenUI();
         }
     }
 
@@ -25,5 +27,9 @@ public class Player_TakeDamage : MonoBehaviour
     {
         playerHealth -= damage;
         //GetComponent<Player_Attack>().BoardWipeEMP();
+        if(playerHealth > 0) {
+            GetComponentInChildren<Player_ControlAnimationState>().SetAnimState(5);
+        }
+        
     }
 }
