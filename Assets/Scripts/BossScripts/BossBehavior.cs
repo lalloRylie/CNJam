@@ -73,6 +73,7 @@ public class BossBehavior : MonoBehaviour
         float randXPos2 = Random.Range(transform.position.x - (bossWidth / 2f), transform.position.x + (bossWidth / 2f));
         Vector3 spawnPos2 = new Vector3(randXPos2, transform.position.y - 1f, 0f);
 
+        //Compare spawn locations of both objects, if they're too close, move them away from eachother.
         if((Mathf.Abs(spawnPos1.x) - Mathf.Abs(spawnPos2.x)) < 1.0f)
         {
             float offset = 1.0f;

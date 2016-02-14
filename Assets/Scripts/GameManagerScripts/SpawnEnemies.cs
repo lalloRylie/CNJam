@@ -44,7 +44,8 @@ public class SpawnEnemies : MonoBehaviour {
                 if (randomInt < 10)
                 {
                     // spawn on left side
-                    GameObject.Instantiate<GameObject>(enemyToSpawn).transform.position = playerTransform.position + new Vector3((-horzExtent * 1.25f) - 1f, 0f, 0f);
+                    GameObject enemyToBeSpawned = GameObject.Instantiate<GameObject>(enemyToSpawn);
+                    enemyToBeSpawned.transform.position = playerTransform.position + new Vector3((-horzExtent * 1.25f) - 1f, 0f, 0f);
                 }
                 else
                 {
