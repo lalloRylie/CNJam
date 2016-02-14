@@ -178,7 +178,7 @@ public class BossBehavior : MonoBehaviour
         if (bossState == 0)
         {
             bossTimer += 1.0f * Time.deltaTime;
-            if(bossTimer >= 3f) {
+            if(bossTimer >= 5f) {
                 bossTimer = 0f;
                 bossState = 1;
             }
@@ -243,7 +243,7 @@ public class BossBehavior : MonoBehaviour
         if(bossState == 4) {
             // cry more!
             bossTimer += 1.0f * Time.deltaTime;
-            if (bossTimer >= 3f)
+            if (bossTimer >= 5f)
             {
                 bossTimer = 0f;
                 bossState = 5;
@@ -278,7 +278,7 @@ public class BossBehavior : MonoBehaviour
 
             Debug.Log(bossHealthScript.startHealth - (bossHealthScript.startHealth / 2));
             bossTimer += 1f * Time.deltaTime;
-            if (bossTimer >= 3f)
+            if (bossTimer >= 5f)
             {
                 bossOnGround = false;
                 bossState = 7;

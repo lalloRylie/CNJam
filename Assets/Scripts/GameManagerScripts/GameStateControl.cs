@@ -5,7 +5,7 @@ public class GameStateControl : MonoBehaviour {
 
     public int gameState = 0;
     float gameTimer = 0f;
-    float engageBossAfterTime = 30f;
+    float engageBossAfterTime = 60f;
     public GameObject bossPrefab = null;
 
 	// Use this for initialization
