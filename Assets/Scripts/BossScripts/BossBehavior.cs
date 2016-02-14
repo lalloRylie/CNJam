@@ -4,34 +4,26 @@ using System.Collections;
 public class BossBehavior : MonoBehaviour
 {
     /*
-    BOSS FIGHT
+    BOSS FIGHT:
     Cry Baby
-    
+        
     Mechanics:
-    	Fire off your EMP burst to stop Cry Baby and save you best friend.Must reach a combo multiplier of X.
-    
-        Multi-State boss fight?
-            Rains down tears - dodge 10, unlock EMP burst
-    
-    
-    STAGE 1: (You can see Mega Football Baby tied up within the vehicle?) (Or glowy eyes indicating mind control?)
-    Cry Baby is hovering over the battlefield in (a to-be-decided vehicle), raining tears down on Sparko.
-    The rate at which the tears fall will increase over time.
-    
-    //STAGE 2 nixed
-        STAGE 2:
-        When Sparko dodges x amount of tears, he will have to begin dealing with enemies who will start spawning from the sides, in addition to still having to dodge the tears raining down from above.
-        When Sparko eliminates all enemies (x amount), he will be able to use his Special Attack/Ultimate to knock Cry Baby from the sky.
-
+    STAGE 1: (You can see Mega Football Baby tied up in the background, maybe just cutscene?)
+        Cry Baby is hovering over the battlefield with his jetpack, raining tears down on Sparko. The rate at which the tears fall will increase over time. 
+        Instead of tapping left and right to attack, the taps will translate into left or right movement. Sparko must dodge tears until he has charged enough to release an EMP 
+        blast to knock Cry Baby out of the sky. 
+    STAGE 2 :
+        Cry Baby's falls to Sparko’s feet. Quick! Punch him before his jetpack regains power! After 4 hits or x seconds Cry Baby takes to the air again.
     STAGE 3:
-    Cry Baby's vehicle comes down on the right side of the screen and he is ejected	from it. Sparko is set to the left of the screen (locked camera).
-    Cry Baby now has a squirt gun which shoots projectiles towards Sparko. Sparko has to dodge the projectiles, gradually closing the distance to Cry Baby.
-    
-    ** Enter cut scene, that shows Cry Baby getting frustrated and calling in an army of evil robots to swarm Sparko.
-    **Sparko gets angry?! and is shown rising further into the air and a quicktime event (swipe up) pops up. Sparko releases his EMP blasts which takes out the robot army
-    **and Cry Baby in one shot. 
+    	Same as STAGE 1;
+    STAGE 4:
+    	Same as STAGE 2, will go back up into the air if he hasn’t been hit 7 times.
+        
+    ** Enter cutscene, that shows Cry Baby getting frustrated and calling in an army of evil robots to ** swarm Sparko.
+    ** Sparko gets angry?! and is shown rising further into the air and a quicktime event (swipe up)   ** pops up. Sparko releases his EMP blasts which takes out the robot army
+    ** and Cry Baby in one shot. 
     **
-    **Show something about Sparko saving Mega Football Baby. Player Wins.
+    ** Show something about Sparko saving Mega Football Baby. Player Wins.
     */
 
     //Boss hover height ~= 5.
@@ -51,9 +43,6 @@ public class BossBehavior : MonoBehaviour
     float bossShootTimer = 0f;
 
     public float bossWidth;
-
-    //TODO: Need to lock the camera for the boss fight
-    //TODO: Get rid of multiplier for boss fight? Replace it with something else? Cause boss to give a set amount of points (not affected by anything)?
 
     void Cry()
     {      
