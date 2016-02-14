@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public class Player_Attack : MonoBehaviour
 {
+    public delegate void OnPlayerMissedDelegate();
+    public event OnPlayerMissedDelegate OnPlayerMissedEvent;
+    public void Trigger_OnPlayerMissedEvent() { if (OnPlayerMissedEvent != null) OnPlayerMissedEvent(); }
+
     float timerForDodgeAttackBackRayDoubleLength = 0f;
     bool lastAttackDirectionWasLeft = false;
     float rangeDisplayLength = 0f;
@@ -97,6 +101,7 @@ public class Player_Attack : MonoBehaviour
 
     void PlayerMissedRight()
     {
+        Trigger_OnPlayerMissedEvent();
         lerpSpeed = missLerpSpeed;
         Debug.Log("Right Miss");
         attacks.Clear();
@@ -108,6 +113,7 @@ public class Player_Attack : MonoBehaviour
 
     void PlayerMissedLeft()
     {
+        Trigger_OnPlayerMissedEvent();
         lerpSpeed = missLerpSpeed;
         Debug.Log("Left Miss");
         attacks.Clear();
@@ -284,15 +290,15 @@ public class Player_Attack : MonoBehaviour
                         {
                             //The player swiped left
                             //HalfBoardWipe(true);
-                            halfBoardWipeSideOnLeft = true;
-                            playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(2);
+                            //halfBoardWipeSideOnLeft = true;
+                            //playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(2);
                         }
                         else
                         {
                             //The player swiped right
                             //HalfBoardWipe(false);
-                            halfBoardWipeSideOnLeft = false;
-                            playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(2);
+                            //halfBoardWipeSideOnLeft = false;
+                            //playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(2);
                         }
                     }
                     //END SWIPE

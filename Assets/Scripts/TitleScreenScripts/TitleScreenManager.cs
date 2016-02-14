@@ -20,7 +20,7 @@ public class TitleScreenManager : MonoBehaviour
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
 	    if(Input.GetMouseButtonDown(0)) {
             loadingTextGO.SetActive(true);
-            Application.LoadLevel("test");
+            Application.LoadLevel("GameScene");
 
         }
 #endif
@@ -29,7 +29,7 @@ public class TitleScreenManager : MonoBehaviour
         if (Input.touchCount > 0)
         {
             loadingTextGO.SetActive(true);
-            Application.LoadLevel("test");
+            Application.LoadLevel("GameScene");
         }
 #endif
 
