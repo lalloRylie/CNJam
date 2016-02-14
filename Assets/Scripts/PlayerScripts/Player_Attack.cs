@@ -113,7 +113,7 @@ public class Player_Attack : MonoBehaviour
         DeductScoreMultiplier();
     }
 
-    void PlayerLeftHit(GameObject enemy, float hitDistance)
+    void PlayerLeftHit(GameObject enemy, float hitDistance, float colliderWidth)
     {
         scoreMultiplier++;
         // tell enemy to take damage
@@ -124,7 +124,7 @@ public class Player_Attack : MonoBehaviour
         {
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(1);
             lerpSpeed = attackStateZeroLerpSpeed;
-            targetPosition = enemy.transform.position - new Vector3(1f, 0f, 0f);
+            targetPosition = enemy.transform.position - new Vector3(colliderWidth, 0f, 0f);
         }
         // punch attacks
         else if (attackState == 1)
@@ -138,12 +138,12 @@ public class Player_Attack : MonoBehaviour
         {
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(4);
             lerpSpeed = missLerpSpeed;
-            targetPosition = transform.position - new Vector3(1f, 0f, 0f);
+            targetPosition = transform.position - new Vector3(colliderWidth, 0f, 0f);
         }
 
     }
 
-    void PlayerRightHit(GameObject enemy, float hitDistance)
+    void PlayerRightHit(GameObject enemy, float hitDistance, float colliderWidth)
     {
         scoreMultiplier++;
         // tell enemy to take damage
@@ -155,7 +155,7 @@ public class Player_Attack : MonoBehaviour
         {
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(1);
             lerpSpeed = attackStateZeroLerpSpeed;
-            targetPosition = enemy.transform.position + new Vector3(1f, 0f, 0f);
+            targetPosition = enemy.transform.position + new Vector3(colliderWidth, 0f, 0f);
         }
         // punch attacks
         else if (attackState == 1)
@@ -169,7 +169,7 @@ public class Player_Attack : MonoBehaviour
         {
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(4);
             lerpSpeed = missLerpSpeed;
-            targetPosition = transform.position + new Vector3(1f, 0f, 0f);
+            targetPosition = transform.position + new Vector3(colliderWidth, 0f, 0f);
         }
     }
 
@@ -353,7 +353,8 @@ public class Player_Attack : MonoBehaviour
         {
             if (hit.collider.tag == "EnemyCollider")
             {
-                PlayerRightHit(hit.collider.transform.parent.gameObject, hit.distance);
+               
+                PlayerRightHit(hit.collider.transform.parent.gameObject, hit.distance, hit.collider.bounds.size.x);
             }
         }
         else
@@ -370,7 +371,7 @@ public class Player_Attack : MonoBehaviour
         {
             if (hit.collider.tag == "EnemyCollider")
             {
-                PlayerLeftHit(hit.collider.transform.parent.gameObject, hit.distance);
+                PlayerLeftHit(hit.collider.transform.parent.gameObject, hit.distance, hit.collider.bounds.size.x);
             }
         }
         else
