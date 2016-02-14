@@ -5,9 +5,6 @@ public class ProjectileShockBlast : MonoBehaviour {
 
     GameObject player;
     Player_Attack playerAttackScript;
-    bool hasFlipped = false;
-    bool checkedOrientation = false;
-    bool isLeft = false;
     float counter = 0f;
 
     // Use this for initialization
@@ -19,12 +16,21 @@ public class ProjectileShockBlast : MonoBehaviour {
         {
             transform.localScale = new Vector3(-1f, 1f, 1f);
         }
+        else
+        {
+            transform.localScale = new Vector3(1f, 1f, 1f);
+        }
+
+        GetComponentInChildren<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.8f);
     }
 	
 	// Update is called once per frame
 	void Update () {
-        counter += 5f * Time.deltaTime;
+        counter += 10f * Time.deltaTime;
+        Vector3 newScaleVector = new Vector3(transform.localScale.x, transform.localScale.y / counter, 1f);
+        transform.localScale = newScaleVector;
 
-       
+        if (counter > 10f)
+            Destroy(gameObject);
 	}
 }

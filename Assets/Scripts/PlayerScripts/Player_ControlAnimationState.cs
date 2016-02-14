@@ -47,15 +47,15 @@ public class Player_ControlAnimationState : MonoBehaviour
     {
         GameObject projectile = GameObject.Instantiate<GameObject>(zapProjectile);
 
-        if (playerAttackScript.halfBoardWipeSideOnLeft)
+        if (playerAttackScript.lastAttackDirectionWasLeft)
         {
             //shoot blast left
-            
+            projectile.transform.position = new Vector3(transform.position.x - 3f, -1.5f, 0f);
         }
         else
         {
             //shoot blast right
-            
+            projectile.transform.position = new Vector3(transform.position.x + 3f, -1.5f, 0f);
         }
     }
 

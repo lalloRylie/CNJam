@@ -9,7 +9,7 @@ public class Player_Attack : MonoBehaviour
     public void Trigger_OnPlayerMissedEvent() { if (OnPlayerMissedEvent != null) OnPlayerMissedEvent(); }
 
     float timerForDodgeAttackBackRayDoubleLength = 0f;
-    bool lastAttackDirectionWasLeft = false;
+    public bool lastAttackDirectionWasLeft = false;
     float rangeDisplayLength = 0f;
 
     public GameObject playerSpriteGO;
@@ -132,12 +132,12 @@ public class Player_Attack : MonoBehaviour
     void PlayerLeftHit(GameObject enemy, float hitDistance, float colliderWidth)
     {
         scoreMultiplier++;
-        // tell enemy to take damage
-        enemy.GetComponent<EnemyTakeDamage>().TakeDamage(1);
 
         // dodge attacks
         if (attackState == 0)
         {
+            // tell enemy to take damage
+            enemy.GetComponent<EnemyTakeDamage>().TakeDamage(1);
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(1);
             lerpSpeed = attackStateZeroLerpSpeed;
             targetPosition = enemy.transform.position - new Vector3(colliderWidth, 0f, 0f);
@@ -145,6 +145,8 @@ public class Player_Attack : MonoBehaviour
         // punch attacks
         else if (attackState == 1)
         {
+            // tell enemy to take damage
+            enemy.GetComponent<EnemyTakeDamage>().TakeDamage(1);
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(3);
             lerpSpeed = missLerpSpeed;
             targetPosition = transform.position - new Vector3(hitDistance, 0f, 0f);
@@ -152,6 +154,8 @@ public class Player_Attack : MonoBehaviour
         // shock attacks
         else if (attackState == 2 || attackState == 3)
         {
+            // tell enemy to take more damage
+            enemy.GetComponent<EnemyTakeDamage>().TakeDamage(2);
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(4);
             lerpSpeed = missLerpSpeed;
             targetPosition = transform.position - new Vector3(colliderWidth, 0f, 0f);
@@ -162,13 +166,12 @@ public class Player_Attack : MonoBehaviour
     void PlayerRightHit(GameObject enemy, float hitDistance, float colliderWidth)
     {
         scoreMultiplier++;
-        // tell enemy to take damage
-
-        enemy.GetComponent<EnemyTakeDamage>().TakeDamage(1);
-
+        
         // dodge attacks
         if (attackState == 0)
         {
+            // tell enemy to take damage
+            enemy.GetComponent<EnemyTakeDamage>().TakeDamage(1);
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(1);
             lerpSpeed = attackStateZeroLerpSpeed;
             targetPosition = enemy.transform.position + new Vector3(colliderWidth, 0f, 0f);
@@ -176,6 +179,8 @@ public class Player_Attack : MonoBehaviour
         // punch attacks
         else if (attackState == 1)
         {
+            // tell enemy to take damage
+            enemy.GetComponent<EnemyTakeDamage>().TakeDamage(1);
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(3);
             lerpSpeed = missLerpSpeed;
             targetPosition = transform.position + new Vector3(hitDistance, 0f, 0f);
@@ -183,6 +188,8 @@ public class Player_Attack : MonoBehaviour
         // shock attacks
         else if (attackState == 2 || attackState == 3)
         {
+            // tell enemy to take more damage
+            enemy.GetComponent<EnemyTakeDamage>().TakeDamage(2);
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(4);
             lerpSpeed = missLerpSpeed;
             targetPosition = transform.position + new Vector3(colliderWidth, 0f, 0f);
