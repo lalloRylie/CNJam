@@ -50,6 +50,21 @@ public class BossBehavior : MonoBehaviour
     float bossGroundPhaseAfterTime = 10f;
     float bossAirPhaseAfterTime = 10f;
 
+    public BossFloatSprite bossFloatSpriteScript = null;
+
+    float fallSpeed = 2f;
+    float startingFallSpeed = 2f;
+
+    float groundYPos = -2.35f;
+    float airYPos = 4.35f;
+
+    float startAirXPos;
+
+    [HideInInspector]
+    public bool bossOnGround = false;
+
+    BossHealth bossHealthScript;
+
     void Cry()
     {      
         float amountOfTimeToWaitToSpawnEnemy = 1f;
@@ -116,13 +131,13 @@ public class BossBehavior : MonoBehaviour
 
     void BossAirMovement()
     {
-        float distFromStart = transform.position.x - bossStartPos.x;
+        float distFromStart = transform.position.x - player.transform.position.x;
 
         if (isGoingLeft)
         {
             if (distFromStart < -maxPatrolDist)
                 ChangeDirections();
-            //Add in some sine wave movement to the y translate to give the boss the appearance of floating
+
             transform.Translate(new Vector3(-bossAirSpeed * Time.deltaTime, 0f, 0f));
         }
         else
@@ -146,31 +161,149 @@ public class BossBehavior : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        transform.position = bossStartPos;
         player = GameObject.FindGameObjectWithTag("Player");
+        bossStartPos = new Vector3(player.transform.position.x, bossStartPos.y, bossStartPos.z);
+        
+        transform.position = bossStartPos;
+        
+        bossHealthScript = GetComponent<BossHealth>();
+
+        startAirXPos = transform.position.x;
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch (bossState)
+        // fly around and shoot tears, after some time, we'll get emp'd by sparko, causing crybaby to fall
+        if (bossState == 0)
         {
-            //Air stage
-            case 0:
-                BossAirMovement();
-                Cry();
-                break;
-            case 1:
-                BossAirMovement();
-                CryMore();
-                break;
-            //Ground stage
-            case 2:
-                BossGroundBehavior();
-                break;
-            //Death - Enter comic book cut scene
-            case 3:
-                break;
+            bossTimer += 1.0f * Time.deltaTime;
+            if(bossTimer >= 3f) {
+                bossTimer = 0f;
+                bossState = 1;
+            }
+
+            BossAirMovement();
+            Cry();
         }
+        if (bossState == 1)
+        {
+            // fall towards ground
+            transform.Translate((Vector3.down * fallSpeed) * Time.deltaTime);
+
+            // add gravity to fall
+            fallSpeed += 30f * Time.deltaTime;
+
+            // turn off float script
+            bossFloatSpriteScript.enabled = false;
+
+            if (transform.position.y <= groundYPos)
+            {
+                fallSpeed = startingFallSpeed;
+                bossState = 2;
+                bossOnGround = true;
+                Debug.Log("on ground");
+            }
+        }
+
+        if (bossState == 2)
+        {
+            // wait for a certain amount of time, or after crybaby takes a certain amount of damage
+
+            //Debug.Log(bossHealthScript.startHealth - bossHealthScript.startHealth / 3);
+            bossTimer += 1f * Time.deltaTime;
+            if (bossTimer >= 5f || bossHealthScript.health < bossHealthScript.startHealth - (bossHealthScript.startHealth / 3))
+            {
+                bossState = 3;
+                bossTimer = 0f;
+                bossOnGround = false;
+                Debug.Log("Going Up");
+            }
+            //BossGroundBehavior();
+        }
+
+        if (bossState == 3)
+        {
+            // rise up in the air
+            transform.Translate((Vector3.up * fallSpeed) * Time.deltaTime);
+
+            // add acceleration to rise
+            fallSpeed += 30f * Time.deltaTime;
+
+            if (transform.position.y >= airYPos)
+            {
+                fallSpeed = startingFallSpeed;
+                bossState = 4;
+                // turn on float script
+                bossFloatSpriteScript.enabled = true;
+                Debug.Log("in air");
+            }
+        }
+
+        if(bossState == 4) {
+            // cry more!
+            bossTimer += 1.0f * Time.deltaTime;
+            if (bossTimer >= 3f)
+            {
+                bossTimer = 0f;
+                bossState = 5;
+            }
+
+            BossAirMovement();
+            CryMore();
+        }
+
+        if(bossState == 5) {
+            // fall towards ground
+            transform.Translate((Vector3.down * fallSpeed) * Time.deltaTime);
+
+            // add gravity to fall
+            fallSpeed += 30f * Time.deltaTime;
+
+            // turn off float script
+            bossFloatSpriteScript.enabled = false;
+
+            if (transform.position.y <= groundYPos)
+            {
+                fallSpeed = startingFallSpeed;
+                bossState = 6;
+                bossOnGround = true;
+                Debug.Log("on ground");
+            }
+        }
+
+        if (bossState == 6)
+        {
+            // wait for a certain amount of time, or after crybaby takes a certain amount of damage
+
+            Debug.Log(bossHealthScript.startHealth - (bossHealthScript.startHealth / 2));
+            bossTimer += 1f * Time.deltaTime;
+            if (bossTimer >= 3f)
+            {
+                bossOnGround = false;
+                bossState = 7;
+                bossTimer = 0f;
+                Debug.Log("Going Up");
+            }
+        }
+
+        if (bossState == 7)
+        {
+            // rise up in the air
+            transform.Translate((Vector3.up * fallSpeed) * Time.deltaTime);
+
+            // add acceleration to rise
+            fallSpeed += 30f * Time.deltaTime;
+
+            if (transform.position.y >= airYPos)
+            {
+                fallSpeed = startingFallSpeed;
+                bossState = 4;
+                // turn on float script
+                bossFloatSpriteScript.enabled = true;
+                Debug.Log("in air");
+            }
+        }
+
     }
 }

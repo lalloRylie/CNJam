@@ -5,7 +5,8 @@ public class GameStateControl : MonoBehaviour {
 
     public int gameState = 0;
     float gameTimer = 0f;
-    float engageBossAfterTime = 60f;
+    float engageBossAfterTime = 30f;
+    public GameObject bossPrefab = null;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +19,14 @@ public class GameStateControl : MonoBehaviour {
 
         Application.LoadLevel("LoseScreen");
     }
+
+    void DeleteEnemies()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach(GameObject enemy in enemies) {
+            Destroy(enemy);
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -26,10 +35,17 @@ public class GameStateControl : MonoBehaviour {
             case 0:
                 gameTimer += 1f * Time.deltaTime;
                 if (gameTimer > engageBossAfterTime)
+                {
                     SetGameState(1);
+                    DeleteEnemies();
+                    GameObject.Instantiate(bossPrefab);
+                }
+                    
                 break;
             //Boss battle state
             case 1:
+                
+                
                 break;
             //Win state
             case 2:

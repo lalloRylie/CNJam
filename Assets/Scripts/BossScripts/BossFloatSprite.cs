@@ -4,9 +4,9 @@ using System.Collections;
 public class BossFloatSprite : MonoBehaviour
 {
     private float floatTimer = 0f;
-    private float floatSpeed = 1f;
-    private float floatScale = 2f;
-    private float floatDisplacementAmt = 1f;
+    public float floatSpeed = 1f;
+    public float floatScale = 2f;
+    public float floatDisplacementAmt = 1f;
 
     // Use this for initialization
     void Start () {

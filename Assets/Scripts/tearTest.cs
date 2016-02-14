@@ -12,6 +12,8 @@ public class tearTest : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        fallSpeed += 20.0f * Time.deltaTime;
+
         transform.Translate(new Vector3(0f, -fallSpeed * Time.deltaTime));
         if (transform.position.y < -5f)
             Destroy(gameObject);
