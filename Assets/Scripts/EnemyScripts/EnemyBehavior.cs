@@ -12,6 +12,39 @@ public class EnemyBehavior : MonoBehaviour
     public float attackRange = 2.0f;
     private float distToPlayer;
 
+    void CheckDirection()
+    {
+        //Check position relative to player, make sure enemy is always facing the player
+        if (transform.position.x < player.transform.position.x)
+        {
+            //enemy is to the left of the player and needs to be flipped (localScale.x should be negative)
+            if (transform.localScale.x < 0)
+            {
+                //image has already been flipped
+                return;
+            }
+            else
+            {
+                //flip enemy to face player
+                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            }         
+        }
+        else
+        {
+            //enemy is to the right of the player and doesn't need to be flipped (localScale.x should be positive)
+            if (transform.localScale.x > 0)
+            {
+                //image hasn't been flipped
+                return;
+            }
+            else
+            {
+                //flip enemy to face player
+                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            }
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -23,7 +56,7 @@ public class EnemyBehavior : MonoBehaviour
     {
 
         distToPlayer = Mathf.Abs(transform.position.x - player.transform.position.x);
-
+        CheckDirection();
         switch (enemyState)
         {
             //Idle state ?? maybe ??
