@@ -67,7 +67,7 @@ public class BossBehavior : MonoBehaviour
 
     void Cry()
     {      
-        float amountOfTimeToWaitToSpawnEnemy = 1f;
+        float amountOfTimeToWaitToSpawnEnemy = 0.8f;
 
         float randXPos = Random.Range(transform.position.x - (tearSpawnZoneWidth / 2f), transform.position.x + (tearSpawnZoneWidth / 2f));
         Vector3 spawnPos = new Vector3(randXPos, transform.position.y - 1f, 0f);
@@ -84,7 +84,7 @@ public class BossBehavior : MonoBehaviour
 
     void CryMore()
     {
-        float amountOfTimeToWaitToSpawnEnemy = 1f; //Should be random/varying
+        float amountOfTimeToWaitToSpawnEnemy = 0.4f; //Should be random/varying
 
         float randXPos1 = Random.Range(transform.position.x - (tearSpawnZoneWidth / 2f), transform.position.x + (tearSpawnZoneWidth / 2f));
         Vector3 spawnPos1 = new Vector3(randXPos1, transform.position.y - 1f, 0f);
@@ -147,15 +147,6 @@ public class BossBehavior : MonoBehaviour
 
             transform.Translate(new Vector3(bossAirSpeed * Time.deltaTime, 0f, 0f));
         }
-    }
-
-    //Turn on enemyspawner
-    void SpawnEnemies() {
-
-    }
-
-    void BossGroundBehavior() {
-        
     }
 
     // Use this for initialization
@@ -278,7 +269,7 @@ public class BossBehavior : MonoBehaviour
 
             Debug.Log(bossHealthScript.startHealth - (bossHealthScript.startHealth / 2));
             bossTimer += 1f * Time.deltaTime;
-            if (bossTimer >= 5f)
+            if (bossTimer >= 2f)
             {
                 bossOnGround = false;
                 bossState = 7;

@@ -39,12 +39,11 @@ public class GameStateControl : MonoBehaviour {
                     SetGameState(1);
                     DeleteEnemies();
                     GameObject.Instantiate(bossPrefab);
+                    GameObject.Find("Player").GetComponent<Player_Attack>().playerState = 2;
                 }
-                    
                 break;
             //Boss battle state
             case 1:
-                
                 
                 break;
             //Win state

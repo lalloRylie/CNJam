@@ -17,6 +17,7 @@ public class BossHealth : MonoBehaviour {
         if (health <= 0) {
             //GetComponent<BossBehavior>().bossState = 3;
             Debug.Log("boss died");
+            Destroy(gameObject);
         }
 	}
 }

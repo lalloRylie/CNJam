@@ -16,7 +16,7 @@ public class Player_Attack : MonoBehaviour
     float playerXScale = 0f;
 
     float range = 1.6f;
-    float attackStateZeroRange = 1.6f;
+    public float attackStateZeroRange = 1.6f;
     float attackStateOneRange = 3f;
     float attackStateTwoRange = 5f;
 
@@ -50,7 +50,7 @@ public class Player_Attack : MonoBehaviour
 
     float lerpSpeed = 10f;
 
-    float attackStateZeroLerpSpeed = 20f;
+    public float attackStateZeroLerpSpeed = 20f;
     float missLerpSpeed = 10f;
 
     bool halfBoardWipeUsed = false;
