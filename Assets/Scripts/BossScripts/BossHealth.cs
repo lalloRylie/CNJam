@@ -12,20 +12,15 @@ public class BossHealth : MonoBehaviour {
         health = startHealth;
 	}
 
-    IEnumerator GoToMenu()
-    {
-        yield return new WaitForSeconds(2f);
-
-        Application.LoadLevel("WinScreen");
-    }
-	
 	// Update is called once per frame
 	void Update () {
         if (health <= 0) {
             //GetComponent<BossBehavior>().bossState = 3;
             Debug.Log("boss died");
+            GameObject.Find("GameManager").GetComponent<GameStateControl>().isBossDead = true;
+           // StartCoroutine(GoToMenu());
             Destroy(gameObject);
-            StartCoroutine(GoToMenu());
+            
         }
 	}
 }
