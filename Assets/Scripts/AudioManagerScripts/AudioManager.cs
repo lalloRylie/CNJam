@@ -13,6 +13,7 @@ public class AudioManager : MonoBehaviour {
     public AudioClip titleMusic;
     public AudioClip gameNeutralMusic;
     public AudioClip gameLoseMusic;
+    public AudioClip friendshipMusic;
 
     void Awake()
     {
@@ -83,6 +84,11 @@ public class AudioManager : MonoBehaviour {
         if (Application.loadedLevelName == "TitleScreen")
         {
             PlaySong(titleMusic);
+        }
+
+        if (Application.loadedLevelName == "FirstCutScene")
+        {
+            PlaySong(friendshipMusic);
         }
 
         GameObject playerGO = GameObject.Find("Player");
