@@ -8,9 +8,11 @@ public class GameStateControl : MonoBehaviour {
     float engageBossAfterTime = 60f;
     public GameObject bossPrefab = null;
 
-	// Use this for initialization
-	void Start () {
-	
+    CutScene_TransitionToBoss cutScene;
+
+    // Use this for initialization
+    void Start () {
+        cutScene = GetComponent<CutScene_TransitionToBoss>();
 	}
 
     IEnumerator InitiateLoseScreen()
@@ -44,7 +46,7 @@ public class GameStateControl : MonoBehaviour {
             //Boss instantiate state
             case 1:
                 // turn on cutscene for boss here
-
+                cutScene.StartCutScene();
                 //GameObject.Instantiate(bossPrefab);
                 //SetGameState(2);
                 break;

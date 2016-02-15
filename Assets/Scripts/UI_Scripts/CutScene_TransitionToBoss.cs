@@ -20,7 +20,7 @@ public class CutScene_TransitionToBoss : MonoBehaviour {
 
     void Start()
     {
-
+        
     }
 
     void Update()
@@ -56,12 +56,13 @@ public class CutScene_TransitionToBoss : MonoBehaviour {
             case 1:
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), scene2);
                 break;
-            case 3:
+            case 2:
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), scene3);
                 break;
-            case 4:
+            case 3:
                 GameObject.Instantiate<GameObject>(boss);
                 GetComponent<GameStateControl>().SetGameState(2);
+                EndCutScene();
                 break;
         }
         
