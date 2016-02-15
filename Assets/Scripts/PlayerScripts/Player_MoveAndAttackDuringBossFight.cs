@@ -67,7 +67,7 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        if (gameStateControlScript.gameState != 1)
+        if (gameStateControlScript.gameState != 2)
         {
             return;
         }

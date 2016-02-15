@@ -38,15 +38,17 @@ public class GameStateControl : MonoBehaviour {
                 {
                     SetGameState(1);
                     DeleteEnemies();
-                    GameObject.Instantiate(bossPrefab);
                     GameObject.Find("Player").GetComponent<Player_Attack>().playerState = 2;
                 }
                 break;
-            //Boss battle state
+            //Boss instantiate state
             case 1:
-                
+                // turn on cutscene for boss here
+
+                //GameObject.Instantiate(bossPrefab);
+                //SetGameState(2);
                 break;
-            //Win state
+            //Boss fight state
             case 2:
                 break;
             //Lose state
