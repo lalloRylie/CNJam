@@ -329,8 +329,8 @@ public class Player_Attack : MonoBehaviour
 
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
 
-        if (scoreMultiplier >= attacksLandedBeforeAllowingHalfBoardWipe)
-        {
+        //if (scoreMultiplier >= attacksLandedBeforeAllowingHalfBoardWipe)
+        //{
             if (!halfBoardWipeUsed)
             {
                 if (Input.GetKey(KeyCode.RightArrow) && (Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftShift)))
@@ -348,7 +348,7 @@ public class Player_Attack : MonoBehaviour
                     return;
                 }
             }
-        }
+        //}
 
         // right
         if (Input.GetKeyDown(KeyCode.RightArrow))
