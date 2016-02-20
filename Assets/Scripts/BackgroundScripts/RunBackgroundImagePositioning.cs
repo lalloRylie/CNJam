@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RunBackgroundImagePositioning : MonoBehaviour {
+public class RunBackgroundImagePositioning : MonoBehaviour
+{
 
     public GameObject skySpriteGO;
     public GameObject background1GO;
@@ -21,13 +22,17 @@ public class RunBackgroundImagePositioning : MonoBehaviour {
     GameObject playerGO;
 
     float timer = 0f;
-    float delay = 1f;
+    float delay = 1.5f;
 
     float cloudSpawnTimer = 0f;
     float cloudSpawnDelay = 10f;
 
-	// Use this for initialization
-	void Start () {
+    float checkMaxDistCloudTimer = 0f;
+    float checkMaxDistCloudAmountOfWaitTime = 4f;
+
+    // Use this for initialization
+    void Start()
+    {
         left = background1GO;
         middle = background2GO;
         right = background3GO;
@@ -37,7 +42,7 @@ public class RunBackgroundImagePositioning : MonoBehaviour {
         tempRight = right;
 
         playerGO = GameObject.FindGameObjectWithTag("Player");
-	}
+    }
 
     void InfiniteScrollingBackground()
     {
@@ -101,33 +106,119 @@ public class RunBackgroundImagePositioning : MonoBehaviour {
 
         cloudSpawnTimer += 1f * Time.deltaTime;
 
-        if(cloudSpawnTimer >= cloudSpawnDelay) {
+        if (cloudSpawnTimer >= cloudSpawnDelay)
+        {
             cloudSpawnTimer = 0f;
 
             int randNum = Random.Range(1, 5);
+            Vector3 newPos = new Vector3(playerGO.transform.position.x + (horzExtent + 2f), 5.56f, 0f);
 
-            if(randNum == 1) {
-                Instantiate(cloud1, new Vector3(horzExtent + 2f, 5.56f, 0f), Quaternion.identity);
+            if (randNum == 1)
+            {
+                Instantiate(cloud1, newPos, Quaternion.identity);
             }
             else if (randNum == 2)
             {
-                Instantiate(cloud2, new Vector3(horzExtent + 2f, 5.56f, 0f), Quaternion.identity);
+                Instantiate(cloud2, newPos, Quaternion.identity);
             }
             else if (randNum == 3)
             {
-                Instantiate(cloud3, new Vector3(horzExtent + 2f, 5.56f, 0f), Quaternion.identity);
+                Instantiate(cloud3, newPos, Quaternion.identity);
             }
             else if (randNum == 4)
             {
-                Instantiate(cloud4, new Vector3(horzExtent + 2f, 5.56f, 0f), Quaternion.identity);
+                Instantiate(cloud4, newPos, Quaternion.identity);
             }
 
-            
+
         }
+
+        checkMaxDistCloudTimer += 1f * Time.deltaTime;
+
+        if (checkMaxDistCloudTimer >= checkMaxDistCloudAmountOfWaitTime)
+        {
+            checkMaxDistCloudTimer = 0f;
+
+            GameObject[] clouds = GameObject.FindGameObjectsWithTag("Cloud");
+
+            // for spawning clouds if you're traveling very far to the right
+            foreach (GameObject cloud in clouds)
+            {
+                float dist = cloud.transform.position.x - playerGO.transform.position.x;
+
+                if (dist >= 0f)
+                {
+                    break;
+                }
+
+                if (cloud == clouds[clouds.Length - 1])
+                {
+                    int randNum = Random.Range(1, 5);
+                    Vector3 newPos = new Vector3(playerGO.transform.position.x + (horzExtent + 2f), 5.56f, 0f);
+
+                    if (randNum == 1)
+                    {
+                        Instantiate(cloud1, newPos, Quaternion.identity);
+                    }
+                    else if (randNum == 2)
+                    {
+                        Instantiate(cloud2, newPos, Quaternion.identity);
+                    }
+                    else if (randNum == 3)
+                    {
+                        Instantiate(cloud3, newPos, Quaternion.identity);
+                    }
+                    else if (randNum == 4)
+                    {
+                        Instantiate(cloud4, newPos, Quaternion.identity);
+                    }
+                    break;
+                }
+            }
+
+            // for spawning clouds if you're traveling very far to the left
+            foreach (GameObject cloud in clouds)
+            {
+                float dist = cloud.transform.position.x - playerGO.transform.position.x;
+
+                if (dist <= 0f)
+                {
+                    break;
+                }
+
+                if (cloud == clouds[clouds.Length - 1])
+                {
+                    int randNum = Random.Range(1, 5);
+                    Vector3 newPos = new Vector3(playerGO.transform.position.x - (horzExtent + 2f), 5.56f, 0f);
+
+                    if (randNum == 1)
+                    {
+                        Instantiate(cloud1, newPos, Quaternion.identity);
+                    }
+                    else if (randNum == 2)
+                    {
+                        Instantiate(cloud2, newPos, Quaternion.identity);
+                    }
+                    else if (randNum == 3)
+                    {
+                        Instantiate(cloud3, newPos, Quaternion.identity);
+                    }
+                    else if (randNum == 4)
+                    {
+                        Instantiate(cloud4, newPos, Quaternion.identity);
+                    }
+                    break;
+                }
+            }
+
+        }
+
+
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         // make sky follow camera position
         skySpriteGO.transform.position = new Vector3(camera.transform.position.x, skySpriteGO.transform.position.y, skySpriteGO.transform.position.z);
 
@@ -135,5 +226,5 @@ public class RunBackgroundImagePositioning : MonoBehaviour {
 
         RunCloudSpawner();
 
-	}
+    }
 }

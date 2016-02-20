@@ -13,6 +13,9 @@ public class Player_TakeDamage : MonoBehaviour
 
     public Player_Attack playerAttackScript = null;
 
+    float playerTakeDamageDelayTimer = 0f;
+    float amountOfDelayAfterTakingDamage = 1f;
+
     [HideInInspector]
     public bool canTakeDamage = true;
 
@@ -29,6 +32,8 @@ public class Player_TakeDamage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        playerTakeDamageDelayTimer -= 1f * Time.deltaTime;
+
         if (playerHealth <= 0) {
             gameManager.GetComponent<GameStateControl>().SetGameState(3);
             GetComponent<Player_Attack>().SetPlayerState(3);
@@ -39,11 +44,14 @@ public class Player_TakeDamage : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (playerTakeDamageDelayTimer >= 0f) return;
+
         if (canTakeDamage)
         {
             playerHealth -= damage;
             Trigger_PlayerTakenDamageEvent();
             playerAttackScript.DeductScoreMultiplier(true);
+            playerTakeDamageDelayTimer = amountOfDelayAfterTakingDamage;
         }
 
         if(playerHealth > 0) {

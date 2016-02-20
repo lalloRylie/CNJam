@@ -43,7 +43,7 @@ public class Player_Attack : MonoBehaviour
 
     int attacksLandedBeforeGoingToSecondAttackState = 10;
     int attacksLandedBeforeGoingToThirdAttackState = 20;
-    int attacksLandedBeforeAllowingHalfBoardWipe = 25;
+    int attacksLandedBeforeAllowingHalfBoardWipe = 15;
     int attacksLandedBeforeAllowingFullBoardWipe = 30;
 
     Rigidbody2D playerRB;
@@ -96,29 +96,15 @@ public class Player_Attack : MonoBehaviour
     {
         halfBoardWipeUsed = false;
 
-        if (playerCharge > attacksLandedBeforeAllowingHalfBoardWipe &&
-            playerCharge < attacksLandedBeforeAllowingFullBoardWipe)
+        if (playerCharge >= 20 &&
+            playerCharge < 30)
         {
-            playerCharge = attacksLandedBeforeGoingToSecondAttackState;
+            playerCharge = 10;
             return;
         }
 
-        else if (playerCharge > attacksLandedBeforeGoingToThirdAttackState &&
-                 playerCharge < attacksLandedBeforeAllowingHalfBoardWipe)
-        {
-            playerCharge = attacksLandedBeforeGoingToSecondAttackState;
-            return;
-        }
-
-        else if (playerCharge > attacksLandedBeforeGoingToSecondAttackState &&
-                 playerCharge < attacksLandedBeforeGoingToThirdAttackState)
-        {
-            playerCharge = 0;
-            return;
-        }
-
-        else if (playerCharge > 0 &&
-                 playerCharge < attacksLandedBeforeGoingToSecondAttackState)
+        else if (playerCharge >= 0 &&
+                 playerCharge < 20)
         {
             playerCharge = 0;
             return;
@@ -174,7 +160,7 @@ public class Player_Attack : MonoBehaviour
             targetPosition = transform.position - new Vector3(hitDistance, 0f, 0f);
         }
         // shock attacks
-        else if (attackState == 2 || attackState == 3)
+        else if (attackState == 2)
         {
             // tell enemy to take more damage
             enemy.GetComponent<EnemyTakeDamage>().TakeDamage(2);
@@ -207,7 +193,7 @@ public class Player_Attack : MonoBehaviour
             targetPosition = transform.position + new Vector3(hitDistance, 0f, 0f);
         }
         // shock attacks
-        else if (attackState == 2 || attackState == 3)
+        else if (attackState == 2)
         {
             // tell enemy to take more damage
             enemy.GetComponent<EnemyTakeDamage>().TakeDamage(2);
@@ -472,17 +458,9 @@ public class Player_Attack : MonoBehaviour
 
     void RunAttackStateChange()
     {
-        if (playerCharge > attacksLandedBeforeAllowingHalfBoardWipe &&
-            playerCharge < attacksLandedBeforeAllowingFullBoardWipe)
-        {
-            attackState = 3;
-            range = attackStateTwoRange;
-            Debug.Log("attack state = 3");
-            return;
-        }
-
-        else if (playerCharge >= attacksLandedBeforeGoingToThirdAttackState &&
-                 playerCharge < attacksLandedBeforeAllowingHalfBoardWipe)
+        // shocks
+        if (playerCharge >= 20 &&
+            playerCharge < 30)
         {
             attackState = 2;
             range = attackStateTwoRange;
@@ -490,8 +468,9 @@ public class Player_Attack : MonoBehaviour
             return;
         }
 
-        else if (playerCharge >= attacksLandedBeforeGoingToSecondAttackState &&
-                 playerCharge < attacksLandedBeforeGoingToThirdAttackState)
+        // punches
+        else if (playerCharge >= 10 &&
+                 playerCharge < 20)
         {
             attackState = 1;
             range = attackStateOneRange;
@@ -500,11 +479,11 @@ public class Player_Attack : MonoBehaviour
         }
 
         else if (playerCharge >= 0 &&
-                 playerCharge < attacksLandedBeforeGoingToSecondAttackState)
+                 playerCharge < 10)
         {
             attackState = 0;
             range = attackStateZeroRange;
-            Debug.Log("attack state = 0");
+           // Debug.Log("attack state = 0");
             return;
         }
     }

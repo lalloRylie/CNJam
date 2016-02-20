@@ -3,35 +3,6 @@ using System.Collections;
 
 public class BossBehavior : MonoBehaviour
 {
-    /*
-    BOSS FIGHT:
-    Cry Baby
-        
-    Mechanics:
-    STAGE 1: (You can see Mega Football Baby tied up in the background, maybe just cutscene?)
-        Cry Baby is hovering over the battlefield with his jetpack, raining tears down on Sparko. The rate at which the tears fall will increase over time. 
-        Instead of tapping left and right to attack, the taps will translate into left or right movement. Sparko must dodge tears until he has charged enough to release an EMP 
-        blast to knock Cry Baby out of the sky. 
-    STAGE 2 :
-        Cry Baby's falls to Sparko’s feet. Quick! Punch him before his jetpack regains power! After 4 hits or x seconds Cry Baby takes to the air again.
-    STAGE 3:
-    	Same as STAGE 1;
-    STAGE 4:
-    	Same as STAGE 2, will go back up into the air if he hasn’t been hit 7 times.
-        
-    ** Enter cutscene, that shows Cry Baby getting frustrated and calling in an army of evil robots to 
-    ** swarm Sparko.
-    ** Sparko gets angry?! and is shown rising further into the air and a quicktime event (swipe up)   
-    ** pops up. Sparko releases his EMP blasts which takes out the robot army
-    ** and Cry Baby in one shot. 
-    **
-    ** Show something about Sparko saving Mega Football Baby. Player Wins.
-    */
-
-    //Boss hover height ~= 5.
-    //Patrol between x -10 to 10
-    //Randomly spawn projectiles (bombs) in a random location within some zone (collider), so bomb's aren't as predictable
-
     public int bossState = 0;
     public float bossAirSpeed;
     public Vector3 bossStartPos = new Vector3(0f, 5f, 0f);
@@ -60,12 +31,16 @@ public class BossBehavior : MonoBehaviour
 
     float startAirXPos;
 
+    float startXScale = 0f;
+
     [HideInInspector]
     public bool bossOnGround = false;
 
     BossHealth bossHealthScript;
 
     Player_ControlAnimationState playerAnimScript;
+
+    public GameObject bossSpriteGO = null;
 
     void Cry()
     {      
@@ -129,6 +104,14 @@ public class BossBehavior : MonoBehaviour
     void ChangeDirections()
     {
         isGoingLeft = !isGoingLeft;
+
+        if(!isGoingLeft) {
+            bossSpriteGO.transform.localScale = new Vector3(-startXScale, bossSpriteGO.transform.localScale.y, bossSpriteGO.transform.localScale.z);
+        }
+        else
+        {
+            bossSpriteGO.transform.localScale = new Vector3(startXScale, bossSpriteGO.transform.localScale.y, bossSpriteGO.transform.localScale.z);
+        }
     }
 
     void BossAirMovement()
@@ -164,6 +147,8 @@ public class BossBehavior : MonoBehaviour
         startAirXPos = transform.position.x;
 
         playerAnimScript = player.GetComponentInChildren<Player_ControlAnimationState>();
+
+        startXScale = bossSpriteGO.transform.localScale.x;
     }
 
     IEnumerator TriggerEMP()

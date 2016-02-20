@@ -69,6 +69,16 @@ public class Player_ControlAnimationState : MonoBehaviour
         }
     }
 
+    public void TurnOnPlayerInvincibility()
+    {
+        playerGO.GetComponent<Player_TakeDamage>().canTakeDamage = false;
+    }
+
+    public void TurnOffPlayerInvincibility()
+    {
+        playerGO.GetComponent<Player_TakeDamage>().canTakeDamage = true;
+    }
+
     public void TurnOffPlayerMovement()
     {
         Debug.Log("movement off");
@@ -139,7 +149,7 @@ public class Player_ControlAnimationState : MonoBehaviour
 
         if (punchTimer > 1f)
         {
-            Destroy(tempGO);
+            //Destroy(tempGO);
             SwitchBool(timerBool1);
         }
     }
@@ -152,7 +162,7 @@ public class Player_ControlAnimationState : MonoBehaviour
 
         if (empTimer > 1.5f)
         {
-            Destroy(tempGO);
+            //Destroy(tempGO);
             SwitchBool(timerBool2);
         }
     }
@@ -165,7 +175,7 @@ public class Player_ControlAnimationState : MonoBehaviour
 
         if (shockBlastTimer > 2.1f)
         {
-            Destroy(tempGO);
+           // Destroy(tempGO);
             SwitchBool(timerBool3);
         }
     }
@@ -179,7 +189,7 @@ public class Player_ControlAnimationState : MonoBehaviour
 
         if (dashTimer > 1f)
         {
-            Destroy(tempGO);
+           // Destroy(tempGO);
             SwitchBool(timerBool4);
         }
     }

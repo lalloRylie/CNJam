@@ -8,6 +8,7 @@ public class SpawnEnemies : MonoBehaviour {
     public GameObject gameManager;
 
     float spawnTimer = 0f;
+    float difficultyUpTimer = 0f; 
     float amountOfTimeToWaitToSpawnEnemy = 1.5f;
 
     public Transform playerTransform;
@@ -18,7 +19,15 @@ public class SpawnEnemies : MonoBehaviour {
 	void Start () {
         player = GameObject.FindGameObjectWithTag("Player");
         gameManager = GameObject.FindGameObjectWithTag("GameManager");
+
+        player.GetComponent<Player_TakeDamage>().PlayerTakenDamageEvent += SpawnEnemies_PlayerTakenDamageEvent;
 	}
+
+    void SpawnEnemies_PlayerTakenDamageEvent()
+    {
+        amountOfTimeToWaitToSpawnEnemy = 1.5f;
+        difficultyUpTimer = 5f;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -26,6 +35,13 @@ public class SpawnEnemies : MonoBehaviour {
 
         if (gameManager.GetComponent<GameStateControl>().gameState == 0)
         {
+            difficultyUpTimer += 1f * Time.deltaTime;
+            if (difficultyUpTimer >= 10f)
+            {
+                difficultyUpTimer = 0f;
+                amountOfTimeToWaitToSpawnEnemy = amountOfTimeToWaitToSpawnEnemy * 0.88f;
+            }
+
             spawnTimer += 1f * Time.deltaTime;
             if (spawnTimer >= amountOfTimeToWaitToSpawnEnemy)
             {
@@ -41,6 +57,11 @@ public class SpawnEnemies : MonoBehaviour {
                 else
                 {
                     enemyToSpawn = archibaldPrefab;
+                }
+
+                if (amountOfTimeToWaitToSpawnEnemy >= 1.5f)
+                {
+                    enemyToSpawn = robertPrefab;
                 }
 
                 if (randomInt < 10)
