@@ -26,7 +26,7 @@ public class BossBehavior : MonoBehaviour
     float fallSpeed = 2f;
     float startingFallSpeed = 2f;
 
-    float groundYPos = -2.35f;
+    float groundYPos = -2.74f;
     float airYPos = 4.35f;
 
     float startAirXPos;
@@ -41,6 +41,7 @@ public class BossBehavior : MonoBehaviour
     Player_ControlAnimationState playerAnimScript;
 
     public GameObject bossSpriteGO = null;
+    BossAnimationControllerScript bossAnimScript;
 
     void Cry()
     {      
@@ -116,6 +117,7 @@ public class BossBehavior : MonoBehaviour
 
     void BossAirMovement()
     {
+        bossAnimScript.SetBossAnimState(0);
         float distFromStart = transform.position.x - player.transform.position.x;
 
         if (isGoingLeft)
@@ -149,6 +151,8 @@ public class BossBehavior : MonoBehaviour
         playerAnimScript = player.GetComponentInChildren<Player_ControlAnimationState>();
 
         startXScale = bossSpriteGO.transform.localScale.x;
+
+        bossAnimScript = bossSpriteGO.GetComponent<BossAnimationControllerScript>();
     }
 
     IEnumerator TriggerEMP()
@@ -158,6 +162,7 @@ public class BossBehavior : MonoBehaviour
 
         yield return new WaitForSeconds(0.8f);
 
+        bossAnimScript.SetBossAnimState(1);
         if (bossState == -1) bossState = 1;
         else if (bossState == -5) bossState = 5;
 
@@ -211,6 +216,7 @@ public class BossBehavior : MonoBehaviour
                 bossTimer = 0f;
                 bossOnGround = false;
                 Debug.Log("Going Up");
+                bossAnimScript.SetBossAnimState(2);
             }
             //BossGroundBehavior();
         }
@@ -248,6 +254,7 @@ public class BossBehavior : MonoBehaviour
         }
 
         if(bossState == 5) {
+            bossAnimScript.SetBossAnimState(1);
             // fall towards ground
             transform.Translate((Vector3.down * fallSpeed) * Time.deltaTime);
 
@@ -274,6 +281,7 @@ public class BossBehavior : MonoBehaviour
             bossTimer += 1f * Time.deltaTime;
             if (bossTimer >= 2f)
             {
+                bossAnimScript.SetBossAnimState(2);
                 bossOnGround = false;
                 bossState = 7;
                 bossTimer = 0f;
@@ -283,6 +291,7 @@ public class BossBehavior : MonoBehaviour
 
         if (bossState == 7)
         {
+
             // rise up in the air
             transform.Translate((Vector3.up * fallSpeed) * Time.deltaTime);
 
