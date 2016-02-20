@@ -65,6 +65,8 @@ public class BossBehavior : MonoBehaviour
 
     BossHealth bossHealthScript;
 
+    Player_ControlAnimationState playerAnimScript;
+
     void Cry()
     {      
         float amountOfTimeToWaitToSpawnEnemy = 0.8f;
@@ -77,7 +79,7 @@ public class BossBehavior : MonoBehaviour
         {
             GameObject tear = GameObject.Instantiate<GameObject>(tearPrefab);
             tear.transform.position = spawnPos;
-            tear.GetComponent<tearTest>().fallSpeed = Random.Range(2f, 4f);
+            tear.GetComponent<RunTear>().fallSpeed = Random.Range(2f, 4f);
             cryTimer = 0;
         }
     }
@@ -95,7 +97,7 @@ public class BossBehavior : MonoBehaviour
         //Compare spawn locations of both objects, if they're too close, move them away from eachother.
         if((Mathf.Abs(spawnPos1.x) - Mathf.Abs(spawnPos2.x)) < 1.0f)
         {
-            float offset = 1.0f;
+            float offset = 2.0f;
             if (spawnPos1.x < spawnPos2.x)
             {
                 spawnPos1.x -= offset;
@@ -114,11 +116,11 @@ public class BossBehavior : MonoBehaviour
         {
             GameObject tear1 = GameObject.Instantiate<GameObject>(tearPrefab);
             tear1.transform.position = spawnPos1;
-            tear1.GetComponent<tearTest>().fallSpeed = Random.Range(2f, 4f);
+            tear1.GetComponent<RunTear>().fallSpeed = Random.Range(2f, 4f);
 
             GameObject tear2 = GameObject.Instantiate<GameObject>(tearPrefab);
             tear2.transform.position = spawnPos2;
-            tear2.GetComponent<tearTest>().fallSpeed = Random.Range(2f, 5f);
+            tear2.GetComponent<RunTear>().fallSpeed = Random.Range(2f, 5f);
 
             cryTimer = 0;
         }
@@ -160,6 +162,20 @@ public class BossBehavior : MonoBehaviour
         bossHealthScript = GetComponent<BossHealth>();
 
         startAirXPos = transform.position.x;
+
+        playerAnimScript = player.GetComponentInChildren<Player_ControlAnimationState>();
+    }
+
+    IEnumerator TriggerEMP()
+    {
+        Debug.Log("emp triggered");
+        playerAnimScript.SetAnimState(5);
+
+        yield return new WaitForSeconds(0.8f);
+
+        if (bossState == -1) bossState = 1;
+        else if (bossState == -5) bossState = 5;
+
     }
 
     // Update is called once per frame
@@ -171,7 +187,8 @@ public class BossBehavior : MonoBehaviour
             bossTimer += 1.0f * Time.deltaTime;
             if(bossTimer >= 5f) {
                 bossTimer = 0f;
-                bossState = 1;
+                bossState = -1;
+                StartCoroutine(TriggerEMP());
             }
 
             BossAirMovement();
@@ -237,7 +254,8 @@ public class BossBehavior : MonoBehaviour
             if (bossTimer >= 5f)
             {
                 bossTimer = 0f;
-                bossState = 5;
+                bossState = -5;
+                StartCoroutine(TriggerEMP());
             }
 
             BossAirMovement();

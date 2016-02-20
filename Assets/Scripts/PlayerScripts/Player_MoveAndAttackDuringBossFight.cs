@@ -23,6 +23,11 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
 
     public GameObject playerSpriteGO = null;
 
+    [HideInInspector]
+    public bool playerCanMove = true;
+
+    public Player_Score playerScoreScript = null;
+
     // Use this for initialization
     void Start()
     {
@@ -43,6 +48,12 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
 
         // deal damage to boss
         bossGO.GetComponent<BossHealth>().health--;
+
+        // add one to multiplier
+        playerAttackScript.scoreMultiplier++;
+
+        // add points
+        playerScoreScript.score += 10 * playerAttackScript.scoreMultiplier;
     }
 
     void RightAttackBoss()
@@ -57,6 +68,12 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
 
         // deal damage to boss
         bossGO.GetComponent<BossHealth>().health--;
+
+        // add one to multiplier
+        playerAttackScript.scoreMultiplier++;
+
+        // add points
+        playerScoreScript.score += 10 * playerAttackScript.scoreMultiplier;
     }
 
     void MovePlayer()
@@ -79,6 +96,7 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
         }
 
         if (bossGO == null) return;
+        if (!playerCanMove) return;
 
         MovePlayer();
 

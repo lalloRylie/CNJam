@@ -69,6 +69,20 @@ public class Player_ControlAnimationState : MonoBehaviour
         }
     }
 
+    public void TurnOffPlayerMovement()
+    {
+        Debug.Log("movement off");
+        playerGO.GetComponent<Player_MoveAndAttackDuringBossFight>().playerCanMove = false;
+        playerGO.GetComponent<Player_Attack>().playerCanMove = false;
+    }
+
+    public void TurnOnPlayerMovement()
+    {
+        Debug.Log("movement on");
+        playerGO.GetComponent<Player_MoveAndAttackDuringBossFight>().playerCanMove = true;
+        playerGO.GetComponent<Player_Attack>().playerCanMove = true;
+    }
+
     public void ApplyFullBoardWipeDamage()
     {
         playerAttackScript.BoardWipeEMP();
@@ -109,6 +123,11 @@ public class Player_ControlAnimationState : MonoBehaviour
             //shoot blast right
             projectile.transform.position = new Vector3(transform.position.x + 8f, -1f, 0f);
         }
+    }
+
+    public void FullSizedShockBlast()
+    {
+
     }
 
     public void Punch_SFX()

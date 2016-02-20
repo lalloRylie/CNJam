@@ -11,8 +11,14 @@ public class Player_TakeDamage : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Animator playerAnim;
 
+    public Player_Attack playerAttackScript = null;
+
     [HideInInspector]
     public bool canTakeDamage = true;
+
+    public delegate void PlayerTakenDamageDelegate();
+    public event PlayerTakenDamageDelegate PlayerTakenDamageEvent = null;
+    public void Trigger_PlayerTakenDamageEvent() { if (PlayerTakenDamageEvent != null) PlayerTakenDamageEvent(); }
 
     // Use this for initialization
     void Start()
@@ -33,9 +39,15 @@ public class Player_TakeDamage : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (canTakeDamage) playerHealth -= damage;
+        if (canTakeDamage)
+        {
+            playerHealth -= damage;
+            Trigger_PlayerTakenDamageEvent();
+            playerAttackScript.DeductScoreMultiplier(true);
+        }
 
         if(playerHealth > 0) {
+            // set the player to dead anim
             GetComponentInChildren<Player_ControlAnimationState>().SetAnimState(5);
         }        
     }

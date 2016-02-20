@@ -5,7 +5,8 @@ public class GameStateControl : MonoBehaviour {
 
     public int gameState = 0;
     float gameTimer = 0f;
-    float engageBossAfterTime = 60f;
+   // float engageBossAfterTime = 60f;
+    public float engageBossAfterTime = 10f;
     public GameObject bossPrefab = null;
 
     CutScene_TransitionToBoss cutScene;

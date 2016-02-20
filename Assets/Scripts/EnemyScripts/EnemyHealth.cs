@@ -4,6 +4,7 @@ using System.Collections;
 public class EnemyHealth : MonoBehaviour {
 
     public int health = 1;
+    public int amountOfPointsWorth = 10;
 
 	// Use this for initialization
 	void Start () {

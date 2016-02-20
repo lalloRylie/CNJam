@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CutScene_TransitionToBoss : MonoBehaviour {
+public class CutScene_TransitionToBoss : MonoBehaviour
+{
 
     public bool render = false;
-    private const int width = 900;
-    private const int height = 600;
-    private Rect terminalMainWnd = new Rect(0f, 0f, width, height);
+    private int width = 900;
+    private int height = 600;
+    private Rect terminalMainWnd = new Rect(0f, 0f, Screen.width, Screen.height);
     int cutSceneState = 0;
 
     public Texture scene1;
@@ -15,18 +16,29 @@ public class CutScene_TransitionToBoss : MonoBehaviour {
 
     public GameObject boss;
 
-    //Screen.width / 2 - (width / 2), Screen.height / 2 - (height / 2)
+    float timer = 0f;
+    float delay = 0.2f;
 
+    //Screen.width / 2 - (width / 2), Screen.height / 2 - (height / 2)
 
     void Start()
     {
-        
+        timer = delay;
     }
 
     void Update()
     {
+        if(GetComponent<GameStateControl>().gameState != 1) return;
+
+        timer -= 1f * Time.deltaTime;
+        if (timer > 0f) return;
+
         if (Input.GetMouseButtonDown(0))
+        {
             cutSceneState++;
+            timer = delay;
+        }
+
     }
 
     public void StartCutScene()
@@ -43,12 +55,11 @@ public class CutScene_TransitionToBoss : MonoBehaviour {
     {
         if (render)
             terminalMainWnd = GUI.Window(0, terminalMainWnd, WindowFunction, "");
-
     }
 
     void WindowFunction(int windowID)
     {
-        switch(cutSceneState)
+        switch (cutSceneState)
         {
             case 0:
                 cutSceneState = 1;
@@ -69,7 +80,6 @@ public class CutScene_TransitionToBoss : MonoBehaviour {
                 cutSceneState = 5;
                 break;
         }
-        
-        
+
     }
 }

@@ -13,7 +13,7 @@ public class Text_DisplayHealth : MonoBehaviour {
 	    healthText = GetComponent<Text>();
         playerGO = GameObject.FindGameObjectWithTag("Player");
         playerTakeDamageScript = playerGO.GetComponent<Player_TakeDamage>();
-        Debug.Log(playerTakeDamageScript);
+        //Debug.Log(playerTakeDamageScript);
 	}
 	
 	// Update is called once per frame

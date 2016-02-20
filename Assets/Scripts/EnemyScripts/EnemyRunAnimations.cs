@@ -8,11 +8,17 @@ public class EnemyRunAnimations : MonoBehaviour {
 
     public GameObject robotDeathSFX;
 
+    Player_Score playerScoreScript = null;
+    Player_Attack playerAttackScript = null;
+
+    public EnemyHealth enemyHealthScript = null;
+
     public float timer = 0f;
 
     // Use this for initialization
     void Start () {
-	
+        playerScoreScript = GameObject.Find("Player").GetComponent<Player_Score>();
+        playerAttackScript = GameObject.Find("Player").GetComponent<Player_Attack>();
 	}
 	
 	// Update is called once per frame
@@ -30,6 +36,7 @@ public class EnemyRunAnimations : MonoBehaviour {
 
     public void DeleteEnemy()
     {
+        playerScoreScript.score += playerAttackScript.scoreMultiplier * enemyHealthScript.amountOfPointsWorth;
         Destroy(transform.parent.gameObject);
     }
 

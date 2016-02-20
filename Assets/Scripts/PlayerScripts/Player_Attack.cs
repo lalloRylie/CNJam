@@ -57,6 +57,11 @@ public class Player_Attack : MonoBehaviour
 
     public bool halfBoardWipeSideOnLeft = false;
 
+    public bool playerCanMove = true;
+
+    public float playerCharge = 0f;
+    public float maxCharge = 30f;
+
     // Use this for initialization
     void Start()
     {
@@ -71,35 +76,51 @@ public class Player_Attack : MonoBehaviour
         playerState = state;
     }
 
-    void DeductScoreMultiplier()
+    public void DeductScoreMultiplier(bool takenDamage)
+    {
+        DeductCharge();
+
+        halfBoardWipeUsed = false;
+
+        if(takenDamage) {
+            scoreMultiplier = (int)(scoreMultiplier * 0.5f);
+        }
+        else
+        {
+            scoreMultiplier = (int)(scoreMultiplier * 0.75f);
+        }
+
+    }
+
+    void DeductCharge()
     {
         halfBoardWipeUsed = false;
 
-        if (scoreMultiplier > attacksLandedBeforeAllowingHalfBoardWipe &&
-            scoreMultiplier < attacksLandedBeforeAllowingFullBoardWipe)
+        if (playerCharge > attacksLandedBeforeAllowingHalfBoardWipe &&
+            playerCharge < attacksLandedBeforeAllowingFullBoardWipe)
         {
-            scoreMultiplier = attacksLandedBeforeGoingToThirdAttackState;
+            playerCharge = attacksLandedBeforeGoingToSecondAttackState;
             return;
         }
 
-        else if (scoreMultiplier > attacksLandedBeforeGoingToThirdAttackState &&
-                 scoreMultiplier < attacksLandedBeforeAllowingHalfBoardWipe)
+        else if (playerCharge > attacksLandedBeforeGoingToThirdAttackState &&
+                 playerCharge < attacksLandedBeforeAllowingHalfBoardWipe)
         {
-            scoreMultiplier = attacksLandedBeforeGoingToSecondAttackState;
+            playerCharge = attacksLandedBeforeGoingToSecondAttackState;
             return;
         }
 
-        else if (scoreMultiplier > attacksLandedBeforeGoingToSecondAttackState &&
-                 scoreMultiplier < attacksLandedBeforeGoingToThirdAttackState)
+        else if (playerCharge > attacksLandedBeforeGoingToSecondAttackState &&
+                 playerCharge < attacksLandedBeforeGoingToThirdAttackState)
         {
-            scoreMultiplier = 0;
+            playerCharge = 0;
             return;
         }
 
-        else if (scoreMultiplier > 0 &&
-                 scoreMultiplier < attacksLandedBeforeGoingToSecondAttackState)
+        else if (playerCharge > 0 &&
+                 playerCharge < attacksLandedBeforeGoingToSecondAttackState)
         {
-            scoreMultiplier = 0;
+            playerCharge = 0;
             return;
         }
 
@@ -114,7 +135,7 @@ public class Player_Attack : MonoBehaviour
         targetPosition = transform.position + new Vector3(missMoveDistance, 0f, 0f);
         attackMissDelayTimer = attackDelayAfterMiss;
 
-        DeductScoreMultiplier();
+        DeductScoreMultiplier(false);
     }
 
     void PlayerMissedLeft()
@@ -126,7 +147,8 @@ public class Player_Attack : MonoBehaviour
         targetPosition = transform.position + new Vector3(-missMoveDistance, 0f, 0f);
         attackMissDelayTimer = attackDelayAfterMiss;
 
-        DeductScoreMultiplier();
+        DeductScoreMultiplier(false);
+        
     }
 
     void PlayerLeftHit(GameObject enemy, float hitDistance, float colliderWidth)
@@ -160,7 +182,6 @@ public class Player_Attack : MonoBehaviour
             lerpSpeed = missLerpSpeed;
             targetPosition = transform.position - new Vector3(colliderWidth, 0f, 0f);
         }
-
     }
 
     void PlayerRightHit(GameObject enemy, float hitDistance, float colliderWidth)
@@ -198,7 +219,6 @@ public class Player_Attack : MonoBehaviour
 
     public void BoardWipeEMP()
     {
-        scoreMultiplier = 0;
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in enemies)
         {
@@ -206,6 +226,7 @@ public class Player_Attack : MonoBehaviour
             enemy.GetComponent<EnemyTakeDamage>().TakeDamage(10);
         }
 
+        playerCharge = 0;
         halfBoardWipeUsed = false;
     }
 
@@ -254,7 +275,7 @@ public class Player_Attack : MonoBehaviour
             return;
         }
 
-        if (scoreMultiplier >= attacksLandedBeforeAllowingFullBoardWipe)
+        if (playerCharge >= attacksLandedBeforeAllowingFullBoardWipe)
         {
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(5);
             //BoardWipeEMP();
@@ -329,7 +350,7 @@ public class Player_Attack : MonoBehaviour
 
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
 
-        if (scoreMultiplier >= attacksLandedBeforeAllowingHalfBoardWipe)
+        if (playerCharge >= attacksLandedBeforeAllowingHalfBoardWipe)
         {
             if (!halfBoardWipeUsed)
             {
@@ -451,8 +472,8 @@ public class Player_Attack : MonoBehaviour
 
     void RunAttackStateChange()
     {
-        if (scoreMultiplier > attacksLandedBeforeAllowingHalfBoardWipe &&
-            scoreMultiplier < attacksLandedBeforeAllowingFullBoardWipe)
+        if (playerCharge > attacksLandedBeforeAllowingHalfBoardWipe &&
+            playerCharge < attacksLandedBeforeAllowingFullBoardWipe)
         {
             attackState = 3;
             range = attackStateTwoRange;
@@ -460,8 +481,8 @@ public class Player_Attack : MonoBehaviour
             return;
         }
 
-        else if (scoreMultiplier >= attacksLandedBeforeGoingToThirdAttackState &&
-                 scoreMultiplier < attacksLandedBeforeAllowingHalfBoardWipe)
+        else if (playerCharge >= attacksLandedBeforeGoingToThirdAttackState &&
+                 playerCharge < attacksLandedBeforeAllowingHalfBoardWipe)
         {
             attackState = 2;
             range = attackStateTwoRange;
@@ -469,8 +490,8 @@ public class Player_Attack : MonoBehaviour
             return;
         }
 
-        else if (scoreMultiplier >= attacksLandedBeforeGoingToSecondAttackState &&
-                 scoreMultiplier < attacksLandedBeforeGoingToThirdAttackState)
+        else if (playerCharge >= attacksLandedBeforeGoingToSecondAttackState &&
+                 playerCharge < attacksLandedBeforeGoingToThirdAttackState)
         {
             attackState = 1;
             range = attackStateOneRange;
@@ -478,8 +499,8 @@ public class Player_Attack : MonoBehaviour
             return;
         }
 
-        else if (scoreMultiplier >= 0 &&
-                 scoreMultiplier < attacksLandedBeforeGoingToSecondAttackState)
+        else if (playerCharge >= 0 &&
+                 playerCharge < attacksLandedBeforeGoingToSecondAttackState)
         {
             attackState = 0;
             range = attackStateZeroRange;
@@ -491,6 +512,7 @@ public class Player_Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!playerCanMove) return;
 
         switch (playerState) {
             //Idle state - do nothing
