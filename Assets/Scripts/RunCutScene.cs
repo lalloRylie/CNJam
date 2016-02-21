@@ -10,8 +10,8 @@ public class RunCutScene : MonoBehaviour {
     public Sprite image4 = null;
     public Sprite image5 = null;
 
-    float timer = 0f;
-    float delay = 0.3f;
+    float timer = 0.2f;
+    float delay = 0.2f;
 
     Image imageComp;
 
@@ -27,7 +27,8 @@ public class RunCutScene : MonoBehaviour {
 
         if (timer > 0f) return;
 
-        if(Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
             if(imageComp.sprite == image1) {
                 imageComp.sprite = image2;
                 timer = delay;

@@ -36,12 +36,13 @@ public class EnemyRunAnimations : MonoBehaviour {
 
     public void DeleteEnemy()
     {
-        playerScoreScript.score += playerAttackScript.scoreMultiplier * enemyHealthScript.amountOfPointsWorth;
+        
         Destroy(transform.parent.gameObject);
     }
 
     public void DisableCollider()
     {
+        playerScoreScript.score += playerAttackScript.scoreMultiplier * enemyHealthScript.amountOfPointsWorth;
         collider.SetActive(false);
     }
 

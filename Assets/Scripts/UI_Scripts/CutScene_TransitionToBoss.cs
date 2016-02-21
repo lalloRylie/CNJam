@@ -16,7 +16,7 @@ public class CutScene_TransitionToBoss : MonoBehaviour
 
     public GameObject boss;
 
-    float timer = 0f;
+    float timer = 0.2f;
     float delay = 0.2f;
 
     //Screen.width / 2 - (width / 2), Screen.height / 2 - (height / 2)
@@ -33,7 +33,7 @@ public class CutScene_TransitionToBoss : MonoBehaviour
         timer -= 1f * Time.deltaTime;
         if (timer > 0f) return;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))  
         {
             cutSceneState++;
             timer = delay;
