@@ -146,6 +146,7 @@ public class Player_Attack : MonoBehaviour
         {
             // tell enemy to take damage
             enemy.GetComponent<EnemyTakeDamage>().TakeDamage(1);
+            playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(1);
             lerpSpeed = attackStateZeroLerpSpeed;
             targetPosition = enemy.transform.position - new Vector3(colliderWidth, 0f, 0f);
@@ -155,6 +156,7 @@ public class Player_Attack : MonoBehaviour
         {
             // tell enemy to take damage
             enemy.GetComponent<EnemyTakeDamage>().TakeDamage(1);
+            playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(3);
             lerpSpeed = missLerpSpeed;
             targetPosition = transform.position - new Vector3(hitDistance, 0f, 0f);
@@ -164,6 +166,7 @@ public class Player_Attack : MonoBehaviour
         {
             // tell enemy to take more damage
             enemy.GetComponent<EnemyTakeDamage>().TakeDamage(2);
+            playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(4);
             lerpSpeed = missLerpSpeed;
             targetPosition = transform.position - new Vector3(colliderWidth, 0f, 0f);
@@ -179,6 +182,7 @@ public class Player_Attack : MonoBehaviour
         {
             // tell enemy to take damage
             enemy.GetComponent<EnemyTakeDamage>().TakeDamage(1);
+            playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(1);
             lerpSpeed = attackStateZeroLerpSpeed;
             targetPosition = enemy.transform.position + new Vector3(colliderWidth, 0f, 0f);
@@ -188,6 +192,7 @@ public class Player_Attack : MonoBehaviour
         {
             // tell enemy to take damage
             enemy.GetComponent<EnemyTakeDamage>().TakeDamage(1);
+            playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(3);
             lerpSpeed = missLerpSpeed;
             targetPosition = transform.position + new Vector3(hitDistance, 0f, 0f);
@@ -197,6 +202,7 @@ public class Player_Attack : MonoBehaviour
         {
             // tell enemy to take more damage
             enemy.GetComponent<EnemyTakeDamage>().TakeDamage(2);
+            playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(4);
             lerpSpeed = missLerpSpeed;
             targetPosition = transform.position + new Vector3(colliderWidth, 0f, 0f);
