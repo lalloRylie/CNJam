@@ -10,7 +10,7 @@ public class Player_ControlAnimationState : MonoBehaviour
 
     public GameObject zapProjectile;
     public GameObject shockBlastProjectile;
-
+    public GameObject empProjectile;
 
     public GameObject punchSFX;
     public GameObject ShockBlastSFX;
@@ -40,7 +40,7 @@ public class Player_ControlAnimationState : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(timerBool1)
+        if (timerBool1)
             punchTimer += 1f * Time.deltaTime;
 
         if (timerBool1)
@@ -56,7 +56,8 @@ public class Player_ControlAnimationState : MonoBehaviour
             zapTimer += 1f * Time.deltaTime;
     }
 
-    void SwitchBool(bool timerBool) {
+    void SwitchBool(bool timerBool)
+    {
         timerBool = !timerBool;
     }
 
@@ -135,63 +136,31 @@ public class Player_ControlAnimationState : MonoBehaviour
         }
     }
 
-    public void FullSizedShockBlast()
+    public void EMP()
     {
-
+        GameObject projectile = GameObject.Instantiate<GameObject>(empProjectile);
     }
 
     public void Punch_SFX()
     {
-        SwitchBool(timerBool1);
-        punchTimer = 0f;
-
         GameObject tempGO = GameObject.Instantiate<GameObject>(punchSFX);
-
-        if (punchTimer > 1f)
-        {
-            //Destroy(tempGO);
-            SwitchBool(timerBool1);
-        }
     }
 
     public void EMP_SFX()
     {
-        empTimer = 0f;
-
         GameObject tempGO = GameObject.Instantiate<GameObject>(empSFX);
-
-        if (empTimer > 1.5f)
-        {
-            //Destroy(tempGO);
-            SwitchBool(timerBool2);
-        }
     }
 
     public void ShockBlast_SFX()
     {
-        shockBlastTimer = 0f;
 
         GameObject tempGO = GameObject.Instantiate<GameObject>(ShockBlastSFX);
-
-        if (shockBlastTimer > 2.1f)
-        {
-           // Destroy(tempGO);
-            SwitchBool(timerBool3);
-        }
     }
 
     public void Dash_SFX()
     {
-        dashTimer = 0f;
-
         GameObject tempGO = GameObject.Instantiate<GameObject>(dashSFX);
         tempGO.GetComponent<AudioSource>().time = 0.2f;
-
-        if (dashTimer > 1f)
-        {
-           // Destroy(tempGO);
-            SwitchBool(timerBool4);
-        }
     }
 
     //public void Zap_SFX()
