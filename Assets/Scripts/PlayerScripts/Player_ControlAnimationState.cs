@@ -139,6 +139,7 @@ public class Player_ControlAnimationState : MonoBehaviour
     public void EMP()
     {
         GameObject projectile = GameObject.Instantiate<GameObject>(empProjectile);
+        projectile.transform.position = new Vector3(transform.position.x, -2f, 0f);
     }
 
     public void Punch_SFX()
