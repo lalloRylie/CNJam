@@ -3,8 +3,9 @@ using System.Collections;
 
 public class BossTakeDamage : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    public GameObject playerHitEnemyParticlePrefab = null;
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
@@ -13,8 +14,9 @@ public class BossTakeDamage : MonoBehaviour {
 	
 	}
 
-    void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         GetComponent<BossHealth>().health -= damage;
+        Instantiate(playerHitEnemyParticlePrefab, transform.position, Quaternion.identity);
     }
 }

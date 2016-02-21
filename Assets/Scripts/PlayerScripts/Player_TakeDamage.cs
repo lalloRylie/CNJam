@@ -13,8 +13,8 @@ public class Player_TakeDamage : MonoBehaviour
 
     public Player_Attack playerAttackScript = null;
 
-    float playerTakeDamageDelayTimer = 0f;
-    float amountOfDelayAfterTakingDamage = 1f;
+    public float playerTakeDamageDelayTimer = 0f;
+    public float amountOfDelayAfterTakingDamage = 1f;
 
     [HideInInspector]
     public bool canTakeDamage = true;
@@ -55,7 +55,7 @@ public class Player_TakeDamage : MonoBehaviour
         }
 
         if(playerHealth > 0) {
-            // set the player to dead anim
+            // set the player to emp
             GetComponentInChildren<Player_ControlAnimationState>().SetAnimState(5);
         }        
     }

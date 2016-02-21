@@ -43,6 +43,10 @@ public class BossBehavior : MonoBehaviour
     public GameObject bossSpriteGO = null;
     BossAnimationControllerScript bossAnimScript;
 
+    Player_Attack playerAttackScript = null;
+
+    float amountOfAirTime = 8f;
+
     void Cry()
     {      
         float amountOfTimeToWaitToSpawnEnemy = 0.8f;
@@ -153,11 +157,12 @@ public class BossBehavior : MonoBehaviour
         startXScale = bossSpriteGO.transform.localScale.x;
 
         bossAnimScript = bossSpriteGO.GetComponent<BossAnimationControllerScript>();
+        playerAttackScript = player.GetComponent<Player_Attack>();
     }
 
     IEnumerator TriggerEMP()
     {
-        Debug.Log("emp triggered");
+        //Debug.Log("emp triggered");
         playerAnimScript.SetAnimState(5);
 
         yield return new WaitForSeconds(0.8f);
@@ -171,14 +176,20 @@ public class BossBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (bossHealthScript.isBossDead) return;
         // fly around and shoot tears, after some time, we'll get emp'd by sparko, causing crybaby to fall
         if (bossState == 0)
         {
             bossTimer += 1.0f * Time.deltaTime;
-            if(bossTimer >= 5f) {
+            float chargeAmount = DataCore.Remap(bossTimer, 0f, amountOfAirTime, 0f, 30f);
+            playerAttackScript.playerCharge = chargeAmount;
+            
+            if(bossTimer >= amountOfAirTime) {
                 bossTimer = 0f;
                 bossState = -1;
                 StartCoroutine(TriggerEMP());
+
+                bossAirSpeed += 2;
             }
 
             BossAirMovement();
@@ -200,7 +211,7 @@ public class BossBehavior : MonoBehaviour
                 fallSpeed = startingFallSpeed;
                 bossState = 2;
                 bossOnGround = true;
-                Debug.Log("on ground");
+                //Debug.Log("on ground");
             }
         }
 
@@ -217,6 +228,7 @@ public class BossBehavior : MonoBehaviour
                 bossOnGround = false;
                 Debug.Log("Going Up");
                 bossAnimScript.SetBossAnimState(2);
+
             }
             //BossGroundBehavior();
         }
@@ -235,14 +247,17 @@ public class BossBehavior : MonoBehaviour
                 bossState = 4;
                 // turn on float script
                 bossFloatSpriteScript.enabled = true;
-                Debug.Log("in air");
+               // Debug.Log("in air");
             }
         }
 
         if(bossState == 4) {
             // cry more!
             bossTimer += 1.0f * Time.deltaTime;
-            if (bossTimer >= 5f)
+            float chargeAmount = DataCore.Remap(bossTimer, 0f, amountOfAirTime, 0f, 30f);
+            playerAttackScript.playerCharge = chargeAmount;
+
+            if (bossTimer >= amountOfAirTime)
             {
                 bossTimer = 0f;
                 bossState = -5;
@@ -269,7 +284,7 @@ public class BossBehavior : MonoBehaviour
                 fallSpeed = startingFallSpeed;
                 bossState = 6;
                 bossOnGround = true;
-                Debug.Log("on ground");
+               // Debug.Log("on ground");
             }
         }
 
@@ -285,7 +300,7 @@ public class BossBehavior : MonoBehaviour
                 bossOnGround = false;
                 bossState = 7;
                 bossTimer = 0f;
-                Debug.Log("Going Up");
+                //Debug.Log("Going Up");
             }
         }
 
@@ -304,7 +319,7 @@ public class BossBehavior : MonoBehaviour
                 bossState = 4;
                 // turn on float script
                 bossFloatSpriteScript.enabled = true;
-                Debug.Log("in air");
+                //Debug.Log("in air");
             }
         }
 

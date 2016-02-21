@@ -82,14 +82,14 @@ public class Player_ControlAnimationState : MonoBehaviour
 
     public void TurnOffPlayerMovement()
     {
-        Debug.Log("movement off");
+        //Debug.Log("movement off");
         playerGO.GetComponent<Player_MoveAndAttackDuringBossFight>().playerCanMove = false;
         playerGO.GetComponent<Player_Attack>().playerCanMove = false;
     }
 
     public void TurnOnPlayerMovement()
     {
-        Debug.Log("movement on");
+        //Debug.Log("movement on");
         playerGO.GetComponent<Player_MoveAndAttackDuringBossFight>().playerCanMove = true;
         playerGO.GetComponent<Player_Attack>().playerCanMove = true;
     }

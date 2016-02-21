@@ -7,6 +7,11 @@ public class BossHealth : MonoBehaviour {
     public int health = 7;
     public int startHealth = 7;
 
+    public bool isBossDead = false;
+
+    public BossAnimationControllerScript bossAnimControllerScript = null;
+    public BossBehavior bossBehaviorScript = null;
+
 	// Use this for initialization
 	void Start () {
         health = startHealth;
@@ -15,11 +20,9 @@ public class BossHealth : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (health <= 0) {
-            //GetComponent<BossBehavior>().bossState = 3;
+            bossAnimControllerScript.SetBossAnimState(3);
             Debug.Log("boss died");
-            GameObject.Find("GameManager").GetComponent<GameStateControl>().isBossDead = true;
-           // StartCoroutine(GoToMenu());
-            Destroy(gameObject);
+            isBossDead = true;
             
         }
 	}

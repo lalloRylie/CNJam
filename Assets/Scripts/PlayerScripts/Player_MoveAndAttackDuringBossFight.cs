@@ -28,6 +28,8 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
 
     public Player_Score playerScoreScript = null;
 
+    BossBehavior bossBehaviorScript = null;
+
     // Use this for initialization
     void Start()
     {
@@ -47,7 +49,7 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
         playerAnimScript.SetAnimState(1);
 
         // deal damage to boss
-        bossGO.GetComponent<BossHealth>().health--;
+        bossGO.GetComponent<BossTakeDamage>().TakeDamage(1);
 
         // add one to multiplier
         playerAttackScript.scoreMultiplier++;
@@ -67,7 +69,7 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
         playerAnimScript.SetAnimState(1);
 
         // deal damage to boss
-        bossGO.GetComponent<BossHealth>().health--;
+        bossGO.GetComponent<BossTakeDamage>().TakeDamage(1);
 
         // add one to multiplier
         playerAttackScript.scoreMultiplier++;
@@ -76,14 +78,17 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
         playerScoreScript.score += 10 * playerAttackScript.scoreMultiplier;
     }
 
-    void MovePlayer()
+    void TranslateCharacter()
     {
         Vector2 targetPos = targetPosition - transform.position;
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * playerAttackScript.attackStateZeroLerpSpeed);
     }
 
+    BossHealth bossHealthScript = null;
+
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         if (gameStateControlScript.gameState != 2)
         {
             return;
@@ -93,46 +98,58 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
         {
             bossGO = GameObject.FindGameObjectWithTag("Boss");
             targetPosition = transform.position;
+            return;
         }
 
         if (bossGO == null) return;
+
+        if (bossBehaviorScript == null) bossBehaviorScript = bossGO.GetComponent<BossBehavior>();
+    
+        if (bossBehaviorScript == null) return;
         if (!playerCanMove) return;
 
-        MovePlayer();
+        TranslateCharacter();
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            // is boss on ground?
-            if(bossGO.GetComponent<BossBehavior>().bossOnGround) {
-                // then get distance from boss
-                float xDist = bossGO.transform.position.x - transform.position.x;
-                // if you're close enough, dodge attack the boss, then return so you don't translate
-                if (xDist <= playerAttackScript.attackStateZeroRange*1.5f && xDist < 0f)
-                {
-                    LeftAttackBoss();
-                    playerSpriteGO.transform.localScale = new Vector3(playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
-                    return;
-                }
-            }
-        }
+        if (bossHealthScript == null) bossHealthScript = bossGO.GetComponent<BossHealth>();
 
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (!bossHealthScript.isBossDead)
         {
-            Debug.Log(bossGO.transform.position.x - transform.position.x);
-            // is boss on ground?
-            if (bossGO.GetComponent<BossBehavior>().bossOnGround)
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                // then get distance from boss
-                float xDist = bossGO.transform.position.x - transform.position.x;
-                // if you're close enough, dodge attack the boss, then return so you don't translate
-                if (xDist <= playerAttackScript.attackStateZeroRange * 1.5f && xDist > 0f)
+                // is boss on ground?
+                if (bossBehaviorScript.bossOnGround)
                 {
-                    RightAttackBoss();
-                    playerSpriteGO.transform.localScale = new Vector3(-playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
-                    return;
+                    // then get distance from boss
+                    float xDist = bossGO.transform.position.x - transform.position.x;
+                    // if you're close enough, dodge attack the boss, then return so you don't translate
+                    if (xDist <= playerAttackScript.attackStateZeroRange * 1.5f && xDist < 0f)
+                    {
+                        LeftAttackBoss();
+                        playerSpriteGO.transform.localScale = new Vector3(playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
+                        return;
+                    }
+                }
+            }
+
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                //Debug.Log(bossGO.transform.position.x - transform.position.x);
+                // is boss on ground?
+                if (bossBehaviorScript.bossOnGround)
+                {
+                    // then get distance from boss
+                    float xDist = bossGO.transform.position.x - transform.position.x;
+                    // if you're close enough, dodge attack the boss, then return so you don't translate
+                    if (xDist <= playerAttackScript.attackStateZeroRange * 1.5f && xDist > 0f)
+                    {
+                        RightAttackBoss();
+                        playerSpriteGO.transform.localScale = new Vector3(-playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
+                        return;
+                    }
                 }
             }
         }
+
 
         // move
         if (Input.GetKey(KeyCode.LeftArrow))
@@ -149,5 +166,5 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
             //transform.Translate((Vector3.right * playerSpeed) * Time.deltaTime);
         }
 
-	}
+    }
 }

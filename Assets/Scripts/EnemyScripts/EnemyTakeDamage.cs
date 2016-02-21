@@ -5,7 +5,7 @@ public class EnemyTakeDamage : MonoBehaviour
 {
 
     Player_Attack playerAttackScript = null;
-    
+    public GameObject playerHitEnemyParticlePrefab = null;
 
     // Use this for initialization
     void Start()
@@ -23,6 +23,7 @@ public class EnemyTakeDamage : MonoBehaviour
     public void TakeDamage(int damage)
     {
         GetComponent<EnemyHealth>().health -= damage;
+        Instantiate(playerHitEnemyParticlePrefab, transform.position, Quaternion.identity);
 
         if (playerAttackScript.playerCharge < playerAttackScript.maxCharge)
         {

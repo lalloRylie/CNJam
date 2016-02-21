@@ -11,7 +11,10 @@ public class GameStateControl : MonoBehaviour {
 
     CutScene_TransitionToBoss cutScene;
 
-    public bool isBossDead = false;
+    GameObject bossGO = null;
+    BossHealth bossHealthScript = null;
+
+    //public bool isBossDead = false;
 
     // Use this for initialization
     void Start () {
@@ -44,12 +47,7 @@ public class GameStateControl : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (isBossDead && !winScreenTriggered)
-        {
-            StartCoroutine(GoToMenu());
-            winScreenTriggered = true;
-        }
-
+    
         switch (gameState) {
             //Enemy battle state
             case 0:
@@ -78,7 +76,27 @@ public class GameStateControl : MonoBehaviour {
                 StartCoroutine(InitiateLoseScreen());
                 break;
         }
-	}
+
+        if(bossGO == null)
+        {
+            bossGO = GameObject.FindGameObjectWithTag("Boss");
+        }
+
+        if (bossGO == null) return;
+
+        if(bossHealthScript == null)
+        {
+            bossHealthScript = bossGO.GetComponent<BossHealth>();
+        }
+
+        if (bossHealthScript == null) return;
+
+        if (bossHealthScript.isBossDead && !winScreenTriggered)
+        {
+            StartCoroutine(GoToMenu());
+            winScreenTriggered = true;
+        }
+    }
 
     public void SetGameState(int state)
     {

@@ -7,16 +7,23 @@ public class RunChargeBar : MonoBehaviour {
     public GameObject playerGO = null;
     public Player_Attack playerAttackScript = null;
 
+    float chargeAmount = 0f;
+    float displayedChargeAmount = 0f;
+
 	// Use this for initialization
 	void Start () {
-        float chargeAmount = DataCore.Remap(Mathf.Clamp(playerAttackScript.playerCharge, 0f, 30f), 0f, 30f, 0f, 1f);
+        displayedChargeAmount = Mathf.Lerp(displayedChargeAmount, playerAttackScript.playerCharge, Time.deltaTime * 5f);
+
+        chargeAmount = DataCore.Remap(Mathf.Clamp(displayedChargeAmount, 0f, 30f), 0f, 30f, 0f, 1f);
 
         foregroundBarRectTrans.localScale = new Vector3(1f, chargeAmount, 1f);
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        float chargeAmount = DataCore.Remap(Mathf.Clamp(playerAttackScript.playerCharge, 0f, 30f), 0f, 30f, 0f, 1f);
+        displayedChargeAmount = Mathf.Lerp(displayedChargeAmount, playerAttackScript.playerCharge, Time.deltaTime * 5f);
+
+        chargeAmount = DataCore.Remap(Mathf.Clamp(displayedChargeAmount, 0f, 30f), 0f, 30f, 0f, 1f);
 
         foregroundBarRectTrans.localScale = new Vector3(1f, chargeAmount, 1f);
 

@@ -20,7 +20,7 @@ public class Player_Score : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        displayedScore = (int)Mathf.Lerp(displayedScore, score, Time.deltaTime * 2f);
+        displayedScore = (int)Mathf.Lerp(displayedScore, score, Time.deltaTime * 10f);
         
         scoreText.text = displayedScore.ToString();
     }
