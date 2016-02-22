@@ -10,7 +10,7 @@ public class RunCutScene : MonoBehaviour {
     public Sprite image4 = null;
     public Sprite image5 = null;
 
-    float timer = 0.2f;
+    float timer = 1f;
     float delay = 0.2f;
 
     Image imageComp;

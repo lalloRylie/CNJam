@@ -46,13 +46,12 @@ public class EnemyRunAnimations : MonoBehaviour {
         collider.SetActive(false);
     }
 
+    float randPitchRange = 0.2f;
+
     public void RobotDeath_SFX()
     {
-        timer += 1f * Time.deltaTime;
+        GameObject deathSFX_GO = (GameObject)Instantiate(robotDeathSFX, transform.position, Quaternion.identity);
 
-        GameObject.Instantiate<GameObject>(robotDeathSFX);
-
-        if (timer > 2f)
-            Destroy(gameObject);
+        deathSFX_GO.GetComponent<AudioSource>().pitch += Random.Range(-randPitchRange, randPitchRange);
     }
 }

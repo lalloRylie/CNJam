@@ -142,38 +142,43 @@ public class Player_ControlAnimationState : MonoBehaviour
         projectile.transform.position = new Vector3(transform.position.x, -2f, 0f);
     }
 
+
+    float randPitchRange = 0.17f;
     public void Punch_SFX()
     {
-        GameObject tempGO = GameObject.Instantiate<GameObject>(punchSFX);
+        GameObject tempGO = Instantiate<GameObject>(punchSFX);
+        tempGO.transform.position = transform.position;
+        
+        tempGO.GetComponent<AudioSource>().pitch += Random.Range(-randPitchRange, randPitchRange);
     }
 
     public void EMP_SFX()
     {
-        GameObject tempGO = GameObject.Instantiate<GameObject>(empSFX);
+        GameObject tempGO = Instantiate<GameObject>(empSFX);
+        tempGO.transform.position = transform.position;
+        tempGO.GetComponent<AudioSource>().pitch += Random.Range(-randPitchRange, randPitchRange);
     }
 
     public void ShockBlast_SFX()
     {
 
-        GameObject tempGO = GameObject.Instantiate<GameObject>(ShockBlastSFX);
+        GameObject tempGO = Instantiate<GameObject>(ShockBlastSFX);
+        tempGO.transform.position = transform.position;
+        tempGO.GetComponent<AudioSource>().pitch += Random.Range(-randPitchRange, randPitchRange);
     }
 
     public void Dash_SFX()
     {
-        GameObject tempGO = GameObject.Instantiate<GameObject>(dashSFX);
+        GameObject tempGO = Instantiate<GameObject>(dashSFX);
         tempGO.GetComponent<AudioSource>().time = 0.2f;
+        tempGO.transform.position = transform.position;
+        tempGO.GetComponent<AudioSource>().pitch += Random.Range(-randPitchRange, randPitchRange);
     }
 
-    //public void Zap_SFX()
-    //{
-    //    zapTimer = 0f;
-
-    //    GameObject tempGO = GameObject.Instantiate<GameObject>(zapSFX);
-
-    //    if (zapTimer > 0.6f)
-    //    {
-    //        Destroy(tempGO);
-    //        SwitchBool(timerBool5);
-    //    }
-    //}
+    public void ZapAttack_SFX()
+    {
+        GameObject tempGO = Instantiate<GameObject>(zapSFX);
+        tempGO.transform.position = transform.position;
+        tempGO.GetComponent<AudioSource>().pitch += Random.Range(-randPitchRange, randPitchRange);
+    }
 }

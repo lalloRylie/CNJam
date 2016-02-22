@@ -97,7 +97,7 @@ public class EnemyBehavior : MonoBehaviour
                 //If within (attack range), move to waiting state
                 if (distToPlayer < attackRange)
                 {
-                    Debug.Log("Enemy is in range to attack!");
+                    //Debug.Log("Enemy is in range to attack!");
                     enemyState = 2;
                 }
                 break;
@@ -107,12 +107,12 @@ public class EnemyBehavior : MonoBehaviour
                 //If timer > timeToWait, enter attacking state
                 if (attackTimer > timeToWait && distToPlayer < attackRange)
                 {
-                    Debug.Log("Enemy is attacking!");
+                   // Debug.Log("Enemy is attacking!");
                     enemyState = 3;
                 }
                 else if (distToPlayer > attackRange * 1.5f)
                 {
-                    Debug.Log("You managed to get away!");
+                    //Debug.Log("You managed to get away!");
                     enemyState = 1;
                 }
                 break;
@@ -121,7 +121,7 @@ public class EnemyBehavior : MonoBehaviour
                 //If enemy is within (attack range + tolerance) of the player run player.TakeDamage(x damage) 
                 if (distToPlayer < (attackRange + attackRange / 10.0f))
                 {
-                    Debug.Log("You took damage!");
+                    //Debug.Log("You took damage!");
                     enemyAnimScript.SetAnimState(1);
                     player.GetComponent<Player_TakeDamage>().TakeDamage(1);
                     enemyState = 1;

@@ -116,7 +116,7 @@ public class Player_Attack : MonoBehaviour
     {
         Trigger_OnPlayerMissedEvent();
         lerpSpeed = missLerpSpeed;
-        Debug.Log("Right Miss");
+       // Debug.Log("Right Miss");
         attacks.Clear();
         targetPosition = transform.position + new Vector3(missMoveDistance, 0f, 0f);
         attackMissDelayTimer = attackDelayAfterMiss;
@@ -128,7 +128,7 @@ public class Player_Attack : MonoBehaviour
     {
         Trigger_OnPlayerMissedEvent();
         lerpSpeed = missLerpSpeed;
-        Debug.Log("Left Miss");
+        //Debug.Log("Left Miss");
         attacks.Clear();
         targetPosition = transform.position + new Vector3(-missMoveDistance, 0f, 0f);
         attackMissDelayTimer = attackDelayAfterMiss;
@@ -169,7 +169,7 @@ public class Player_Attack : MonoBehaviour
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(4);
             lerpSpeed = missLerpSpeed;
-            targetPosition = transform.position - new Vector3(colliderWidth, 0f, 0f);
+            targetPosition = transform.position - new Vector3(hitDistance, 0f, 0f);
         }
     }
 
@@ -205,7 +205,7 @@ public class Player_Attack : MonoBehaviour
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(4);
             lerpSpeed = missLerpSpeed;
-            targetPosition = transform.position + new Vector3(colliderWidth, 0f, 0f);
+            targetPosition = transform.position + new Vector3(hitDistance, 0f, 0f);
         }
     }
 
@@ -439,14 +439,14 @@ public class Player_Attack : MonoBehaviour
             int attack = attacks[0];
             if (attack == 1)
             {
-                Debug.Log("Right");
+               // Debug.Log("Right");
                 PlayerRightAttack();
                 attacks.Remove(attack);
                 return;
             }
             else if (attack == -1)
             {
-                Debug.Log("Left");
+                //Debug.Log("Left");
                 PlayerLeftAttack();
                 attacks.Remove(attack);
                 return;
@@ -470,7 +470,7 @@ public class Player_Attack : MonoBehaviour
         {
             attackState = 2;
             range = attackStateTwoRange;
-            Debug.Log("attack state = 2");
+           // Debug.Log("attack state = 2");
             return;
         }
 
@@ -480,7 +480,7 @@ public class Player_Attack : MonoBehaviour
         {
             attackState = 1;
             range = attackStateOneRange;
-            Debug.Log("attack state = 1");
+            //Debug.Log("attack state = 1");
             return;
         }
 

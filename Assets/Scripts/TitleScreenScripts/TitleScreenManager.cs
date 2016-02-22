@@ -18,7 +18,7 @@ public class TitleScreenManager : MonoBehaviour
     {
         
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
-	    if(Input.GetMouseButtonDown(0)) {
+	    if(Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow)) {
             loadingTextGO.SetActive(true);
             Application.LoadLevel("FirstCutScene");
 

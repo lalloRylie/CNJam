@@ -226,7 +226,7 @@ public class BossBehavior : MonoBehaviour
                 bossState = 3;
                 bossTimer = 0f;
                 bossOnGround = false;
-                Debug.Log("Going Up");
+                //Debug.Log("Going Up");
                 bossAnimScript.SetBossAnimState(2);
 
             }
@@ -292,7 +292,7 @@ public class BossBehavior : MonoBehaviour
         {
             // wait for a certain amount of time, or after crybaby takes a certain amount of damage
 
-            Debug.Log(bossHealthScript.startHealth - (bossHealthScript.startHealth / 2));
+            //Debug.Log(bossHealthScript.startHealth - (bossHealthScript.startHealth / 2));
             bossTimer += 1f * Time.deltaTime;
             if (bossTimer >= 2f)
             {

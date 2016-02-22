@@ -21,7 +21,7 @@ public class BossHealth : MonoBehaviour {
 	void Update () {
         if (health <= 0) {
             bossAnimControllerScript.SetBossAnimState(3);
-            Debug.Log("boss died");
+           // Debug.Log("boss died");
             isBossDead = true;
             
         }

@@ -16,7 +16,7 @@ public class CutScene_TransitionToBoss : MonoBehaviour
 
     public GameObject boss;
 
-    float timer = 0.2f;
+    float timer = 1f;
     float delay = 0.2f;
 
     //Screen.width / 2 - (width / 2), Screen.height / 2 - (height / 2)
