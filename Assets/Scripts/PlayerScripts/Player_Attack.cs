@@ -169,7 +169,7 @@ public class Player_Attack : MonoBehaviour
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(4);
             lerpSpeed = missLerpSpeed;
-            targetPosition = transform.position - new Vector3(hitDistance, 0f, 0f);
+            targetPosition = transform.position - new Vector3(hitDistance * 0.5f, 0f, 0f);
         }
     }
 
@@ -205,7 +205,7 @@ public class Player_Attack : MonoBehaviour
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(0);
             playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(4);
             lerpSpeed = missLerpSpeed;
-            targetPosition = transform.position + new Vector3(hitDistance, 0f, 0f);
+            targetPosition = transform.position + new Vector3(hitDistance * 0.5f, 0f, 0f);
         }
     }
 

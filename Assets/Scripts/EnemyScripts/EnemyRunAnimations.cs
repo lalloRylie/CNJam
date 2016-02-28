@@ -36,7 +36,6 @@ public class EnemyRunAnimations : MonoBehaviour {
 
     public void DeleteEnemy()
     {
-        
         Destroy(transform.parent.gameObject);
     }
 

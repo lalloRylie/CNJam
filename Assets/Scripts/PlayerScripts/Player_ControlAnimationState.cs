@@ -148,7 +148,6 @@ public class Player_ControlAnimationState : MonoBehaviour
     {
         GameObject tempGO = Instantiate<GameObject>(punchSFX);
         tempGO.transform.position = transform.position;
-        
         tempGO.GetComponent<AudioSource>().pitch += Random.Range(-randPitchRange, randPitchRange);
     }
 
@@ -161,7 +160,6 @@ public class Player_ControlAnimationState : MonoBehaviour
 
     public void ShockBlast_SFX()
     {
-
         GameObject tempGO = Instantiate<GameObject>(ShockBlastSFX);
         tempGO.transform.position = transform.position;
         tempGO.GetComponent<AudioSource>().pitch += Random.Range(-randPitchRange, randPitchRange);

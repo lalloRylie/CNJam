@@ -65,6 +65,7 @@ public class CutScene_TransitionToBoss : MonoBehaviour
                 cutSceneState = 1;
                 break;
             case 1:
+                AudioManager.instance.PlaySong(AudioManager.instance.bossMusic);
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), scene1);
                 break;
             case 2:

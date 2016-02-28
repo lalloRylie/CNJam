@@ -10,7 +10,7 @@ public class TitleScreenManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        AudioManager.instance.PlaySong(AudioManager.instance.titleMusic);
     }
 
     // Update is called once per frame

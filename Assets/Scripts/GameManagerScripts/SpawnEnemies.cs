@@ -5,7 +5,6 @@ public class SpawnEnemies : MonoBehaviour {
 
     public GameObject robertPrefab;
     public GameObject archibaldPrefab;
-    public GameObject gameManager;
 
     float spawnTimer = 0f;
     float difficultyUpTimer = 0f; 
@@ -18,7 +17,6 @@ public class SpawnEnemies : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         player = GameObject.FindGameObjectWithTag("Player");
-        gameManager = GameObject.FindGameObjectWithTag("GameManager");
 
         player.GetComponent<Player_TakeDamage>().PlayerTakenDamageEvent += SpawnEnemies_PlayerTakenDamageEvent;
 	}
@@ -33,7 +31,7 @@ public class SpawnEnemies : MonoBehaviour {
 	void Update () {
         float horzExtent = Camera.main.orthographicSize * Screen.width / Screen.height;
 
-        if (gameManager.GetComponent<GameStateControl>().gameState == 0)
+        if (GetComponent<GameStateControl>().gameState == 0)
         {
             difficultyUpTimer += 1f * Time.deltaTime;
             if (difficultyUpTimer >= 10f)

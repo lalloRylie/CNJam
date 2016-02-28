@@ -14,6 +14,8 @@ public class AudioManager : MonoBehaviour {
     public AudioClip gameNeutralMusic;
     public AudioClip gameLoseMusic;
     public AudioClip friendshipMusic;
+    public AudioClip bossMusic;
+    public AudioClip loseMusic;
 
     void Awake()
     {
@@ -81,22 +83,27 @@ public class AudioManager : MonoBehaviour {
 
     void Update()
     {
-        if (Application.loadedLevelName == "TitleScreen")
-        {
-            PlaySong(titleMusic);
-        }
+        //if (Application.loadedLevelName == "TitleScreen")
+        //{
+        //    PlaySong(titleMusic);
+        //}
 
-        if (Application.loadedLevelName == "FirstCutScene")
-        {
-            PlaySong(friendshipMusic);
-        }
+        //if (Application.loadedLevelName == "FirstCutScene")
+        //{
+        //    PlaySong(friendshipMusic);
+        //}
 
-        GameObject playerGO = GameObject.Find("Player");
-        if (playerGO == null) return;
+        //GameObject playerGO = GameObject.Find("Player");
+        //if (playerGO == null) return;
 
-        if (Application.loadedLevelName == "GameScene")
-        {
-            PlaySong(gameNeutralMusic);
-        }
+        //if ((Application.loadedLevelName == "GameScene" || Application.loadedLevelName == "EndlessGameMode") 
+        //    && !GameObject.Find("GameManager").GetComponent<GameStateControl>().bossCutsceneStarted)
+        //{
+        //    PlaySong(gameNeutralMusic);
+        //}
+
+        //if(GameObject.Find("GameManager").GetComponent<GameStateControl>().bossCutsceneStarted) {
+        //    PlaySong(bossMusic);
+        //}
     }
 }

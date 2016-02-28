@@ -16,9 +16,16 @@ public class LoseScreenManager : MonoBehaviour {
         Application.Quit();
     }
 
+    IEnumerator PlayLoseMusic()
+    {
+        AudioManager.instance.PlaySong(AudioManager.instance.loseMusic);
+        yield return new WaitForSeconds(6f);
+        AudioManager.instance.PlaySong(AudioManager.instance.titleMusic);
+    }
+
 	// Use this for initialization
 	void Start () {
-	    
+        StartCoroutine(PlayLoseMusic());
 	}
 	
 	// Update is called once per frame

@@ -15,10 +15,15 @@ public class GameStateControl : MonoBehaviour {
     BossHealth bossHealthScript = null;
 
     //public bool isBossDead = false;
+    [HideInInspector]
+    public bool bossCutsceneStarted = false;
+
+    public bool bossWillBeSpawned = false;
 
     // Use this for initialization
     void Start () {
         cutScene = GetComponent<CutScene_TransitionToBoss>();
+        AudioManager.instance.PlaySong(AudioManager.instance.gameNeutralMusic);
 	}
 
     IEnumerator InitiateLoseScreen()
@@ -51,18 +56,23 @@ public class GameStateControl : MonoBehaviour {
         switch (gameState) {
             //Enemy battle state
             case 0:
-                gameTimer += 1f * Time.deltaTime;
-                if (gameTimer > engageBossAfterTime)
+                if (bossWillBeSpawned)
                 {
-                    SetGameState(1);
-                    DeleteEnemies();
-                    GameObject.Find("Player").GetComponent<Player_Attack>().playerState = 2;
+                    gameTimer += 1f * Time.deltaTime;
+                    if (gameTimer > engageBossAfterTime)
+                    {
+                        SetGameState(1);
+                        DeleteEnemies();
+                        GameObject.Find("Player").GetComponent<Player_Attack>().playerState = 2;
+                    }
                 }
+                
                 break;
             //Boss instantiate state
             case 1:
                 // turn on cutscene for boss here
                 cutScene.StartCutScene();
+                bossCutsceneStarted = true;
                 //GameObject.Instantiate(bossPrefab);
                 //SetGameState(2);
                 break;
