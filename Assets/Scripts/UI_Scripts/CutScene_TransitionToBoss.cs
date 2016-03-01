@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class CutScene_TransitionToBoss : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class CutScene_TransitionToBoss : MonoBehaviour
 
     float timer = 1f;
     float delay = 0.2f;
+
+    public Button pauseButton = null;
 
     //Screen.width / 2 - (width / 2), Screen.height / 2 - (height / 2)
 
@@ -62,10 +65,12 @@ public class CutScene_TransitionToBoss : MonoBehaviour
         switch (cutSceneState)
         {
             case 0:
+                AudioManager.instance.PlaySong(AudioManager.instance.bossMusic);
+                pauseButton.interactable = false;
                 cutSceneState = 1;
                 break;
             case 1:
-                AudioManager.instance.PlaySong(AudioManager.instance.bossMusic);
+                
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), scene1);
                 break;
             case 2:
@@ -78,6 +83,7 @@ public class CutScene_TransitionToBoss : MonoBehaviour
                 GameObject.Instantiate(boss);
                 GetComponent<GameStateControl>().SetGameState(2);
                 EndCutScene();
+                pauseButton.interactable = true;
                 cutSceneState = 5;
                 break;
         }

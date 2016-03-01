@@ -3,6 +3,8 @@ using System.Collections;
 
 public static class DataCore {
 
+    public static string lastGameModePlayedSceneName = "";
+
     public static class VolumeData
     {
         public static float musicVolume = 0.8f;

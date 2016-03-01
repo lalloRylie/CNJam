@@ -24,6 +24,16 @@ public class GameStateControl : MonoBehaviour {
     void Start () {
         cutScene = GetComponent<CutScene_TransitionToBoss>();
         AudioManager.instance.PlaySong(AudioManager.instance.gameNeutralMusic);
+
+        DataCore.lastGameModePlayedSceneName = Application.loadedLevelName;
+        
+        if(Application.loadedLevelName == "EndlessGameMode") {
+            bossWillBeSpawned = false;
+        }
+        else
+        {
+            bossWillBeSpawned = true;
+        }
 	}
 
     IEnumerator InitiateLoseScreen()

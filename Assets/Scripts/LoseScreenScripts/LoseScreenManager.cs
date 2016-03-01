@@ -8,7 +8,7 @@ public class LoseScreenManager : MonoBehaviour {
     public void OnRetryButtonPressed()
     {
         loadingGO.SetActive(true);
-        Application.LoadLevel("GameScene");
+        Application.LoadLevel(DataCore.lastGameModePlayedSceneName);
     }
 
     public void OnQuitButtonPressed()
