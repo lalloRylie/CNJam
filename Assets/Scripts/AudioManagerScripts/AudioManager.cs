@@ -40,6 +40,7 @@ public class AudioManager : MonoBehaviour {
         {
             return;
         }
+        musicSource.volume = DataCore.VolumeData.musicVolume;
         //Set the clip of our efxSource audio source to the clip passed in as a parameter.
         musicSource.clip = clip;
 

@@ -40,7 +40,7 @@ public class PauseScreenManager : MonoBehaviour {
     public void OnOptionsButtonPressed()
     {
         optionsPanel.SetActive(true);
-        pausePanel.SetActive(false);
+        //pausePanel.SetActive(false);
     }
 
     public void OnMainMenuButtonPressed()
