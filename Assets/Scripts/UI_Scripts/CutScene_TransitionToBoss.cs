@@ -31,16 +31,25 @@ public class CutScene_TransitionToBoss : MonoBehaviour
 
     void Update()
     {
-        if(GetComponent<GameStateControl>().gameState != 1) return;
+        if (GetComponent<GameStateControl>().gameState != 1) return;
 
         timer -= 1f * Time.deltaTime;
         if (timer > 0f) return;
 
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))  
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             cutSceneState++;
             timer = delay;
         }
+#endif
+
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
+        if(Input.touchCount > 0) {
+            cutSceneState++;
+            timer = delay;
+        }
+#endif
 
     }
 
@@ -70,7 +79,7 @@ public class CutScene_TransitionToBoss : MonoBehaviour
                 cutSceneState = 1;
                 break;
             case 1:
-                
+
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), scene1);
                 break;
             case 2:

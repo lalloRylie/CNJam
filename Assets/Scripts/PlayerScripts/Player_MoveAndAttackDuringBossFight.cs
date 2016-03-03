@@ -85,6 +85,8 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
     }
 
     BossHealth bossHealthScript = null;
+    private Vector2 startPos;
+    private Vector2 currentPos;
 
     // Update is called once per frame
     void Update()
@@ -104,7 +106,7 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
         if (bossGO == null) return;
 
         if (bossBehaviorScript == null) bossBehaviorScript = bossGO.GetComponent<BossBehavior>();
-    
+
         if (bossBehaviorScript == null) return;
         if (!playerCanMove) return;
 
@@ -112,8 +114,11 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
 
         if (bossHealthScript == null) bossHealthScript = bossGO.GetComponent<BossHealth>();
 
+
         if (!bossHealthScript.isBossDead)
         {
+
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 // is boss on ground?
@@ -148,23 +153,87 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
                     }
                 }
             }
-        }
 
+            // move
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                //transform.Translate((-Vector3.right * playerSpeed) * Time.deltaTime);
+                targetPosition -= (Vector3.right * playerSpeed) * Time.deltaTime;
+                playerSpriteGO.transform.localScale = new Vector3(playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
+            }
+            else if (Input.GetKey(KeyCode.RightArrow))
+            {
+                targetPosition += (Vector3.right * playerSpeed) * Time.deltaTime;
+                playerSpriteGO.transform.localScale = new Vector3(-playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
+                //transform.Translate((Vector3.right * playerSpeed) * Time.deltaTime);
+            }
+#endif
 
-        // move
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            //transform.Translate((-Vector3.right * playerSpeed) * Time.deltaTime);
-            targetPosition -= (Vector3.right * playerSpeed) * Time.deltaTime;
-            playerSpriteGO.transform.localScale = new Vector3(playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
-        }
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
+            if (Input.touchCount > 0)
+            {
+                Touch playerTouch = Input.GetTouch(0);
+                currentPos = playerTouch.position;
 
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            targetPosition += (Vector3.right * playerSpeed) * Time.deltaTime;
-            playerSpriteGO.transform.localScale = new Vector3(-playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
-            //transform.Translate((Vector3.right * playerSpeed) * Time.deltaTime);
+                if(playerTouch.phase == TouchPhase.Began) {
+                    startPos = playerTouch.position;
+
+                    if (playerTouch.position.x < Screen.width * 0.5f)
+                    {
+                        // left tap
+                        // is boss on ground?
+                        if (bossBehaviorScript.bossOnGround)
+                        {
+                            // then get distance from boss
+                            float xDist = bossGO.transform.position.x - transform.position.x;
+                            // if you're close enough, dodge attack the boss, then return so you don't translate
+                            if (xDist <= playerAttackScript.attackStateZeroRange * 1.5f && xDist < 0f)
+                            {
+                                LeftAttackBoss();
+                                playerSpriteGO.transform.localScale = new Vector3(playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
+                                return;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // right tap
+                        // is boss on ground?
+                        if (bossBehaviorScript.bossOnGround)
+                        {
+                            // then get distance from boss
+                            float xDist = bossGO.transform.position.x - transform.position.x;
+                            // if you're close enough, dodge attack the boss, then return so you don't translate
+                            if (xDist <= playerAttackScript.attackStateZeroRange * 1.5f && xDist > 0f)
+                            {
+                                RightAttackBoss();
+                                playerSpriteGO.transform.localScale = new Vector3(-playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
+                                return;
+                            }
+                        }
+                    }
+                }
+
+                if (playerTouch.phase == TouchPhase.Moved || playerTouch.phase == TouchPhase.Stationary)
+                {
+                    if (playerTouch.position.x < Screen.width * 0.5f)
+                    {
+                        // touching left
+                        targetPosition -= (Vector3.right * playerSpeed) * Time.deltaTime;
+                        playerSpriteGO.transform.localScale = new Vector3(playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
+                    }
+                    else
+                    {
+                        // touching right
+                        targetPosition += (Vector3.right * playerSpeed) * Time.deltaTime;
+                        playerSpriteGO.transform.localScale = new Vector3(-playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
+                    }
+                }
+            }
+#endif
+
         }
 
     }
+
 }

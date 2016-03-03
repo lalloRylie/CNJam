@@ -82,7 +82,8 @@ public class Player_Attack : MonoBehaviour
 
         halfBoardWipeUsed = false;
 
-        if(takenDamage) {
+        if (takenDamage)
+        {
             scoreMultiplier = (int)(scoreMultiplier * 0.5f);
         }
         else
@@ -116,12 +117,15 @@ public class Player_Attack : MonoBehaviour
     {
         Trigger_OnPlayerMissedEvent();
         lerpSpeed = missLerpSpeed;
-       // Debug.Log("Right Miss");
+        // Debug.Log("Right Miss");
         attacks.Clear();
         targetPosition = transform.position + new Vector3(missMoveDistance, 0f, 0f);
         attackMissDelayTimer = attackDelayAfterMiss;
 
         DeductScoreMultiplier(false);
+
+        playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(0);
+        playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(6);
     }
 
     void PlayerMissedLeft()
@@ -134,7 +138,10 @@ public class Player_Attack : MonoBehaviour
         attackMissDelayTimer = attackDelayAfterMiss;
 
         DeductScoreMultiplier(false);
-        
+
+        playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(0);
+        playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(6);
+
     }
 
     void PlayerLeftHit(GameObject enemy, float hitDistance, float colliderWidth)
@@ -176,7 +183,7 @@ public class Player_Attack : MonoBehaviour
     void PlayerRightHit(GameObject enemy, float hitDistance, float colliderWidth)
     {
         scoreMultiplier++;
-        
+
         // dodge attacks
         if (attackState == 0)
         {
@@ -258,6 +265,8 @@ public class Player_Attack : MonoBehaviour
     float worldScreenHeight;
     float worldScreenWidth;
 
+    public float minSwipeDistX = 20f;
+
     void InitiatePlayerAttack()
     {
         attackMissDelayTimer -= 1.0f * Time.deltaTime;
@@ -284,8 +293,8 @@ public class Player_Attack : MonoBehaviour
             switch (playerTouch.phase)
             {
                 case TouchPhase.Began:
-                    startPos = playerTouch.position;
 
+                    startPos = playerTouch.position;
                     //TAP
                     if (startPos.x < Screen.width / 2)
                     {
@@ -301,42 +310,50 @@ public class Player_Attack : MonoBehaviour
                         playerSpriteGO.transform.localScale = new Vector3(-playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
                         attacks.Add(1);
                     }
-                    //END TAP
-
                     break;
-                case TouchPhase.Moved:
-                    //SWIPE
-                    Vector2 swipeVector = playerTouch.position - startPos;
-                    float swipeVectorMag = Mathf.Sqrt(swipeVector.x * swipeVector.x + swipeVector.y * swipeVector.y);
 
-                    //if (Mathf.Abs(swipeVector.x) > minSwipeDist || Mathf.Abs(swipeVector.y) > minSwipeDist)
-                    if (swipeVectorMag > minSwipeDist)
-                    {
-                        if (swipeVector.x < 0)
-                        {
-                            //The player swiped left
-                            //HalfBoardWipe(true);
-                            //halfBoardWipeSideOnLeft = true;
-                            //playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(2);
-                        }
-                        else
-                        {
-                            //The player swiped right
-                            //HalfBoardWipe(false);
-                            //halfBoardWipeSideOnLeft = false;
-                            //playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(2);
-                        }
-                    }
-                    //END SWIPE
-
-                    break;
                 case TouchPhase.Ended:
 
+                    // swipe
+                    float swipeDistHorizontal = (new Vector3(playerTouch.position.x, 0, 0) - new Vector3(startPos.x, 0, 0)).magnitude;
+
+                    if (swipeDistHorizontal > minSwipeDistX)
+                    {
+
+                        if (playerCharge >= attacksLandedBeforeAllowingHalfBoardWipe)
+                        {
+                            if (!halfBoardWipeUsed)
+                            {
+
+                                float swipeValue = Mathf.Sign(playerTouch.position.x - startPos.x);
+
+                                if (swipeValue > 0)
+                                {
+
+                                    //right swipe
+                                    halfBoardWipeSideOnLeft = false;
+                                    playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(2);
+                                    playerSpriteGO.transform.localScale = new Vector3(-playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
+                                    return;
+                                }
+
+                                else if (swipeValue < 0)
+                                {
+                                    //left swipe
+                                    halfBoardWipeSideOnLeft = true;
+                                    playerSpriteGO.GetComponent<Player_ControlAnimationState>().SetAnimState(2);
+                                    playerSpriteGO.transform.localScale = new Vector3(playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
+                                    return;
+                                }
+                            }
+                        }
+
+                    }
+
+                    
                     break;
             }
         }
-
-
 
 #endif
 
@@ -388,7 +405,8 @@ public class Player_Attack : MonoBehaviour
     void PlayerRightAttack()
     {
         float newRange = range;
-        if(attackState == 0 && timerForDodgeAttackBackRayDoubleLength > 0f) {
+        if (attackState == 0 && timerForDodgeAttackBackRayDoubleLength > 0f)
+        {
             newRange *= 2f;
         }
         rangeDisplayLength = newRange;
@@ -439,7 +457,7 @@ public class Player_Attack : MonoBehaviour
             int attack = attacks[0];
             if (attack == 1)
             {
-               // Debug.Log("Right");
+                // Debug.Log("Right");
                 PlayerRightAttack();
                 attacks.Remove(attack);
                 return;
@@ -470,7 +488,7 @@ public class Player_Attack : MonoBehaviour
         {
             attackState = 2;
             range = attackStateTwoRange;
-           // Debug.Log("attack state = 2");
+            // Debug.Log("attack state = 2");
             return;
         }
 
@@ -489,7 +507,7 @@ public class Player_Attack : MonoBehaviour
         {
             attackState = 0;
             range = attackStateZeroRange;
-           // Debug.Log("attack state = 0");
+            // Debug.Log("attack state = 0");
             return;
         }
     }
@@ -499,7 +517,8 @@ public class Player_Attack : MonoBehaviour
     {
         if (!playerCanMove) return;
 
-        switch (playerState) {
+        switch (playerState)
+        {
             //Idle state - do nothing
             case 0:
                 break;
@@ -523,6 +542,6 @@ public class Player_Attack : MonoBehaviour
                 break;
         }
 
-        
+
     }
 }

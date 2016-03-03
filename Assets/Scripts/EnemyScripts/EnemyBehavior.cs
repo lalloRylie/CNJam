@@ -3,7 +3,7 @@ using System.Collections;
 
 public class EnemyBehavior : MonoBehaviour
 {
-
+    [HideInInspector]
     public GameObject player;
     public int enemyState = 1;
     private float attackTimer = 0.0f;
