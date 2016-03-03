@@ -10,6 +10,8 @@ public class AudioManager : MonoBehaviour {
     public float lowPitchRange = .95f;              //The lowest a sound effect will be randomly pitched.
     public float highPitchRange = 1.05f;            //The highest a sound effect will be randomly pitched.
 
+    public float soundFXVolume = 0.4f;
+
     public AudioClip titleMusic;
     public AudioClip gameNeutralMusic;
     public AudioClip gameLoseMusic;

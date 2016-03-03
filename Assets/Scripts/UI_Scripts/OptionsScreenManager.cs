@@ -13,7 +13,20 @@ public class OptionsScreenManager : MonoBehaviour {
 
     public void OnCreditsButtonPressed()
     {
-        optionsScreenPanel.SetActive(true);
+        creditsScreenPanel.SetActive(true);
+        StartCoroutine(creditsScreenPanel.GetComponent<CreditsAnimationEvents>().Play(creditsScreenPanel.GetComponent<Animation>(), "CreditsAnimation", false, () => Debug.Log("onComplete")));
+    }
+
+    public void OnMusicVolumeChanged(float value)
+    {
+        DataCore.VolumeData.musicVolume = value;
+        AudioManager.instance.musicSource.volume = DataCore.VolumeData.musicVolume;
+    }
+
+    public void OnSoundFXVolumeChanged(float value)
+    {
+        DataCore.VolumeData.soundFXVoume = value;
+        AudioManager.instance.soundFXVolume = DataCore.VolumeData.soundFXVoume;
     }
 
 	// Use this for initialization

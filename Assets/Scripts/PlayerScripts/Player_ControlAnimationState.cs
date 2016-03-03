@@ -149,6 +149,7 @@ public class Player_ControlAnimationState : MonoBehaviour
         GameObject tempGO = Instantiate<GameObject>(punchSFX);
         tempGO.transform.position = transform.position;
         tempGO.GetComponent<AudioSource>().pitch += Random.Range(-randPitchRange, randPitchRange);
+        //tempGO.GetComponent<AudioSource>().volume = DataCore.VolumeData.soundFXVoume;
     }
 
     public void EMP_SFX()
@@ -156,6 +157,7 @@ public class Player_ControlAnimationState : MonoBehaviour
         GameObject tempGO = Instantiate<GameObject>(empSFX);
         tempGO.transform.position = transform.position;
         tempGO.GetComponent<AudioSource>().pitch += Random.Range(-randPitchRange, randPitchRange);
+       // tempGO.GetComponent<AudioSource>().volume = DataCore.VolumeData.soundFXVoume;
     }
 
     public void ShockBlast_SFX()
@@ -163,6 +165,7 @@ public class Player_ControlAnimationState : MonoBehaviour
         GameObject tempGO = Instantiate<GameObject>(ShockBlastSFX);
         tempGO.transform.position = transform.position;
         tempGO.GetComponent<AudioSource>().pitch += Random.Range(-randPitchRange, randPitchRange);
+        //tempGO.GetComponent<AudioSource>().volume = DataCore.VolumeData.soundFXVoume;
     }
 
     public void Dash_SFX()
@@ -171,6 +174,7 @@ public class Player_ControlAnimationState : MonoBehaviour
         tempGO.GetComponent<AudioSource>().time = 0.2f;
         tempGO.transform.position = transform.position;
         tempGO.GetComponent<AudioSource>().pitch += Random.Range(-randPitchRange, randPitchRange);
+       // tempGO.GetComponent<AudioSource>().volume = DataCore.VolumeData.soundFXVoume / 1.25f;
     }
 
     public void ZapAttack_SFX()
@@ -178,5 +182,6 @@ public class Player_ControlAnimationState : MonoBehaviour
         GameObject tempGO = Instantiate<GameObject>(zapSFX);
         tempGO.transform.position = transform.position;
         tempGO.GetComponent<AudioSource>().pitch += Random.Range(-randPitchRange, randPitchRange);
+      //  tempGO.GetComponent<AudioSource>().volume = DataCore.VolumeData.soundFXVoume;
     }
 }
