@@ -9,6 +9,8 @@ public class BossBehavior : MonoBehaviour
     bool isGoingLeft = true;
     public float maxPatrolDist = 10f;
 
+    public bool spawnTears = true;
+
     public GameObject player;
 
     public GameObject tearPrefab;
@@ -48,7 +50,9 @@ public class BossBehavior : MonoBehaviour
     float amountOfAirTime = 8f;
 
     void Cry()
-    {      
+    {
+        if (!spawnTears) return;
+
         float amountOfTimeToWaitToSpawnEnemy = 0.8f;
 
         float randXPos = Random.Range(transform.position.x - (tearSpawnZoneWidth / 2f), transform.position.x + (tearSpawnZoneWidth / 2f));
@@ -66,6 +70,8 @@ public class BossBehavior : MonoBehaviour
 
     void CryMore()
     {
+        if (!spawnTears) return;
+
         float amountOfTimeToWaitToSpawnEnemy = 0.4f; //Should be random/varying
 
         float randXPos1 = Random.Range(transform.position.x - (tearSpawnZoneWidth / 2f), transform.position.x + (tearSpawnZoneWidth / 2f));
@@ -158,6 +164,8 @@ public class BossBehavior : MonoBehaviour
 
         bossAnimScript = bossSpriteGO.GetComponent<BossAnimationControllerScript>();
         playerAttackScript = player.GetComponent<Player_Attack>();
+
+        airYPos = bossStartPos.y;
     }
 
     IEnumerator TriggerEMP()

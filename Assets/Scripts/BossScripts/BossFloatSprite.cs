@@ -17,6 +17,6 @@ public class BossFloatSprite : MonoBehaviour
 	void Update () {
         floatTimer += 2f * Time.deltaTime;
 
-        transform.position = new Vector3(transform.position.x, (Mathf.Sin(floatTimer * floatScale) * floatSpeed) + floatDisplacementAmt, transform.position.z);
+        transform.position = new Vector3(transform.position.x, transform.position.y + (Mathf.Sin(floatTimer * floatScale) * floatSpeed), transform.position.z);
     }
 }

@@ -6,6 +6,7 @@ public class TitleScreenManager : MonoBehaviour
 {
 
     public GameObject loadingTextGO;
+    public GameObject optionsPanelGO = null;
 
     // Use this for initialization
     void Start()
@@ -24,6 +25,11 @@ public class TitleScreenManager : MonoBehaviour
     {
         loadingTextGO.SetActive(true);
         Application.LoadLevel("EndlessGameMode");
+    }
+
+    public void OnOptionsButtonPressed()
+    {
+        optionsPanelGO.SetActive(true);
     }
 
     // Update is called once per frame
