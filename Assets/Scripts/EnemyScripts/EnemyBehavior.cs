@@ -83,7 +83,7 @@ public class EnemyBehavior : MonoBehaviour
         
         switch (enemyState)
         {
-            //Idle state ?? maybe ??
+            
             case 0:
                 break;
             //Moving state
@@ -123,7 +123,7 @@ public class EnemyBehavior : MonoBehaviour
                 {
                     //Debug.Log("You took damage!");
                     enemyAnimScript.SetAnimState(1);
-                    player.GetComponent<Player_TakeDamage>().TakeDamage(1);
+                    //player.GetComponent<Player_TakeDamage>().TakeDamage(1);
                     enemyState = 1;
                     //Run attack animation
                 }
@@ -136,8 +136,6 @@ public class EnemyBehavior : MonoBehaviour
             case 4:
                 //Run any destroy functions needed to delete current enemy
                 //Play death animation
-                    //Fall over, flash red (some other color)
-                //Destroy(gameObject);
                 enemyAnimScript.SetAnimState(2);
                 
                 break;

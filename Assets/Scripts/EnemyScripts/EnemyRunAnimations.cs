@@ -8,6 +8,7 @@ public class EnemyRunAnimations : MonoBehaviour {
 
     public GameObject robotDeathSFX;
 
+    GameObject playerGO = null;
     Player_Score playerScoreScript = null;
     Player_Attack playerAttackScript = null;
 
@@ -17,8 +18,9 @@ public class EnemyRunAnimations : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        playerScoreScript = GameObject.Find("Player").GetComponent<Player_Score>();
-        playerAttackScript = GameObject.Find("Player").GetComponent<Player_Attack>();
+        playerGO = GameObject.Find("Player");
+        playerScoreScript = playerGO.GetComponent<Player_Score>();
+        playerAttackScript = playerGO.GetComponent<Player_Attack>();
 	}
 	
 	// Update is called once per frame
@@ -52,5 +54,10 @@ public class EnemyRunAnimations : MonoBehaviour {
         GameObject deathSFX_GO = (GameObject)Instantiate(robotDeathSFX, transform.position, Quaternion.identity);
 
         deathSFX_GO.GetComponent<AudioSource>().pitch += Random.Range(-randPitchRange, randPitchRange);
+    }
+
+    public void ArchibaldHit()
+    {
+        playerGO.GetComponent<Player_TakeDamage>().TakeDamage(1);
     }
 }
