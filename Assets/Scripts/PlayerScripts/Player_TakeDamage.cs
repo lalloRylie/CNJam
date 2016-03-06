@@ -56,7 +56,7 @@ public class Player_TakeDamage : MonoBehaviour
 
         if(playerHealth > 0) {
             // set the player to emp
-            GetComponentInChildren<Player_ControlAnimationState>().SetAnimState(5);
+            GetComponentInChildren<Player_ControlAnimationState>().SetAnimState(7);
         }        
     }
 
