@@ -184,6 +184,12 @@ public class BossBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if(Input.GetKeyDown(KeyCode.Backspace))
+        {
+            bossHealthScript.health = 0;
+        }
+
         if (bossHealthScript.isBossDead) return;
         // fly around and shoot tears, after some time, we'll get emp'd by sparko, causing crybaby to fall
         if (bossState == 0)

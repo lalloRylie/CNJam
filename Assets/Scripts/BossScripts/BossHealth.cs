@@ -24,6 +24,8 @@ public class BossHealth : MonoBehaviour {
            // Debug.Log("boss died");
             isBossDead = true;
             
+            //Set game state to final cutscene
+            
         }
 	}
 }

@@ -51,14 +51,14 @@ public class GameStateControl : MonoBehaviour {
         }
     }
 
-    IEnumerator GoToMenu()
+    IEnumerator StartWinCutScene()
     {
         yield return new WaitForSeconds(2f);
 
-        Application.LoadLevel("WinScreen");
+        Application.LoadLevel("WinCutScene");
     }
 
-    bool winScreenTriggered = false;
+    bool winCutSceneScreenTriggered = false;
 
 	// Update is called once per frame
 	void Update () {
@@ -111,10 +111,10 @@ public class GameStateControl : MonoBehaviour {
 
         if (bossHealthScript == null) return;
 
-        if (bossHealthScript.isBossDead && !winScreenTriggered)
+        if (bossHealthScript.isBossDead && !winCutSceneScreenTriggered)
         {
-            StartCoroutine(GoToMenu());
-            winScreenTriggered = true;
+            StartCoroutine(StartWinCutScene());
+            winCutSceneScreenTriggered = true;
         }
     }
 
