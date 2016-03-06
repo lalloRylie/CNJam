@@ -30,6 +30,8 @@ public class RunBackgroundImagePositioning : MonoBehaviour
     float checkMaxDistCloudTimer = 0f;
     float checkMaxDistCloudAmountOfWaitTime = 4f;
 
+    float changeDistance = 170f;
+
     // Use this for initialization
     void Start()
     {
@@ -57,13 +59,13 @@ public class RunBackgroundImagePositioning : MonoBehaviour
         float dist = middle.transform.position.x - playerGO.transform.position.x;
         //Debug.Log(dist);
 
-        if (dist >= 17f)
+        if (dist >= changeDistance)
         {
             // moving to the left, move the right background to the far left, reset left middle and right vars
             // get the left position, move the right to the left of that
 
             float leftPos = left.transform.position.x;
-            float newLeftTargetPos = leftPos - 36f;
+            float newLeftTargetPos = leftPos - 208.66f;
 
             right.transform.position = new Vector3(newLeftTargetPos, right.transform.position.y, right.transform.position.z);
 
@@ -78,12 +80,12 @@ public class RunBackgroundImagePositioning : MonoBehaviour
             // add a delay to fix flickering back and forth
             timer = delay;
         }
-        else if (dist <= -17f)
+        else if (dist <= -changeDistance)
         {
             // moving to the right, move the left background to the far right, reset left middle and right vars
 
             float rightPos = right.transform.position.x;
-            float newRightTargetPos = rightPos + 36f;
+            float newRightTargetPos = rightPos + 208.66f;
 
             left.transform.position = new Vector3(newRightTargetPos, left.transform.position.y, left.transform.position.z);
 

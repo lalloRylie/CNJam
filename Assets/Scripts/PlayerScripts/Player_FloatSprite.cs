@@ -8,7 +8,7 @@ public class Player_FloatSprite : MonoBehaviour {
     public float scale = 2f;
     public float speed = 1f;
 
-    public float posOffset = 1f;
+   // public float posOffset = 1f;
 
 	// Use this for initialization
 	void Start () {
@@ -19,6 +19,6 @@ public class Player_FloatSprite : MonoBehaviour {
 	void Update () {
         timer += 2f * Time.deltaTime;
 
-        transform.position = new Vector3(transform.position.x, (Mathf.Sin(timer * scale) * speed) + posOffset, transform.position.z);
+        transform.position = new Vector3(transform.position.x, transform.position.y + (Mathf.Sin(timer * scale) * speed), transform.position.z);
 	}
 }
