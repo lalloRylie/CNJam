@@ -62,18 +62,27 @@ public class SpawnEnemies : MonoBehaviour {
                     enemyToSpawn = robertPrefab;
                 }
 
+                float yStartPos = -2.25f;
+
                 if (randomInt < 10)
                 {
                     // spawn on left side
                     GameObject enemyToBeSpawned = GameObject.Instantiate<GameObject>(enemyToSpawn);
-                    enemyToBeSpawned.transform.position = playerTransform.position + new Vector3((-horzExtent * 1.25f) - 1f, 0f, 0f);
+                    Vector3 enemySpawnPos = playerTransform.position;
+                    enemySpawnPos.y = yStartPos;
+                    enemyToBeSpawned.transform.position = enemySpawnPos + new Vector3((-horzExtent * 1.5f) - 1f, 0.0f, 0f);
                 }
                 else
                 {
                     // spawn on right side
-                    GameObject.Instantiate<GameObject>(enemyToSpawn).transform.position = playerTransform.position + new Vector3((horzExtent * 1.25f) + 1f, 0f, 0f);
+                    GameObject enemyToBeSpawned = GameObject.Instantiate<GameObject>(enemyToSpawn);
+                    Vector3 enemySpawnPos = playerTransform.position;
+                    enemySpawnPos.y = yStartPos;
+                    enemyToBeSpawned.transform.position = enemySpawnPos + new Vector3((horzExtent * 1.5f) + 1f, 0.0f, 0f);
                 }
             }
         }
 	}
+
+
 }

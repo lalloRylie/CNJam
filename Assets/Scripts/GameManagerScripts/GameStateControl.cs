@@ -20,6 +20,8 @@ public class GameStateControl : MonoBehaviour {
 
     public bool bossWillBeSpawned = false;
 
+    GameObject playerGO = null;
+
     // Use this for initialization
     void Start () {
         cutScene = GetComponent<CutScene_TransitionToBoss>();
@@ -34,6 +36,8 @@ public class GameStateControl : MonoBehaviour {
         {
             bossWillBeSpawned = true;
         }
+
+        playerGO = GameObject.Find("Player");
 	}
 
     IEnumerator InitiateLoseScreen()
@@ -74,6 +78,23 @@ public class GameStateControl : MonoBehaviour {
                         SetGameState(1);
                         DeleteEnemies();
                         GameObject.Find("Player").GetComponent<Player_Attack>().playerState = 2;
+
+                        //set player position to be in the stadium
+                        GameObject[] playerSpawns = GameObject.FindGameObjectsWithTag("PlayerSpawnDuringBoss");
+                        float tempDist = 99999999999f;
+                        GameObject closestSpawn = null;
+                        foreach (GameObject playerSpawn in playerSpawns)
+                        {
+                            float currentDistCheck = Mathf.Abs(playerSpawn.transform.position.x - playerGO.transform.position.x);
+                            if(currentDistCheck <= tempDist) {
+                                tempDist = currentDistCheck;
+                                closestSpawn = playerSpawn;
+                            }
+                        }
+                        Vector3 newPosition = new Vector3(closestSpawn.transform.position.x, playerGO.transform.position.y, playerGO.transform.position.z);
+
+                        playerGO.transform.position = newPosition;
+                        playerGO.GetComponent<Player_Attack>().SetTargetMovePosition(newPosition);
                     }
                 }
                 

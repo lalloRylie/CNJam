@@ -62,6 +62,11 @@ public class Player_Attack : MonoBehaviour
     public float playerCharge = 0f;
     public float maxCharge = 30f;
 
+    public void SetTargetMovePosition(Vector3 position)
+    {
+        targetPosition = position;
+    }
+
     // Use this for initialization
     void Start()
     {
