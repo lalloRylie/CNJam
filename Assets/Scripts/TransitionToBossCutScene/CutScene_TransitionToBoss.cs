@@ -26,7 +26,7 @@ public class CutScene_TransitionToBoss : MonoBehaviour
 
     void Start()
     {
-        timer = delay;
+        //timer = delay;
     }
 
     void Update()
