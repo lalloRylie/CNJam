@@ -91,6 +91,7 @@ public class EnemyBehavior : MonoBehaviour
                 attackTimer = 0;
                 //Play enemy moving animation
                 Vector3 newPos = player.transform.position;
+                newPos.y = transform.position.y;
                 float step = enemySpeed * Time.deltaTime;
                 transform.position = Vector3.MoveTowards(transform.position, newPos, step);
 
@@ -113,6 +114,7 @@ public class EnemyBehavior : MonoBehaviour
                 else if (distToPlayer > attackRange * 1.5f)
                 {
                     //Debug.Log("You managed to get away!");
+                    enemyAnimScript.SetAnimState(0);
                     enemyState = 1;
                 }
                 break;
