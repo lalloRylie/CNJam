@@ -8,7 +8,7 @@ public class RunChargeBar : MonoBehaviour {
     public Player_Attack playerAttackScript = null;
 
     float chargeAmount = 0f;
-    float displayedChargeAmount = 0f;
+    public float displayedChargeAmount = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -26,6 +26,5 @@ public class RunChargeBar : MonoBehaviour {
         chargeAmount = DataCore.Remap(Mathf.Clamp(displayedChargeAmount, 0f, 30f), 0f, 30f, 0f, 1f);
 
         foregroundBarRectTrans.localScale = new Vector3(1f, chargeAmount, 1f);
-
 	}
 }
