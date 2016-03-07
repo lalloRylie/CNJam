@@ -7,6 +7,10 @@ public class OptionsScreenManager : MonoBehaviour {
     public GameObject creditsScreenPanel = null;
     public GameObject controlsScreenPanel = null;
 
+    public delegate void OnControlPanelBackButtonPressedDelegate();
+    public event OnControlPanelBackButtonPressedDelegate OnControlPanelBackButtonPressedEvent = null;
+    public void Trigger_OnControlPanelBackButtonPressedEvent() { if (OnControlPanelBackButtonPressedEvent != null) OnControlPanelBackButtonPressedEvent(); }
+
     public void OnBackButtonPressed()
     {
         optionsScreenPanel.SetActive(false);
@@ -15,11 +19,13 @@ public class OptionsScreenManager : MonoBehaviour {
     //Controls Screen
     public void OnControlsButtonPressed() {
         controlsScreenPanel.SetActive(true);
+        DataCore.isViewingControlsForFirstTime = false;
     }
 
     public void OnControlsCloseButtonPressed()
     {
         controlsScreenPanel.SetActive(false);
+        Trigger_OnControlPanelBackButtonPressedEvent();
     }
     //End Controls Screen
 

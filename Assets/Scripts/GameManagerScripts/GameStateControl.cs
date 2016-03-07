@@ -25,10 +25,24 @@ public class GameStateControl : MonoBehaviour {
     public GameObject attackIcon = null;
     public GameObject staticBeamIcon = null;
 
+    public GameObject controlsPanelGO = null;
+
+    public OptionsScreenManager optionScreenManager = null;
+
     // Use this for initialization
     void Start () {
         cutScene = GetComponent<CutScene_TransitionToBoss>();
         AudioManager.instance.PlaySong(AudioManager.instance.gameNeutralMusic);
+
+        if(!DataCore.hasViewedControls)
+        {
+            DataCore.isViewingControlsForFirstTime = true;
+            controlsPanelGO.SetActive(true);
+            DataCore.hasViewedControls = true;
+            Time.timeScale = 0f;
+        }
+
+        optionScreenManager.OnControlPanelBackButtonPressedEvent += OptionScreenManager_OnControlPanelBackButtonPressedEvent;
 
         DataCore.lastGameModePlayedSceneName = Application.loadedLevelName;
         
@@ -42,6 +56,14 @@ public class GameStateControl : MonoBehaviour {
 
         playerGO = GameObject.Find("Player");
 	}
+
+    private void OptionScreenManager_OnControlPanelBackButtonPressedEvent()
+    {
+        if(DataCore.isViewingControlsForFirstTime)
+        {
+            Time.timeScale = 1f;
+        }
+    }
 
     IEnumerator InitiateLoseScreen()
     {

@@ -5,6 +5,10 @@ public static class DataCore {
 
     public static string lastGameModePlayedSceneName = "";
 
+    public static bool hasViewedControls = false;
+    public static bool isViewingControlsForFirstTime = false;
+
+
     public static class VolumeData
     {
         public static float musicVolume = 0.8f;
