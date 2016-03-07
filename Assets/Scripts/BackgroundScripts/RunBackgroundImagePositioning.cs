@@ -65,7 +65,7 @@ public class RunBackgroundImagePositioning : MonoBehaviour
             // get the left position, move the right to the left of that
 
             float leftPos = left.transform.position.x;
-            float newLeftTargetPos = leftPos - 208.66f;
+            float newLeftTargetPos = leftPos - 214.75f;
 
             right.transform.position = new Vector3(newLeftTargetPos, right.transform.position.y, right.transform.position.z);
 
@@ -85,7 +85,7 @@ public class RunBackgroundImagePositioning : MonoBehaviour
             // moving to the right, move the left background to the far right, reset left middle and right vars
 
             float rightPos = right.transform.position.x;
-            float newRightTargetPos = rightPos + 208.66f;
+            float newRightTargetPos = rightPos + 214.75f;
 
             left.transform.position = new Vector3(newRightTargetPos, left.transform.position.y, left.transform.position.z);
 
