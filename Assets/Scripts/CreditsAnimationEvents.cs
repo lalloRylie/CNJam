@@ -7,7 +7,9 @@ public class CreditsAnimationEvents : MonoBehaviour
 
     public void CloseCredits()
     {
-        //GetComponent<Animator>().SetTime(0.0);
+
+        StopAllCoroutines();
+        //GetComponent<Animation>()["CreditsAnimation"].time = 0f;
         gameObject.SetActive(false);
     }
 
@@ -25,20 +27,22 @@ public class CreditsAnimationEvents : MonoBehaviour
 
     public IEnumerator Play(this Animation animation, string clipName, bool useTimeScale, Action onComplete)
     {
+
         Debug.Log("Overwritten Play animation, useTimeScale? " + useTimeScale);
         //We Don't want to use timeScale, so we have to animate by frame..
         if (!useTimeScale)
         {
             Debug.Log("Started this animation! ( " + clipName + " ) ");
             AnimationState _currState = animation[clipName];
-            
-            bool isPlaying = true;
-            float _startTime = 0F;
-            float _progressTime = 0F;
-            float _timeAtLastFrame = 0F;
-            float _timeAtCurrentFrame = 0F;
-            float deltaTime = 0F;
 
+            //_currState.time = 0f;
+
+            bool isPlaying = true;
+            float _startTime = 0f;
+            float _progressTime = 0f;
+            float _timeAtLastFrame = 0f;
+            float _timeAtCurrentFrame = 0f;
+            float deltaTime = 0f;
 
             animation.Play(clipName);
 
