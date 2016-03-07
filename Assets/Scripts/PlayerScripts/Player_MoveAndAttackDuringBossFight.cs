@@ -170,13 +170,13 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
 #endif
 
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
-            if (Input.touchCount > 0)
+            //if (Input.touchCount > 0)
+            //{
+            foreach (Touch playerTouch in Input.touches)
             {
-                Touch playerTouch = Input.GetTouch(0);
-                currentPos = playerTouch.position;
 
-                if(playerTouch.phase == TouchPhase.Began) {
-                    startPos = playerTouch.position;
+                if (playerTouch.phase == TouchPhase.Began)
+                {
 
                     if (playerTouch.position.x < Screen.width * 0.5f)
                     {
@@ -213,10 +213,15 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
                         }
                     }
                 }
+            }
 
-                if (playerTouch.phase == TouchPhase.Moved || playerTouch.phase == TouchPhase.Stationary)
+            if (Input.touchCount > 0)
+            {
+                Touch playerTouchZero = Input.GetTouch(0);
+
+                if (playerTouchZero.phase == TouchPhase.Moved || playerTouchZero.phase == TouchPhase.Stationary)
                 {
-                    if (playerTouch.position.x < Screen.width * 0.5f)
+                    if (playerTouchZero.position.x < Screen.width * 0.5f)
                     {
                         // touching left
                         targetPosition -= (Vector3.right * playerSpeed) * Time.deltaTime;
@@ -231,9 +236,6 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
                 }
             }
 #endif
-
         }
-
     }
-
 }
