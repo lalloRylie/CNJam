@@ -7,10 +7,17 @@ public class CreditsAnimationEvents : MonoBehaviour
 
     public void CloseCredits()
     {
-
-        StopAllCoroutines();
-        //GetComponent<Animation>()["CreditsAnimation"].time = 0f;
-        gameObject.SetActive(false);
+        if(Application.loadedLevelName == "CreditsScene")
+        {
+            Application.LoadLevel("TitleScreen");
+        }
+        else
+        {
+            StopAllCoroutines();
+            //GetComponent<Animation>()["CreditsAnimation"].time = 0f;
+            gameObject.SetActive(false);
+        }
+        
     }
 
     // Use this for initialization

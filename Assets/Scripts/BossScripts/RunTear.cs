@@ -40,7 +40,8 @@ public class RunTear : MonoBehaviour
             spawnPos.y += 0.1f;
 
             Instantiate(tearParticles, spawnPos, Quaternion.identity);
-            Instantiate(tearHitGroundSFX, spawnPos, Quaternion.identity);
+            GameObject tempGO = (GameObject)Instantiate(tearHitGroundSFX, spawnPos, Quaternion.identity);
+            tempGO.GetComponent<AudioSource>().time = 0.45f;
 
             Destroy(gameObject);
         }
@@ -61,7 +62,8 @@ public class RunTear : MonoBehaviour
                 spawnPos.y = transform.position.y + 0.1f;
 
                 Instantiate(tearParticles, spawnPos, Quaternion.identity);
-                Instantiate(tearHitGroundSFX, spawnPos, Quaternion.identity);
+                GameObject tempGO = (GameObject)Instantiate(tearHitGroundSFX, spawnPos, Quaternion.identity);
+                tempGO.GetComponent<AudioSource>().time = 0.45f;
 
                 playerTakeDamageScript.playerHealth -= 1;
                 playerTakeDamageScript.Trigger_PlayerTakenDamageEvent();
