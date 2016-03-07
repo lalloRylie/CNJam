@@ -5,10 +5,15 @@ public class OptionsScreenManager : MonoBehaviour {
 
     public GameObject optionsScreenPanel = null;
     public GameObject creditsScreenPanel = null;
+    public GameObject controlsScreenPanel = null;
 
     public void OnBackButtonPressed()
     {
         optionsScreenPanel.SetActive(false);
+    }
+
+    public void OnControlsButtonPressed() {
+        controlsScreenPanel.SetActive(true);
     }
 
     public void OnCreditsButtonPressed()
