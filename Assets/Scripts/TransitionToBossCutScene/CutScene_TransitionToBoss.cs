@@ -11,6 +11,7 @@ public class CutScene_TransitionToBoss : MonoBehaviour
     private Rect terminalMainWnd = new Rect(0f, 0f, Screen.width, Screen.height);
     int cutSceneState = 0;
 
+    public Texture background;
     public Texture scene1;
     public Texture scene2;
     public Texture scene3;
@@ -79,13 +80,15 @@ public class CutScene_TransitionToBoss : MonoBehaviour
                 cutSceneState = 1;
                 break;
             case 1:
-
+                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), background);
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), scene1);
                 break;
             case 2:
+                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), background);
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), scene2);
                 break;
             case 3:
+                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), background);
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), scene3);
                 break;
             case 4:
