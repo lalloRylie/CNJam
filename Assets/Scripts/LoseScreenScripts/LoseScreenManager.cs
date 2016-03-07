@@ -13,7 +13,7 @@ public class LoseScreenManager : MonoBehaviour {
 
     public void OnQuitButtonPressed()
     {
-        Application.Quit();
+        Application.LoadLevel("TitleScreen");
     }
 
     IEnumerator PlayLoseMusic()

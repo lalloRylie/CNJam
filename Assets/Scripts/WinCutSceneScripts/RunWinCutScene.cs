@@ -65,7 +65,7 @@ public class RunWinCutScene : MonoBehaviour {
 
             else if (imageRend.sprite == scene6)
             {
-                Application.LoadLevel("WinScreen");
+                Application.LoadLevel("TitleScreen");
             }
         }
 #endif
@@ -105,7 +105,7 @@ public class RunWinCutScene : MonoBehaviour {
 
             else if (imageRend.sprite == scene6)
             {
-                Application.LoadLevel("WinScreen");
+                Application.LoadLevel("TitleScreen");
             }
         }
 
