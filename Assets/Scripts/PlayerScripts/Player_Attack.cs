@@ -53,7 +53,7 @@ public class Player_Attack : MonoBehaviour
     public float attackStateZeroLerpSpeed = 20f;
     float missLerpSpeed = 10f;
 
-    bool halfBoardWipeUsed = false;
+    public bool halfBoardWipeUsed = false;
 
     public bool halfBoardWipeSideOnLeft = false;
 

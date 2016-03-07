@@ -23,6 +23,7 @@ public class GameStateControl : MonoBehaviour {
     GameObject playerGO = null;
 
     public GameObject attackIcon = null;
+    public GameObject staticBeamIcon = null;
 
     // Use this for initialization
     void Start () {
@@ -100,6 +101,8 @@ public class GameStateControl : MonoBehaviour {
 
                         // disable the attack icon
                         attackIcon.SetActive(false);
+                        // disable static beam icon
+                        staticBeamIcon.SetActive(false);
                     }
                 }
                 
