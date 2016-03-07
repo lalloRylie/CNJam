@@ -42,7 +42,7 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
     {
         // get position of boss, then set the targetMove position for the player to the left of the boss, and player dodge attack animation
         Vector2 bossPosition = bossGO.transform.position;
-
+        bossPosition.y = 0f;
         targetPosition = bossPosition - new Vector2(dodgeAttackLength, 0f);
 
         //play animation
@@ -62,7 +62,7 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
     {
         // get position of boss, then set the targetMove position for the player to the left of the boss, and player dodge attack animation
         Vector2 bossPosition = bossGO.transform.position;
-
+        bossPosition.y = 0f;
         targetPosition = bossPosition + new Vector2(dodgeAttackLength, 0f);
 
         //play animation

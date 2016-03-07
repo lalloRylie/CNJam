@@ -9,9 +9,15 @@ public class RunTear : MonoBehaviour
     public Player_TakeDamage playerTakeDamageScript;
     public Player_Attack playerAttackScript;
 
+    public GameObject tearParticles = null;
+    public GameObject tearHitGroundSFX = null;
+
+    GameObject groundPlaneForParticles = null;
+
     // Use this for initialization
     void Start()
     {
+        groundPlaneForParticles = GameObject.FindWithTag("ParticlesGroundPlane");
         playerTakeDamageScript = GameObject.Find("Player").GetComponent<Player_TakeDamage>();
         playerAttackScript = GameObject.Find("Player").GetComponent<Player_Attack>();
     }
@@ -23,8 +29,18 @@ public class RunTear : MonoBehaviour
 
         transform.Translate(new Vector3(0f, -fallSpeed * Time.deltaTime));
 
-        if (transform.position.y < -5f)
+        if (transform.position.y <= groundPlaneForParticles.transform.position.y)
+        {
+            Vector3 spawnPos = groundPlaneForParticles.transform.position;
+            spawnPos.x = transform.position.x;
+            spawnPos.y += 0.1f;
+
+            Instantiate(tearParticles, spawnPos, Quaternion.identity);
+            Instantiate(tearHitGroundSFX, spawnPos, Quaternion.identity);
+
             Destroy(gameObject);
+        }
+            
     }
 
     void OnTriggerEnter2D(Collider2D other)
