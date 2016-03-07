@@ -9,6 +9,7 @@ public class RunWinCutScene : MonoBehaviour {
     public Sprite scene3 = null;
     public Sprite scene4 = null;
     public Sprite scene5 = null;
+    public Sprite scene6 = null;
 
     float timer = 1f;
     float delay = 0.2f;
@@ -58,6 +59,12 @@ public class RunWinCutScene : MonoBehaviour {
 
             else if (imageRend.sprite == scene5)
             {
+                imageRend.sprite = scene6;
+                timer = delay;
+            }
+
+            else if (imageRend.sprite == scene6)
+            {
                 Application.LoadLevel("WinScreen");
             }
         }
@@ -66,31 +73,37 @@ public class RunWinCutScene : MonoBehaviour {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
         if (Input.touchCount > 0)
         {
-            if (imageComp.sprite == image1)
+            if (imageRend.sprite == scene1)
             {
-                imageComp.sprite = image2;
+                imageRend.sprite = scene2;
                 timer = delay;
             }
 
-            else if (imageComp.sprite == image2)
+            else if (imageRend.sprite == scene2)
             {
-                imageComp.sprite = image3;
+                imageRend.sprite = scene3;
                 timer = delay;
             }
 
-            else if (imageComp.sprite == image3)
+            else if (imageRend.sprite == scene3)
             {
-                imageComp.sprite = image4;
+                imageRend.sprite = scene4;
                 timer = delay;
             }
 
-            else if (imageComp.sprite == image4)
+            else if (imageRend.sprite == scene4)
             {
-                imageComp.sprite = image5;
+                imageRend.sprite = scene5;
                 timer = delay;
             }
 
-            else if (imageComp.sprite == image5)
+            else if (imageRend.sprite == scene5)
+            {
+                imageRend.sprite = scene6;
+                timer = delay;
+            }
+
+            else if (imageRend.sprite == scene6)
             {
                 Application.LoadLevel("WinScreen");
             }
