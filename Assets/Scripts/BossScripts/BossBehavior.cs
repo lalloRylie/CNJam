@@ -28,7 +28,7 @@ public class BossBehavior : MonoBehaviour
     float fallSpeed = 2f;
     float startingFallSpeed = 2f;
 
-    float groundYPos = -2.74f;
+    float groundYPos = -3.4f;
     float airYPos = 4.35f;
 
     float startAirXPos;
@@ -185,10 +185,10 @@ public class BossBehavior : MonoBehaviour
     void Update()
     {
 
-        if(Input.GetKeyDown(KeyCode.Backspace))
-        {
-            bossHealthScript.health = 0;
-        }
+        //if(Input.GetKeyDown(KeyCode.Backspace))
+        //{
+        //    bossHealthScript.health = 0;
+        //}
 
         if (bossHealthScript.isBossDead) return;
         // fly around and shoot tears, after some time, we'll get emp'd by sparko, causing crybaby to fall
