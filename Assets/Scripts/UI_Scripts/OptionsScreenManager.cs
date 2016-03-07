@@ -12,9 +12,16 @@ public class OptionsScreenManager : MonoBehaviour {
         optionsScreenPanel.SetActive(false);
     }
 
+    //Controls Screen
     public void OnControlsButtonPressed() {
         controlsScreenPanel.SetActive(true);
     }
+
+    public void OnControlsCloseButtonPressed()
+    {
+        controlsScreenPanel.SetActive(false);
+    }
+    //End Controls Screen
 
     public void OnCreditsButtonPressed()
     {
