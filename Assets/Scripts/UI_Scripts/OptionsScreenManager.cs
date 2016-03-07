@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class OptionsScreenManager : MonoBehaviour {
 
     public GameObject optionsScreenPanel = null;
     public GameObject creditsScreenPanel = null;
     public GameObject controlsScreenPanel = null;
+
+    public Slider musicSlider = null;
+    public Slider soundFXSlider = null;
 
     public delegate void OnControlPanelBackButtonPressedDelegate();
     public event OnControlPanelBackButtonPressedDelegate OnControlPanelBackButtonPressedEvent = null;
@@ -49,7 +53,8 @@ public class OptionsScreenManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+        musicSlider.value = DataCore.VolumeData.musicVolume;
+        soundFXSlider.value = DataCore.VolumeData.soundFXVoume;
 	}
 	
 	// Update is called once per frame

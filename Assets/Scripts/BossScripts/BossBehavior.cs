@@ -28,7 +28,7 @@ public class BossBehavior : MonoBehaviour
     float fallSpeed = 2f;
     float startingFallSpeed = 2f;
 
-    float groundYPos = -3.4f;
+    float groundYPos = -3.2f;
     float airYPos = 4.35f;
 
     float startAirXPos;
@@ -48,6 +48,8 @@ public class BossBehavior : MonoBehaviour
     Player_Attack playerAttackScript = null;
 
     float amountOfAirTime = 8f;
+
+    public GameObject bossHittingGround_SFX = null;
 
     void Cry()
     {
@@ -222,6 +224,9 @@ public class BossBehavior : MonoBehaviour
 
             if (transform.position.y <= groundYPos)
             {
+                GameObject hitSFX = (GameObject)Instantiate(bossHittingGround_SFX, transform.position, Quaternion.identity);
+                hitSFX.GetComponent<AudioSource>().time = 0.55f;
+
                 fallSpeed = startingFallSpeed;
                 bossState = 2;
                 bossOnGround = true;
@@ -295,6 +300,9 @@ public class BossBehavior : MonoBehaviour
 
             if (transform.position.y <= groundYPos)
             {
+                GameObject hitSFX = (GameObject)Instantiate(bossHittingGround_SFX, transform.position, Quaternion.identity);
+                hitSFX.GetComponent<AudioSource>().time = 0.55f;
+
                 fallSpeed = startingFallSpeed;
                 bossState = 6;
                 bossOnGround = true;
