@@ -17,6 +17,10 @@ public class Player_FloatSprite : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if(Time.timeScale <= 0f) {
+            return;
+        }
+
         timer += 2f * Time.deltaTime;
 
         transform.position = new Vector3(transform.position.x, transform.position.y + (Mathf.Sin(timer * scale) * speed), transform.position.z);
