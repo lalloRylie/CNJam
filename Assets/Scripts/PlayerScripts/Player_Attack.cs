@@ -290,6 +290,31 @@ public class Player_Attack : MonoBehaviour
 
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
 
+        // new
+        foreach (Touch touch in Input.touches)
+        {
+            if (touch.phase == TouchPhase.Began)
+            {
+                //TAP
+                if (touch.position.x < Screen.width / 2)
+                {
+                    //The player tapped left
+                    lastAttackDirectionWasLeft = true;
+                    playerSpriteGO.transform.localScale = new Vector3(playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
+                    attacks.Add(-1);
+                }
+                else if (touch.position.x > Screen.width / 2)
+                {
+                    //The player tapped right
+                    lastAttackDirectionWasLeft = false;
+                    playerSpriteGO.transform.localScale = new Vector3(-playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
+                    attacks.Add(1);
+                }
+            }
+        }
+
+
+        ////// old
         if (Input.touchCount > 0)
         {
             Touch playerTouch = Input.GetTouch(0);
@@ -300,21 +325,6 @@ public class Player_Attack : MonoBehaviour
                 case TouchPhase.Began:
 
                     startPos = playerTouch.position;
-                    //TAP
-                    if (startPos.x < Screen.width / 2)
-                    {
-                        //The player tapped left
-                        lastAttackDirectionWasLeft = true;
-                        playerSpriteGO.transform.localScale = new Vector3(playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
-                        attacks.Add(-1);
-                    }
-                    else if (startPos.x > Screen.width / 2)
-                    {
-                        //The player tapped right
-                        lastAttackDirectionWasLeft = false;
-                        playerSpriteGO.transform.localScale = new Vector3(-playerXScale, playerSpriteGO.transform.localScale.y, playerSpriteGO.transform.localScale.z);
-                        attacks.Add(1);
-                    }
                     break;
 
                 case TouchPhase.Ended:
@@ -352,10 +362,7 @@ public class Player_Attack : MonoBehaviour
                                 }
                             }
                         }
-
                     }
-
-                    
                     break;
             }
         }

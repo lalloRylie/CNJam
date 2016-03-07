@@ -22,6 +22,8 @@ public class GameStateControl : MonoBehaviour {
 
     GameObject playerGO = null;
 
+    public GameObject attackIcon = null;
+
     // Use this for initialization
     void Start () {
         cutScene = GetComponent<CutScene_TransitionToBoss>();
@@ -95,6 +97,9 @@ public class GameStateControl : MonoBehaviour {
 
                         playerGO.transform.position = newPosition;
                         playerGO.GetComponent<Player_Attack>().SetTargetMovePosition(newPosition);
+
+                        // disable the attack icon
+                        attackIcon.SetActive(false);
                     }
                 }
                 

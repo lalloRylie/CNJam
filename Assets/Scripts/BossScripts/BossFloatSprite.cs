@@ -15,6 +15,10 @@ public class BossFloatSprite : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
+        if(Time.timeScale <= 0f) {
+            return;
+        }
+
         floatTimer += 2f * Time.deltaTime;
 
         transform.position = new Vector3(transform.position.x, transform.position.y + (Mathf.Sin(floatTimer * floatScale) * floatSpeed), transform.position.z);
