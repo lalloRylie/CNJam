@@ -14,12 +14,16 @@ public class RunTear : MonoBehaviour
 
     GameObject groundPlaneForParticles = null;
 
+    GameObject playerGO = null;
+
     // Use this for initialization
     void Start()
     {
         groundPlaneForParticles = GameObject.FindWithTag("ParticlesGroundPlane");
-        playerTakeDamageScript = GameObject.Find("Player").GetComponent<Player_TakeDamage>();
-        playerAttackScript = GameObject.Find("Player").GetComponent<Player_Attack>();
+        playerGO = GameObject.Find("Player");
+        playerTakeDamageScript = playerGO.GetComponent<Player_TakeDamage>();
+        playerAttackScript = playerGO.GetComponent<Player_Attack>();
+        
     }
 
     // Update is called once per frame
@@ -52,6 +56,13 @@ public class RunTear : MonoBehaviour
 
             if (playerTakeDamageScript.canTakeDamage)
             {
+                Vector3 spawnPos = playerGO.transform.position;
+                spawnPos.x = transform.position.x;
+                spawnPos.y = transform.position.y + 0.1f;
+
+                Instantiate(tearParticles, spawnPos, Quaternion.identity);
+                Instantiate(tearHitGroundSFX, spawnPos, Quaternion.identity);
+
                 playerTakeDamageScript.playerHealth -= 1;
                 playerTakeDamageScript.Trigger_PlayerTakenDamageEvent();
                 playerAttackScript.DeductScoreMultiplier(true);

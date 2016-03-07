@@ -30,19 +30,22 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
 
     BossBehavior bossBehaviorScript = null;
 
+    GameObject playerGO = null;
+
     // Use this for initialization
     void Start()
     {
         playerXScale = playerSpriteGO.transform.localScale.x;
         gameStateControlScript = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameStateControl>();
         playerAttackScript = GetComponent<Player_Attack>();
+        playerGO = GameObject.Find("Player");
     }
 
     void LeftAttackBoss()
     {
         // get position of boss, then set the targetMove position for the player to the left of the boss, and player dodge attack animation
         Vector2 bossPosition = bossGO.transform.position;
-        bossPosition.y = 0f;
+        bossPosition.y = playerGO.transform.position.y;
         targetPosition = bossPosition - new Vector2(dodgeAttackLength, 0f);
 
         //play animation
@@ -62,7 +65,7 @@ public class Player_MoveAndAttackDuringBossFight : MonoBehaviour
     {
         // get position of boss, then set the targetMove position for the player to the left of the boss, and player dodge attack animation
         Vector2 bossPosition = bossGO.transform.position;
-        bossPosition.y = 0f;
+        bossPosition.y = playerGO.transform.position.y;
         targetPosition = bossPosition + new Vector2(dodgeAttackLength, 0f);
 
         //play animation
