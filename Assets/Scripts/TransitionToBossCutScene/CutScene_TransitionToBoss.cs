@@ -57,6 +57,7 @@ public class CutScene_TransitionToBoss : MonoBehaviour
     public void StartCutScene()
     {
         render = true;
+        Time.timeScale = 1f;
     }
 
     public void EndCutScene()
