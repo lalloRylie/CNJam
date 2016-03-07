@@ -131,6 +131,7 @@ public class GameStateControl : MonoBehaviour {
                 break;
             //Boss instantiate state
             case 1:
+                playerGO.GetComponent<Player_TakeDamage>().playerHealth = 3;
                 // turn on cutscene for boss here
                 cutScene.StartCutScene();
                 bossCutsceneStarted = true;
